@@ -1,0 +1,13 @@
+<h1>Checkman errors</h1>
+<% if @count == 0 %>
+  <p id="notice"><%= notice %></p>
+<%else%>
+  <p id="notice"><%= notice %></p>
+  <a href="mailto:<%= @person.email%>?subject=This Task Checkman error&body=Hi <%= @person.responsibleperson%>,%0d%0a%0d%0a
+
+There are the checkman error ,%0d%0aAnd you can see detail information here <%= @url_t%>%0d%0a%0d%0aBest regards,%0d%0aGeoffrey" class="more-icon">Send an email to <%= @person.responsibleperson %></a>
+  <%= link_to "Send mail by system",'',:class => "more-icon"%>
+  <%= render "checkmen/result"%>
+<% end%>
+
+<%= link_to "Back", components_path%>

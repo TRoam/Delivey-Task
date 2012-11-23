@@ -1,0 +1,2 @@
+module CheckmenHelper
+end

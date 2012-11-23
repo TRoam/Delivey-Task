@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Package:</b>
+  <%= @component.package %>
+</p>
+
+<p>
+  <b>Application Component:</b>
+  <%= @component.applicationcomponent %>
+</p>
+
+<p>
+  <b>Software Component:</b>
+  <%= @component.softwarecomponent %>
+</p>
+
+<p>
+  <b>Change Person:</b>
+  <%= @component.changeperson %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_component_path(@component) %> |
+<%= link_to 'Back', components_path %>

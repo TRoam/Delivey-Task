@@ -1,0 +1,12 @@
+<%= form_for @checkman,:url=>{:controller=>:checkmen,:action=>:update},:html=>{:multipart=>true} ,:id=>"comment_tag" do |f|%>
+<br />
+<%= f.label :Feed_back_status%>:<br />
+<%= f.label :Open%>
+<%= f.radio_button  'feedback','Open'%>
+<%= f.label :solved%>
+<%= f.radio_button  'feedback','Solved' %><br />
+<%= f.label :Comment %> <br />
+<%= f.text_area :status,:size=>"131px*45px",:id =>"my_comment" %>
+<%= f.submit "Submit"%>
+<%= link_to "Back" , checkmen_path%>
+<%end%>

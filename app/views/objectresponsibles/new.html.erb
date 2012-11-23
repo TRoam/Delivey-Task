@@ -1,0 +1,26 @@
+<h1>Create</h1>
+<fieldset>
+<%= form_tag @object, :url=>{:cation =>:create} do %>
+  <div class="field">
+  	<%= label_tag :Package%><br />
+  	<%= select_tag  :package, options_from_collection_for_select(@package,:id,:package) %>
+  </div>
+  <div>
+  	<%= label_tag :Objectname%><br />
+  	<%= text_field_tag :objectname %>
+  </div>
+    <div>
+    	<%= label_tag :Object_Type %><br />
+    	<%= text_field_tag :objecttype%>
+    </div>
+    <%= label_tag :Contact %><br />
+    <%= text_field_tag :contact%>
+  <div class="field">
+    <%= label_tag :Responsible_Person %><br />
+    <%= text_field_tag :person %>
+  </div>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+<% end %>
+</fieldset>

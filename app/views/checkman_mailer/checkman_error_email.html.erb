@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hi, <%= @person.responsibleperson %></h1>
+    <p>
+       Below are checkman errors<br/>
+    </p>
+    <fieldset>
+ <legend>Result</legend>
+<table>
+	<thead>
+		<th>Priority</th>
+		<th>Prodrel?</th>
+		<th>Check(Check_id)</th>
+		<th>Checkmessage(message_id)</th>
+		<th>Objectname</th>
+		<th>Package</th>
+		<th>Responsible_Name</th>
+		<th>Status</th>
+	    <th>Feedback</th>
+	    <th>Comment</th>
+	</thead>
+	<tbody>
+		<% @checkman.each do |checkman|%>
+		<tr>
+		<th><%= checkman.priority %></th>
+		<th><%= checkman.prodrel%></th>
+		<th><%= checkman.checkid%></th>
+		<th><%= checkman.messageid%></th>
+		<th><%= checkman.objectresponsible.objectname%></th>
+		<th><%= checkman.objectresponsible.component.package%></th>
+		<th><%= checkman.objectresponsible.person.responsibleperson%></th>
+		<th><%= checkman.status%></th>
+	    <th><%= checkman.feedback%></th>
+	    <th><%= checkman.comments.empty?? "No Comment":checkman.comments.last.content%></th>
+		</tr>
+		<%end%>
+	</tbody>
+</table>
+</fieldset>
+    <p>Thanks for joining and have a great day!</p>
+    <p>url <%= @url%></p>
+  </body>
+</html>

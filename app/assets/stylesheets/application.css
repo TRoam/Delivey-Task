@@ -1,0 +1,58 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require  dataTables/jquery.dataTables
+ *= require_tree .
+ */
+ #my_comment{
+  width: 1310px;
+  height: 56px;
+ }
+ a.more-icon {
+  background: url(more.png) no-repeat right center;
+  color: #126499;
+  font-size: 12px;
+  font-weight: bold;
+  padding-right: 16px;
+  cursor:pointer
+}
+a.more-icon.alt {
+  background-image: url(more-dark.png);
+  color: #000;
+  line-height: 1.0em
+}
+#search_form{
+  display: none;
+}
+div#mytable{
+  overflow:auto;
+}
+#create_form{
+  display:none;
+}
+div.Import_help,p.flip
+{
+margin:0px;
+padding:5px;
+text-align:center;
+background:#666666;
+border:solid 1px #666666 ;
+}
+p.flip
+{
+  cursor:pointer;
+}
+div.Import_help
+{
+height:120px;
+background: #66FFFF;
+display:none;
+}

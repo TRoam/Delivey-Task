@@ -1,0 +1,35 @@
+<div id="mytable">
+<fieldset>
+<legend>Result</legend>
+<table id="checkmen" class="display">
+	<thead>
+		<th>Priority</th>
+		<th>Prodrel?</th>
+		<th>Check(Check_id)</th>
+		<th>Checkmessage(message_id)</th>
+		<th>Objectname</th>
+		<th>Package</th>
+		<th>Responsible_Name</th>
+		<th>Status</th>
+		<th>Feedback</th>
+		<th>Comment</th>
+	</thead>
+	<tbody>
+		<% @checkman.each do |checkman|%>
+		<tr id="checkmen_<%= checkman.id%>">
+		<td><%= checkman.priority %></td>
+		<td><%= checkman.prodrel%></td>
+		<td><%= checkman.checkid%></td>
+		<td><%= checkman.messageid%></td>
+		<td><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
+		<td><%= link_to checkman.objectresponsible.component.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
+		<td><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
+		<td><%= checkman.status%></td>
+	    <td><%= checkman.feedback%></td>
+	    <td><%= checkman.comments.empty?? "No Comment":checkman.comments.last.content%><%= link_to "", edit_checkman_path(checkman.id),:class=>"more-icon"%></td>
+		</tr>
+		<%end%>
+	</tbody>
+</table>
+</fieldset>
+</div>

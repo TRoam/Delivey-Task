@@ -1,0 +1,25 @@
+<%@page_title = "Components"%>
+<h1>All Compoents </h1>
+<div id="whole_body">
+<!-- <%= link_to "Add Component", new_component_path %>  -->
+<div id="create_form"><%= render "form"%></div>
+<p class="flip">Create New  Component</p>
+<%= button_to  "Import Component From csv File", :action => :import%>
+<fieldset id="component_fieldset">
+<div id="mytable">
+<table id="checkmen" class="display">
+	<thead>
+		<th>Package</th>
+		<th>SoftwareComponent</th>
+		<th>ApplicationComponent</th>
+		<th>Action</th>
+	</thead>
+	<tbody id="component_tbody">
+		<% @components.each do |component|%>
+			<%= render component%>
+		<%end%>
+	</tbody>	
+</table>
+</div>
+</fieldset>
+</div>

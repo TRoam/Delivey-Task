@@ -1,0 +1,22 @@
+<h1>Person information</h1>
+<fieldset>
+<table id="checkmen" class="display" >
+	<thead>
+		<th>Name</th>
+		<th>SAP Name</th>
+		<th>ID</th>
+		<th>Email</th>
+		<th>Aactive</th>
+	</thead>
+	<tbody>
+		<% @person.each do |c|%>
+		<td><%= link_to  c.responsibleperson,:action => :detail,:id=>c.id%></td>
+		<td><%= c.sapname%></td>
+		<td><%= c.eid%></td>
+		<td><%= c.email%></td>		
+		<td><%= link_to "Edit" , edit_person_path(c.id) %></td>
+		</tr>
+		<%end%>
+	</tbody>	
+</table>
+</fieldset>

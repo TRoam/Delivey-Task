@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Objectname:</b>
+  <%= @object.objectname %>
+</p>
+
+<p>
+  <b>Objecttype:</b>
+  <%= @object.objecttype %>
+</p>
+
+<p>
+  <b>Package:</b>
+  <%= @object.component.package %>
+</p>
+
+<p>
+  <b>Responsible Person:</b>
+  <%= @object.person.responsibleperson %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_objectresponsible_path(@object) %> |
+<%= link_to 'Back', objectresponsibles_path %>

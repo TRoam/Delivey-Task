@@ -1,0 +1,6 @@
+<tr id="<%=component.id%>">
+	<td><%= link_to  component.package,:action => :detail,:id=>component.id%></td>
+	<td><%= component.softwarecomponent%></td>
+	<td><%= component.applicationcomponent%></td>
+	<td><%= link_to "Edit" , edit_component_path(component.id)  %></td>
+</tr>

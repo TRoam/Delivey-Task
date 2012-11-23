@@ -1,0 +1,9 @@
+<% @page_title = "Comment Detail"%>
+<% if @count == 0 %>
+  <p id="notice"><%= notice %></p>
+<%else%>
+  <p id="notice"><%= notice %></p>
+  <%= render "checkmen/result"%>
+<% end%>
+
+<%= link_to "Back", components_path%>

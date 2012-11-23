@@ -1,0 +1,25 @@
+<h1>Object information</h1>
+<fieldset>
+<table id="checkmen" class="display">
+	<thead>
+		<th>Object Name</th>
+		<th>Object Type</th>
+		<th>Package</th>
+		<th>Contact</th>
+		<th>Responsible Person</th>
+		<th>Active</th>
+	</thead>
+	<tbody>
+		<% @object.each do |c|%>
+		<td><%= link_to  c.objectname,:action => :detail,:id=>c.id%></td>
+		<td><%= c.objecttype%></td>
+		<td><%= c.component.package %></td>	
+		<td><%= c.contact%></td>
+		<td><%= c.person.responsibleperson%></td>			
+		<td><%= link_to "Edit" , edit_objectresponsible_path(c.id) %></td>
+		</tr>
+		<%end%>
+	</tbody>	
+</table>
+</fieldset>
+<%= link_to "Create Object_Responsible" ,new_objectresponsible_path%>

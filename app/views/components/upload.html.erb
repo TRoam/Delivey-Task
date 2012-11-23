@@ -1,0 +1,22 @@
+<% @page_title = "Comment"%>
+<h1>Upload Information</h1>
+<fieldset>
+	<legend><p id="notice"><%= notice %></p></legend>
+	
+	<table id="checkmen" class="display">	
+		<thead>
+			<th>Package</th>
+			<th>SoftwareComponent</th>
+			<th>ApplicationComponent</th>
+			<th>ChangePerson</th>
+		</thead>
+		<tbody>
+			<%= @component.each do |c|%>
+			<td><%= link_to  c.package,:action => :detail,:id=>c.id%></td>
+			<td><%= c.softwarecomponent%></td>
+			<td><%= c.applicationcomponent%></td>	
+			<td><%= c.changeperson%></td>
+			<%end%>
+		</tbody>
+	</table>
+</fieldset>

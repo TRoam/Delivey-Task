@@ -1,0 +1,7 @@
+<%= form_for(@checkman, :remote => true,:html => { :'data-type' => 'html', :id => 'create_comment_form' }) do |f|%>
+<%= f.label :Feedback, "Feedback" %>
+<%= g.select :feedback  ,options_for_select({"open"=>"open","solved"=>"solved"},"solved")%>
+<%= f.label :Comment, "Comment" %>
+<%= f.text_area :comment %>
+<%= f.submit "Submit" %>
+<%end%>
