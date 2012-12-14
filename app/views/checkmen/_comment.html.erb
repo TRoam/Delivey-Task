@@ -1,12 +1,37 @@
-<%= form_for @checkman,:url=>{:controller=>:checkmen,:action=>:update},:html=>{:multipart=>true} ,:id=>"comment_tag" do |f|%>
-<br />
-<%= f.label :Feed_back_status%>:<br />
-<%= f.label :Open%>
-<%= f.radio_button  'feedback','Open'%>
-<%= f.label :solved%>
-<%= f.radio_button  'feedback','Solved' %><br />
-<%= f.label :Comment %> <br />
-<%= f.text_area :status,:size=>"131px*45px",:id =>"my_comment" %>
-<%= f.submit "Submit"%>
-<%= link_to "Back" , checkmen_path%>
+	<div id="item-detail"></div>
+
+<a class="close" id="checkman_<%=@checkman.id%>">×</a>
+<div class="alert" id="old-comment">
+<h5>Comments</h5>
+ 	<% @checkman.comments.each do |c|%>
+ <div class="row-fluid" id="<%= c.id%>">
+ 	<div class="span10">
+ 	<%= c.commenter%> at <%= c.updated_at%>Says:<br /><%= c.content%>
+ 	</div>
+ 	<div class="span2">
+       <%= c.feedback%>
+ 	</div>
+ </div>
+ ---------------------------------------------
+ <%end%>
+</div>	
+<fieldset>
+<%= form_for @checkman,:url=>{:controller=>:checkmen,:action=>:update},:html=>{:multipart=>true},:remote=>true  do |f|%>
+<%= f.fields_for :comments do |c|%>
+<div class="alert alert-success">
+<p class="help-block">Please chose the status of this item</p>
+<label class="radio">
+<%= c.radio_button :feedback,"open"%><i class="icon-share"></i>open
+</label>
+<label class="radio">
+<%= c.radio_button :feedback,"solved"%><i class="icon-check"></i>solved
+</label>
+</div>
+<div class="alert alert-info" style="padding:5px">
+<p class="help-block">Your comment</p>
+<%= c.text_area :content ,:placeholder =>"Please enter your comment here" ,:style =>"height:60px"%>
 <%end%>
+</div>
+<%= f.submit 'Submit'%>
+<%end%>
+</fieldset>

@@ -2,6 +2,7 @@ DeliveryManagementTaskBoard::Application.routes.draw do
 
    resources :checkmen do 
      collection do 
+       get 'item_detail'
        get 'import'
        match  'search' =>'checkmen#search', :via => [:get ,:post], :as => :search
      end
@@ -23,7 +24,11 @@ DeliveryManagementTaskBoard::Application.routes.draw do
    end
    resources :people do
      member do
+       get 'manual_mail'
+       post 'manual_mail'
+       get 'sendmail'
        get 'detail'
+       get 'email_format'
      end
    end
   # The priority is based upon order of creation:

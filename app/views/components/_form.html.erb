@@ -1,9 +1,9 @@
-<fieldset>
+<div class="alert alert-success" id="component_<%=@component.id%>" style="padding:15px 25px 15px 5px">
+  <a  id="component_<%=@component.id%>" class="close" data-dismiss="alert" >×</a>
 <%= form_for(@component, :remote => true) do |f| %>
   <% if @component.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@component.errors.count, "error") %> prohibited from being saved:</h2>
-
       <ul>
       <% @component.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -12,23 +12,23 @@
     </div>
   <% end %>
   <div class="field">
-  	<%= f.label :Package %><br />
-    <%= f.text_field :package %>
+  	<%= f.label :Package %>
+    <%= f.text_field :package ,:placeholder =>"Package" %>
   </div>
   <div class="field">
-    <%= f.label :SoftwareComponent %><br />
-    <%= f.text_field :softwarecomponent  %>
+    <%= f.label :SoftwareComponent %>
+    <%= f.text_field :softwarecomponent,:placeholder =>"SoftwareComponent" %>
   </div>
   <div class="field">
-    <%= f.label :ApplicationComponent %><br />
-    <%= f.text_field :applicationcomponent %>
+    <%= f.label :ApplicationComponent %>
+    <%= f.text_field :applicationcomponent,:placeholder =>"ApplicationComponent" %>
   </div>
   <div class="field">
-    <%= f.label :ChangePerson %><br />
-    <%= f.text_field :changeperson%>
+    <%= f.label :ChangePerson %>
+    <%= f.text_field :changeperson ,:placeholder =>"ChangePerson"%>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
-</fieldset>
+</div>

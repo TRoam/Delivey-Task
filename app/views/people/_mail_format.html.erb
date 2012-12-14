@@ -1,0 +1,30 @@
+<div id="emailModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header alert-info">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <span>Edit Your mail Format,and can save as defult format for next time automatic sending
+!</span>
+  </div>
+  <div class="modal-body">
+    <div>
+      <%= form_tag(:action => :manual_mail,:remote => true) do%>
+      <div class="input-prepend">
+      <span class="add-on">TO<i class=" icon-user"></i></span>
+      <%= email_field_tag :T_mail_address,"#{@person.email}"%>
+      </div>
+      <div class="input-prepend">
+      <span class="add-on">CC<i class=" icon-user"></i></span>
+      <%= email_field_tag  :T_mail_cc_address %>
+      </div>
+      <div class="input-prepend">
+      <span class="add-on">Suject<i class=" icon-book"></i></span>
+      <%= text_field_tag  :T_mail_subject ,"[Action] Open production relevant CHECKMAN messages in #{@checkman.first.release}"%>
+      </div>
+      <%= text_area_tag  :T_mail_content ,"#{@c_mail_content}"  %>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <%= submit_tag "Send and Save" ,:class => "btn-primary"%>
+    <%end%>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

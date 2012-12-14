@@ -3,7 +3,6 @@ class Checkman < ActiveRecord::Base
   attr_accessible :objectname,:status,:foundat,:priority,:checkid,:messageid,:uniqueid,:release,:prodrel,:count,:key,:ncount,:feedback,:comments
   belongs_to :objectresponsible
   has_many   :comments
-
     def self.upload_to_database(uploadall,uploadrel,temp_release)
 	    @uploadrel = uploadrel
       @uploadall = uploadall
@@ -23,7 +22,7 @@ class Checkman < ActiveRecord::Base
           #judge if this item is exist
            if check.nil?
                 # create and save
-              check     = Checkman.new(
+              check  = Checkman.new(
                         :foundat => a[7],
                         :priority => a[0],
                         :checkid => a[1],
@@ -56,11 +55,9 @@ class Checkman < ActiveRecord::Base
                  end
                    check.objectresponsible_id = object.id
                 #save object_responsible
-            self.transaction do
                 object.save
             #save check_man
                 check.save
-            end
             # record ++
                   @number += 1
            else
@@ -137,4 +134,13 @@ class Checkman < ActiveRecord::Base
 	         @fixxednumber += 1
 	   end
 	end
+
+  def self.to_csv(options = {})
+    CSV.generate(options) do |csv|
+      csv << column_names
+      all.each do |checkman|
+        csv << checkman.attributes.values_at(*column_names)
+      end
+    end
+  end
 end

@@ -1,8 +1,9 @@
-<%= form_for(@person) do |f| %>
+<div class="alert alert-info" style="padding-left: 5px">
+  <a  id="person_<%=@person.id%>" class="close" data-dismiss="alert" >×</a>
+<%= form_for @person ,:remote=>true do |f| %>
   <% if @person.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@person.errors.count, "error") %> prohibited this product from being saved:</h2>
-
       <ul>
       <% @person.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -12,22 +13,23 @@
   <% end %>
 
   <div class="field">
-  	<%= f.label :Name %><br />
+  	<%= f.label :Name %>
     <%=f.text_field :responsibleperson %>
   </div>
   <div class="field">
-    <%= f.label :ID %><br />
-    <%= f.text_field :eid  %>
+    <%= f.label :ID %>
+    <%= f.text_field :eid  ,:placeholder=>"I-Number(Not Yours)..."%>
   </div>
   <div class="field">
-    <%= f.label :Email %><br />
-    <%= f.email_field :email %>
+    <%= f.label :Email %>
+    <%= f.email_field :email ,:placeholder=>"E-mail(Not Yours).."%>
   </div>
   <div class="field">
-    <%= f.label :SAPName %><br />
-    <%= f.text_field :sapname%>
+    <%= f.label :SAPName %>
+    <%= f.text_field :sapname ,:placeholder=>"SPA Name ,Find from addressbook"%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Update" %>
   </div>
 <% end %>
+</div>

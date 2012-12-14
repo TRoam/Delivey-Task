@@ -1,13 +1,46 @@
 <h1>Checkman errors</h1>
-<% if @count == 0 %>
-  <p id="notice"><%= notice %></p>
-<%else%>
-  <p id="notice"><%= notice %></p>
-  <a href="mailto:<%= @person.email%>?subject=This Task Checkman error&body=Hi <%= @person.responsibleperson%>,%0d%0a%0d%0a
-
-There are the checkman error ,%0d%0aAnd you can see detail information here <%= @url_t%>%0d%0a%0d%0aBest regards,%0d%0aGeoffrey" class="more-icon">Send an email to <%= @person.responsibleperson %></a>
-  <%= link_to "Send mail by system",'',:class => "more-icon"%>
-  <%= render "checkmen/result"%>
-<% end%>
-
+<% if @count != 0 %>
+<div class="btn-group" style="margin-bottom: 8px">
+  <%= link_to({:action=>:manual_mail},:id=>@person.id,:remote=>true,:class=>"btn btn-primary") do%>
+  <i class="icon-envelope"></i><span> Send mail to <%= @person.responsibleperson%></span>
+  <%end%>
+  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+  <ul class="dropdown-menu">
+    <li>
+    	<%= link_to(edit_person_path(@person.id),:remote=>true) do%>
+    	<i class="icon-pencil"></i> Edit customer information
+    	<%end%>
+    </li>
+    <li>
+    	<%= link_to({:action=> :email_format},:id=>@person.id,:remote =>true) do%>
+    	<i class="icon-file"></i> Edit Mail Format
+    	<%end%>
+    </li>
+    <li class="divider"></li>
+    <li><a href=".."><i class="i"></i>Others</a></li>
+  </ul>
+</div>
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <%= notice%>
+</div>
+<div id="mail_result"></div>
+<%= render "checkmen/result"%>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <h5 id="myModalLabel">Edit information of <%= @person.responsibleperson%></h5>
+  </div>
+  <div class="modal-body">
+    <div id="person_edit_area"></div>
+  </div>
+</div>
 <%= link_to "Back", components_path%>
+<%= content_for :rightside do%>
+<div id="comment_area" ></div>
+<%end%>
+<%else%>
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <%= notice%>
+</div>
+<%end%>

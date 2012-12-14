@@ -1,9 +1,13 @@
 <h1>Checkman errors</h1>
-<% if @count == 0 %>
-  <p id="notice"><%= notice %></p>
-<%else%>
-  <p id="notice"><%= notice %></p>
+<div class="alert alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= notice%>
+</div>
+<% if @count != 0 %>
   <%= render "checkmen/result"%>
 <% end%>
 
 <%= link_to "Back", objectresponsibles_path%>
+<%= content_for :rightside do%>
+<div id="comment_area" ></div>
+<% end%>

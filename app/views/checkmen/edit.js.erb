@@ -1,0 +1,6 @@
+$("#comment_area").empty().show();
+$("#item-detail").empty();
+$("table#checkmen tr").css('background','')
+$("#checkmen").find("#checkman_<%= @checkman.id%>").css('background','#66FF66');
+$("<%= j render :partial=> 'comment'%>").appendTo("#comment_area");
+$("#item-detail").append("<%= j render :partial=>'item_detail' %>");

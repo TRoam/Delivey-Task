@@ -1,1 +1,2 @@
-  $('<%= escape_javascript(render :partial => 'component', :object => @component) %>').hide().appendTo($('#component_tbody')).fadeIn('fast').css('display', 'table-row').css('background','blue');
+  $('<%= escape_javascript(render :partial => 'component', :object => @component) %>').hide().appendTo($('#component_tbody')).fadeIn('slow',function(){alert("create successful!")}).css('display', 'table-row');
+  $("#new_component").removeData();

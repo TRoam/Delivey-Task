@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(:version => 20121119055626) do
     t.string   "dlm",                  :default => "Drik"
     t.string   "key"
     t.integer  "ncount"
-    t.string   "feedback",             :default => "open"
     t.integer  "objectresponsible_id"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
@@ -35,8 +34,9 @@ ActiveRecord::Schema.define(:version => 20121119055626) do
     t.integer  "checkman_id"
     t.string   "commenter"
     t.text     "content"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "feedback",    :default => "open"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   create_table "components", :force => true do |t|

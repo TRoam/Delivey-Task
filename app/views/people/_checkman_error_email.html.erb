@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hi, <%= @person.responsibleperson %></h1>
+    <p>
+       Below are checkman errors<br/>
+    </p>
+    <fieldset>
+ <div id="table_area" >
+<table id="checkmen" class="display">
+	<thead>
+		<th>Priority</th>
+		<th>Status</th>
+		<th>Check(Check_id)</th>
+		<th>Checkmessage(message_id)</th>
+		<th>Objectname</th>
+		<th>Package</th>
+		<th>Responsible_Name</th>
+		<th>Prodrel</th>
+	</thead>
+	<tbody>
+		<%= @checkman.each do |checkman|%>
+		<tr>
+		<td><%= checkman.priority %></td>
+		<td><%if checkman.status == "open" %>
+			<i class="icon-share"></i>open
+			<%else%>
+			<i class="icon-check"></i>solved
+            <%end%>
+		</td>
+		<td><%= checkman.checkid%></td>
+		<td><%= checkman.messageid%></td>
+		<td><%= checkman.objectresponsible.objectname%></td>
+		<td><%= checkman.objectresponsible.component.package%></td>
+		<td><%= checkman.objectresponsible.person.responsibleperson%></td>
+		<td><%if checkman.prodrel? %>
+			<i class="icon-ok"></i>
+			<%else%>
+			<i class="icon-remove"></i>
+            <%end%>
+		</td>
+		</tr>
+		<%end%>
+	</tbody>
+</table>
+</div>
+    <p>Thanks for joining and have a great day!</p>
+    <p>url <%= @url%></p>
+  </body>
+</html>

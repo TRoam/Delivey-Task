@@ -1,0 +1,3 @@
+alert("Update successful!");
+$("div#object_<%= @object.id%>.alert").remove();
+$("tr#object_<%= @object.id%>").replaceWith("<%= j render :partial=>'object'%>").hide().fadeIn("slow");

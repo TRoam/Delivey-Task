@@ -2,7 +2,8 @@ class ComponentsController < ApplicationController
   def index
     @components = Component.all
     @component  = Component.new
-
+    @number = @components.count
+    flash[:notice] = "Hi,there are #{@number} components."
     respond_to do |format|
       format.html 
       format.js
@@ -10,6 +11,10 @@ class ComponentsController < ApplicationController
   end
   def edit
     @component = Component.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
   
   def update
@@ -18,7 +23,7 @@ class ComponentsController < ApplicationController
     respond_to do |format|
       if @component.update_attributes(params[:component])
         format.html { redirect_to @component, notice: 'Product was successfully updated.' }
-        format.js { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.js { render js: @component.errors, status: :unprocessable_entity }

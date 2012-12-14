@@ -1,0 +1,20 @@
+<div id="import_body">
+<h4></h4>
+<div class="alert alert-info">
+      You can get import help 
+      <a  data-toggle="modal" href="#import-help">here!</a>
+    </div>
+  <div class="alert alert-success">
+<%= form_for :upload ,:url=>{:action=>:upload},:html=>{:multipart => true} ,:remote=>true  do |f|%>
+  <div>
+  	
+  		<strong>Predrel_Data File:</strong> <%= f.file_field :file1%>
+  		 <strong>ALL_Data file:</strong><%= f.file_field :file2 %>
+  		     <strong>Release:</strong><%= f.select :release  ,options_for_select({"V7Z"=>"V7Z","GTP"=>"GTP"},"V7Z")%>
+  </div>   
+  <div class="actions">
+    <%= f.submit "Upload" , :disable_with =>"Uploading...."%>  
+  </div>
+<% end %>
+</div>
+</div>

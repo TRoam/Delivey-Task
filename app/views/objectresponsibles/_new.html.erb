@@ -1,0 +1,28 @@
+<div class="alert alert-info" style="padding-left: 5px">
+  <a class="close" data-dismiss="alert">×</a>
+<%= form_for @object,:remote=>true do |f|%>
+<%= f.fields_for :component do |c|%>
+  <div class="field">
+  	<%= c.label :Package%>
+  	<%= c.select  :package, options_from_collection_for_select(@package,:id,:package) %>
+  </div>
+<%end%>
+  <div>
+  	<%= f.label :Objectname%>
+  	<%= f.text_field :objectname ,:placeholder => "please enter objectname.."%>
+  </div>
+    <div>
+    	<%= f.label :Object_Type %>
+    	<%= f.text_field :objecttype ,:placeholder => "what's the type.."%>
+    </div>
+    <%= f.label :Contact %>
+    <%= f.text_field :contact ,:placeholder => " contact person.."%>
+  <div class="field">
+    <%= f.label :Responsible_Person %>
+    <%= f.text_field :person ,:placeholder => "who Responsible for this object.."%>
+  </div>
+  <div class="actions">
+    <%= f.submit "Submit"%>
+  </div>
+<% end %>
+</div>

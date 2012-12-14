@@ -1,0 +1,7 @@
+$("#mail_result").empty().append("<%= j render :partial=> 'mail_result'%>")
+if (<%= @result%> ==1) {
+$("#mail_result_alet").addClass("alert alert-success");
+}
+else{
+	$("#mail_result_alet").addClass("alert alert-error");
+};

@@ -1,0 +1,2 @@
+alert("Update successful!");$("tr#person_<%= @person.id%>").replaceWith("<%= j render :partial=>'person'%>").fadeOut("slow").fadeIn("slow");
+$("#person_edit_area").empty();

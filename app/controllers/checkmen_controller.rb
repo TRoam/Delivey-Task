@@ -1,5 +1,5 @@
 require 'csv'
-require 'upload_job'
+# require 'upload_job'
 # require 'checkmen_helper'
 
 class CheckmenController < ApplicationController
@@ -9,11 +9,20 @@ class CheckmenController < ApplicationController
 
      #@q = Checkman.search(params[:q])
      # @checkman = params[:distinct].to_i.zero? ? @q.result : @q.result(distinct: true)
-     @q =Objectresponsible.search(params[:q])
-     @objectresponsible = @q.result
+     @q=Objectresponsible.search(params[:q])
+       if params[:q].nil?
+         @checkman =Checkman.find_all_by_status("open")
+       else
+          @objectresponsible = @q.result
+          @checkman = Array.new()
+          @objectresponsible.each do |o|
+            @checkman = @checkman + o.checkmen.all
+          end
+       end
+     @number = @checkman.count
+     flash[:notice] = "There are #{@number} records!"
      @q.build_condition if @q.conditions.empty?
-     @q.build_sort if @q.sorts.empty?
-
+     @q.build_sort if @q.sorts.empty?   
      # respond_to do |format|
      #    format.js
      # end
@@ -33,32 +42,30 @@ class CheckmenController < ApplicationController
   # GET /checkmen/1/edit
   def edit
     @checkman = Checkman.find(params[:id])
+    @comment =@checkman.comments
 
     respond_to do |format|
       format.html
+      format.js
     end
   end
-
-  # POST /checkmen_url
- # POST /checkmen.json
-  def create
-    # @checkman = Checkman.new(params[:checkman])
-  end
-
   # PUT /checkmen/1
   # PUT /checkmen/1.json
   def update
-    @checkman = Checkman.find(params[:id])
-    @checkman.feedback = params[:checkman][:feedback]
+    @checkman = Checkman.find(params[:id]) 
     comment = Comment.create(
-           :content => params[:checkman][:status],
-           :checkman_id =>params[:id]
+           :content => params[:checkman][:comments][:content],
+           :checkman_id =>params[:id],
+           :feedback => params[:checkman][:comments][:feedback]
       )
+    @comment = @checkman.comments.last
     respond_to do |format|
       if @checkman.save
         format.html { redirect_to "/checkmen", notice: 'Checkman was successfully updated.' }
+        format.js
       else
         format.html { render action: "edit" }
+        format.js
       end
     end
   end
@@ -76,6 +83,8 @@ class CheckmenController < ApplicationController
   def import
     # render :layout =>false
   end
+
+  # import new data
   def upload
     @uploadall = Array.new
     @uploadrel = Array.new
@@ -124,14 +133,24 @@ class CheckmenController < ApplicationController
           linenumber2 += 1 
         end
       end
-      @importnumber = @uploadall.length + @uploadrel.length 
+      @importnumber = @uploadall.length + @uploadrel.length
      flash[:notice] = "Import successful !, #{@importnumber} ,records are imported.Data are saving..."
-     Checkman.delay.upload_to_database(@uploadall,@uploadrel,temp_release)
      # Delayed::Job.enqueue(UploadJob.new(@uploadall,@uploadrel,temp_release))
     end    
+    respond_to do |format|
+      format.html
+      format.js
+    end
+    Checkman.upload_to_database(@uploadall,@uploadrel,temp_release)
   end
-  
-  
+
+  def item_detail
+    @checkman = Checkman.find(params[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def search
     index  
     render :index

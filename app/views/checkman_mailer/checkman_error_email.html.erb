@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
   </head>
   <body>
     <h1>Hi, <%= @person.responsibleperson %></h1>
@@ -34,7 +34,6 @@
 		<th><%= checkman.objectresponsible.component.package%></th>
 		<th><%= checkman.objectresponsible.person.responsibleperson%></th>
 		<th><%= checkman.status%></th>
-	    <th><%= checkman.feedback%></th>
 	    <th><%= checkman.comments.empty?? "No Comment":checkman.comments.last.content%></th>
 		</tr>
 		<%end%>

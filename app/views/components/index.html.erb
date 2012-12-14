@@ -1,11 +1,28 @@
-<%@page_title = "Components"%>
 <h1>All Compoents </h1>
-<div id="whole_body">
-<!-- <%= link_to "Add Component", new_component_path %>  -->
-<div id="create_form"><%= render "form"%></div>
-<p class="flip">Create New  Component</p>
-<%= button_to  "Import Component From csv File", :action => :import%>
-<fieldset id="component_fieldset">
+
+<div  style="margin-bottom: 15px">
+<button id="component-create-button" class="btn btn-info" data-toggle="button">Create</button>
+<button id="component-import" class="btn btn-info" data-toggle="button">Import</button>
+</div>
+
+<div id="component-import-form">
+	<div class="alert alert-info">
+      You can get import help 
+      <strong><a  data-toggle="modal" href="#import-help">here!</a></strong>
+    </div>
+    <div class="alert alert-success">
+	<strong>You can import a file</strong>
+	<%= form_tag :url=>{:action=>:upload},:html =>{:multipart => true} do%>
+	<%= file_field_tag :file%>	
+    <%= submit_tag "Import"%>
+    <% end %> 
+    </div>   
+</div>
+<div class="alert alert-success">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <%= notice%>
+</div>
+<%= render "import"%>
 <div id="mytable">
 <table id="checkmen" class="display">
 	<thead>
@@ -21,5 +38,41 @@
 	</tbody>	
 </table>
 </div>
-</fieldset>
+<%= content_for :rightside do%>
+<div id="create_form">
+  <div class="alert alert-success" id="component_<%=@component.id%>" style="padding:5px">
+<%= form_for(@component, :remote => true) do |f| %>
+  <% if @component.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@component.errors.count, "error") %> prohibited from being saved:</h2>
+      <ul>
+      <% @component.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :Package %>
+    <%= f.text_field :package ,:placeholder =>"Package" %>
+  </div>
+  <div class="field">
+    <%= f.label :SoftwareComponent %>
+    <%= f.text_field :softwarecomponent,:placeholder =>"SoftwareComponent" %>
+  </div>
+  <div class="field">
+    <%= f.label :ApplicationComponent %>
+    <%= f.text_field :applicationcomponent,:placeholder =>"ApplicationComponent" %>
+  </div>
+  <div class="field">
+    <%= f.label :ChangePerson %>
+    <%= f.text_field :changeperson ,:placeholder =>"ChangePerson"%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
 </div>
+</div>
+<div id="edit_area"></div>
+<%end%>

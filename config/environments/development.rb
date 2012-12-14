@@ -16,10 +16,11 @@ DeliveryManagementTaskBoard::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger
-  config.active_support.deprecation = :log
+  # config.active_support.deprecation = :log
+  config.active_support.deprecation = :notify
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
@@ -29,18 +30,19 @@ DeliveryManagementTaskBoard::Application.configure do
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
+  #send mail
   config.active_record.auto_explain_threshold_in_seconds = 0.5
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
-    :user_name            => 'liulangdewoniu',
-    
-    :authentication       => 'plain',
+    :address              => "mail.sap.com",
+    :port                 => 25,
+    :user_name            => 'roam.tang',
+    :password             => 'TGF615twf',
+    :authentication       => :ntlm,
+    :domain               =>"sap.com",
     :enable_starttls_auto => true
   }
-  #send mail
-
+ 
   # Do not compress assets
   config.assets.compress = false
 

@@ -1,0 +1,12 @@
+var trarea = $("tr#component_<%= @component.id%>");
+// get the former css class
+var former_class = trarea.attr("class");
+alert("Update successful!");
+$("div#component_<%= @component.id%>.alert").remove();
+if (former_class == "even") {
+trarea.replaceWith("<%= j render :partial=>'component',:object=>@component%>").fadeOut("slow").fadeIn("slow").css('background-color','white');
+}
+else
+{
+trarea.replaceWith("<%= j render :partial=>'component',:object=>@component%>").fadeOut("slow").fadeIn("slow").css('background-color','#E2E4FF');
+};

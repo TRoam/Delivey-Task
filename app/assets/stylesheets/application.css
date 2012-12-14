@@ -9,12 +9,82 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
+ *= require jquery.ui.core
+ *= require jquery.ui.theme
  *= require  dataTables/jquery.dataTables
  *= require_tree .
  */
- #my_comment{
-  width: 1310px;
-  height: 56px;
+ #T_mail_address{
+   width: 450px;
+ }
+  #T_mail_cc_address{
+    width: 450px;
+  }
+  #T_mail_subject{
+    width: 431px;
+  }
+  #T_mail_content{
+    width: 497px;
+    height:245px;
+  }
+ .span13{
+  width:1250px;
+ }
+ body{
+   background-image:url("background.png");
+ }
+ #item-detail{
+  margin-top: 30px;
+ }
+ #create_form{
+  display: none;
+ }
+ #component-import-form{
+  display: none;
+ }
+ #person_right{
+  margin-top: 100px;
+ }
+ #object_create_area{
+  margin-bottom: 15px;
+  margin-top: 30px;
+ }
+ #component-import-form{
+  margin-top: 30px;
+  margin-bottom: 15px;  
+ }
+ #create_form{
+  margin-top: 30px;
+  margin-bottom: 15px;
+ }
+ #left-side{
+  overflow-y: auto;
+ }
+ #comment_area{
+  position:absolute;
+  display: block;
+  padding: 5px;
+  font-size: 11px;
+  visibility: visible;
+  margin-left: 3px;
+ }
+ #import-result{
+  margin-top: 30px;
+  display: none;
+ }
+ #import-help{
+  display: none;
+ }
+ #myModal{
+  display: none;
+ }
+ #import_body{
+  display: none;
+  margin-top: 30px;
+  margin-bottom: 15px;
+ }
+ #table_area{
+  overflow: auto;
  }
  a.more-icon {
   background: url(more.png) no-repeat right center;
@@ -31,28 +101,6 @@ a.more-icon.alt {
 }
 #search_form{
   display: none;
-}
-div#mytable{
-  overflow:auto;
-}
-#create_form{
-  display:none;
-}
-div.Import_help,p.flip
-{
-margin:0px;
-padding:5px;
-text-align:center;
-background:#666666;
-border:solid 1px #666666 ;
-}
-p.flip
-{
-  cursor:pointer;
-}
-div.Import_help
-{
-height:120px;
-background: #66FFFF;
-display:none;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }

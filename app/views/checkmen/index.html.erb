@@ -1,64 +1,35 @@
-<% @page_title = "Overview"%>
-<h1>Still Open Checkman Errors </h1>
-<button id="search">Search</button>
+<h3>Checkman Errors </h3>
+<%= content_for :leftside do%>
+
+<%end%>
+<div style="margin-bottom: 15px">
+<button id="search" class="btn btn-info" data-toggle="button" >Filter</button>
+<button id="new_import" class="btn btn-info" data-toggle="button">Import</button>
+</div>
 <div id="search_form">
-<%= search_form_for @q, url: search_checkmen_path, method: :post do |f| %>
+<%= search_form_for @q, url: search_checkmen_path, method: :post do |f|%>
  <div class="field">
  <fieldset>
- 	<legend>Condition </legend>
+  <legend>Condition </legend>
   <%= f.condition_fields do |c| %>
     <%= render "condition_fields", f: c %>
   <% end %>
   <%= link_to_add_fields "Add Conditions", f, :condition %>
   </fieldset>
-  	
-  </div>
-  <div class="field">
-  <fieldset>
-    <legend>Sorting</legend>
-    <%= f.sort_fields do |s| %>
-      <%= render 'sort_fields', f: s %>
-    <% end %>
-    <%= link_to_add_fields "Add Sort", f, :sort %>
-  </fieldset>
   </div>
   <div class="actions"><%= f.submit "Search" %></div>
 <% end %>
 </div>
- <fieldset>
-<table id="checkmen" class="display">
-	<thead>
-		<th>Priority</th>
-		<th>Prodrel?</th>
-		<th>Check(Check_id)</th>
-		<th>Checkmessage(message_id)</th>
-		<th>Objectname</th>
-		<th>Package</th>		
-		<th>Responsible_Name</th>
-		<th>Status</th>
-	    <th>Feedback</th>
-	    <th>Comment</th>
-	</thead>
-	<tbody>
-		<% @objectresponsible.each do |o|%>
-		<% @checkman = o.checkmen.all%>
-		<% @checkman.each do |checkman|%>
-		<tr id="checkman_<%= checkman.id%>">
-		<td><%= checkman.priority %></td>
-		<td><%= checkman.prodrel%></td>
-		<td><%= checkman.checkid%></td>
-		<td><%= checkman.messageid%></td>
-		<td><%= link_to o.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
-		<td><%= link_to o.component.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
-		<td><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
-		<td><%= checkman.status%></td>
-	    <td><%= checkman.feedback%></td>
-	    <td><%= checkman.comments.empty?? "No Comment":checkman.comments.last.content%><%= link_to "", edit_checkman_path(checkman.id),:class=>"more-icon"%></td>
-		</tr>
-		<%end%>
-		<%end%>
-	</tbody>
-</table>
-
-</fieldset>
-<div id="comment_area"></div>
+<div id="import-result">
+  <a class="close" data-dismiss="alert">×</a>
+</div>
+<%= render "import"%>
+<%= render "importhelp"%>
+    <div id="main-alert" class="alert alert-info">
+      <%= notice%>
+      <a class="close" data-dismiss="alert">×</a>
+    </div>
+<%= render  "result"%>
+<%= content_for :rightside do%>
+<div id="comment_area" ></div>
+<% end%>

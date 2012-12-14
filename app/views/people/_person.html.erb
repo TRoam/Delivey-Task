@@ -1,0 +1,7 @@
+<tr id="person_<%= @person.id%>">
+<td><%= link_to  @person.responsibleperson,:action => :detail,:id=>@person.id%></td>
+<td><%= @person.sapname%></td>
+<td><%= @person.eid%></td>
+<td><%= @person.email%></td>		
+<td><%= link_to "" , edit_person_path(@person.id) ,:remote=>true,:class=>"icon-pencil"%></td>
+</tr>

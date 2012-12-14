@@ -1,5 +1,13 @@
 <h1>Object information</h1>
-<fieldset>
+
+<div style="margin-bottom: 15px">
+<%= link_to "Create Object_Responsible" ,new_objectresponsible_path,:remote=>true,:class=>"btn btn-info"%>
+</div>
+<div class="alert alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<%= notice%>
+</div>
+<div id="table_area" >
 <table id="checkmen" class="display">
 	<thead>
 		<th>Object Name</th>
@@ -7,19 +15,26 @@
 		<th>Package</th>
 		<th>Contact</th>
 		<th>Responsible Person</th>
-		<th>Active</th>
+		<th></th>
 	</thead>
 	<tbody>
-		<% @object.each do |c|%>
-		<td><%= link_to  c.objectname,:action => :detail,:id=>c.id%></td>
-		<td><%= c.objecttype%></td>
-		<td><%= c.component.package %></td>	
-		<td><%= c.contact%></td>
-		<td><%= c.person.responsibleperson%></td>			
-		<td><%= link_to "Edit" , edit_objectresponsible_path(c.id) %></td>
+		<% @object.each do |object|%>
+		<tr id="object_<%= object.id%>">
+		<td><%= link_to  object.objectname,:action => :detail,:id=>object.id%></td>
+		<td><%= object.objecttype%></td>
+		<td><%= object.component.package %></td>
+		<td><%= object.contact%></td>
+		<td><%= object.person.responsibleperson%></td>			
+		<td><%= link_to "" , edit_objectresponsible_path(object.id),:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
 	</tbody>	
 </table>
-</fieldset>
-<%= link_to "Create Object_Responsible" ,new_objectresponsible_path%>
+</div>
+<%= content_for :rightside do%>
+<div id="person_right">
+	<div id="object_edit_area">
+	<div id="object_create_area"></div>
+	</div>
+</div>
+<%end%>

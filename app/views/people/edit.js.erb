@@ -1,0 +1,12 @@
+$("#myModal").modal();
+$("#person_edit_area").empty();
+$("table#checkmen tr").css('background','')
+$("#checkmen").find("#person_<%= @person.id%>").css('background','#66FF66');
+$("#person_edit_area").append("<%= j render :partial => 'form'%>");
+$("#person_edit_area").find(".close").bind(
+	'click',
+	function(event){
+		var tableid = '#' +$(this).attr("id");
+		$("#checkmen").find(tableid).css('background','');
+	}
+	)

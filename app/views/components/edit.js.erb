@@ -1,0 +1,7 @@
+$("#edit_area").append("<%= j render :partial => 'form'%>")
+var divheight = $("#edit_area").height();
+var windowheight = $(window).height();
+if(divheight > windowheight){
+	$("#edit_area").find("div:first").remove();
+	return;
+}

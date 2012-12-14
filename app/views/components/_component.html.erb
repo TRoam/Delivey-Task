@@ -1,6 +1,6 @@
-<tr id="<%=component.id%>">
+<tr id="component_<%=component.id%>">
 	<td><%= link_to  component.package,:action => :detail,:id=>component.id%></td>
 	<td><%= component.softwarecomponent%></td>
 	<td><%= component.applicationcomponent%></td>
-	<td><%= link_to "Edit" , edit_component_path(component.id)  %></td>
+	<td><%= link_to "" , edit_component_path(component.id) ,:remote=>true,:class=>"icon-pencil"%></td>
 </tr>

@@ -12,12 +12,10 @@ class CreateCheckmen < ActiveRecord::Migration
       t.string  :dlm , :default => "Drik" 
       t.string  :key
       t.integer :ncount
-      t.string  :feedback , :default => "open"
       t.integer :objectresponsible_id
       
       t.timestamps 
    
   end
   end 
-  
 end

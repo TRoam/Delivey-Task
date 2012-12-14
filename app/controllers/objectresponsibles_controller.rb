@@ -1,24 +1,32 @@
 class ObjectresponsiblesController < ApplicationController
   def index
-    @page_title = "Object"
     @object = Objectresponsible.all
+    @number = @object.count
+    flash[:notice] ="Hi ,there are #{@number} objects!"
   end
   def edit
-     @page_title = "Object"
+     
     @object = Objectresponsible.find(params[:id])
   end
   
   def update
-     @page_title = "Object"
     @object = Objectresponsible.find(params[:id])
-
+    @person = Person.find_by_responsibleperson(params[:objectresponsible][:contact])
+    if !@person
+      @person = Person.create(
+              :responsibleperson =>params[:objectresponsible][:contact]                
+        )
+    end
+    @object.person_id  = @person.id
     respond_to do |format|
-      if @object.person.update_attributes( :responsibleperson =>params[:objectresponsible][:contact])
+      if @object.save
         format.html { redirect_to @object, notice: 'Product was successfully updated.' }
         format.json { head :no_content }
+        format.js
       else
         format.html { render action: "edit" }
         format.json { render json: @object.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -47,21 +55,22 @@ class ObjectresponsiblesController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @object }
+      format.js
     end
     end
     
     def create
-       @page_title = "Object"
+       
        @object = Objectresponsible.new(
-                           :objectname   => params[:objectname],
-                           :contact      => params[:contact],
-                           :objecttype   => params[:objecttype],
-                           :component_id => params[:package]
+                              :objectname   => params[:objectresponsible][:objectname],
+                              :contact      => params[:objectresponsible][:contact],
+                              :objecttype   => params[:objectresponsible][:objecttype],
+                              :component_id => params[:objectresponsible][:component][:package]
                                      )
-         person = Person.find_by_responsibleperson(params[:person])
+         person = Person.find_by_responsibleperson(params[:objectresponsible][:person])
          if !person
            person = Person.create(
-                        :responsibleperson => params[:person]
+                        :responsibleperson => params[:objectresponsible][:person]
                                   )    
          end
          @object.person_id = person.id
@@ -69,9 +78,11 @@ class ObjectresponsiblesController < ApplicationController
       if @object.save
         format.html { redirect_to @object, notice: 'Product was successfully created.' }
         format.json { render json: @object, status: :created, location: @object }
+        format.js
       else
         format.html { render action: "new" }
         format.json { render json: @object.errors, status: :unprocessable_entity }
+        format.js
       end
     end
     end

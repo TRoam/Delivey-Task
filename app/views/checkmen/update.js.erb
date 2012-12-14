@@ -1,0 +1,5 @@
+alert("Comment Successful!");
+$("#old-comment").append("<%= j render :partial=>'oldcomment'%>");
+var replace = $("#checkman_<%=@checkman.id%>");
+replace.find("td:last span").replaceWith("<span><%= @comment.content%></span>").fadeOut("slow").fadeIn("slow");
+replace.find("td:eq(8) span").replaceWith("<span><%= j render :partial => 'new_comment_feedback'%></span>").fadeOut("slow").fadeIn("slow");
