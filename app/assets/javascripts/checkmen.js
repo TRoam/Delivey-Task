@@ -1,15 +1,50 @@
+//select all or unselectall
+function toggle_checkall(field_name, state) {
+  var checkboxes = $("#checkmen input")
+  var count = checkboxes.length;
+  for (var i = 0; i < count; i++) {
+    if (checkboxes[i].type == "checkbox"
+        && checkboxes[i].name == field_name + "_ids[]") {
+      checkboxes[i].checked = state;
+    }
+  }
+};
+
+// toggle comments and detail checkman information
+
 $(document).ready(function(){
-  // live event for every td ,and once click it ,the detial information will display
-  $("#checkmen tbody>tr").live(
+
+
+  //mial Prodrel?
+  $("#people_mail_button button:first").live(
     'click',
     function(){
-        $(this).find("a:last").trigger('click');
+      $(".mail_prodrel").trigger('click');
     }
     )
+   $("#people_mail_button button:last").live(
+    'click',
+    function(){$(".mail_all").trigger('click');
+  }
+    )
+  // live event for every td ,and once click it ,the detial information will display
+  $("#checkmen tbody>tr td:not('#check_box')").live(
+    'click',
+    function(){
+      $(this).parent().find("a:last").trigger('click');
+    }
+    )
+  // $("#checkmen tbody>tr td").live(
+  //   'click',
+  //   function(){
+  //       $(this).parent().find("a:last").trigger('click');
+  //       };
+  //   }
+  //   )
   //send mail to 
- // manual_mail send 
- // make the right side donn't move with the main div
-//create component and improt
+  // manual_mail send 
+  // make the right side donn't move with the main div
+ //create component and improt
   $("#component-import").width(80).click(function(){
     $("#component-import-form").slideToggle();
   })
@@ -32,10 +67,12 @@ $(document).ready(function(){
     // "bJQueryUI": true,
     "bProcessing": true,
     // "bServerSide": true,
-    "sScrollX": "100%",
+    // "sScrollX": "100%",
     "bStateSave": true,
-    "bScrollCollapse": true,
+    // "bScrollCollapse": true,
      "iCookieDuration": 60*60*24,
+     "bLengthChange": false,
+     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
     // "bSortCellsTop": false,
     "sZeroRecords": "Nothing found - sorry",
     // "sScrollY": "400",
@@ -49,9 +86,7 @@ $(document).ready(function(){
   $("#search").width(80).click(function() {
      $("#search_form").slideToggle("fast");
   });
-  $("#new_import").width(80).click(function(){
-      $("#import_body").slideToggle("fast");
-  });
+  $("#new_import").width(80);
   // Ajax load action
   $("h1>a").click(function() {
   $("#main_body").load(this.href);

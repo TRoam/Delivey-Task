@@ -2,7 +2,7 @@ require 'rubygems'
 require 'win32ole'
 require 'spreadsheet'
 class PeopleController < ApplicationController
-  $mail_body_content = ""
+  
   def index
     # @page_title = "Person"
     @person = Person.all
@@ -15,7 +15,6 @@ class PeopleController < ApplicationController
       format.js
     end
   end
-  
   def update
     @person = Person.find(params[:id])
 
@@ -106,6 +105,16 @@ class PeopleController < ApplicationController
           end
           message.Attachments.Add(filepath, 1)  
           message.Send 
+          @checkman.each do |c|
+            if c.comments.empty?
+              comment = Comment.create( 
+                  :feedback => "addressed",
+                  :checkman_id => c.id
+                )
+            end
+            c.comments.last.feedback = "addressed"
+            c.comments.last.save
+          end
           @message = "Mila Send Successfully, you can  also check it in your outlook "
           @result = 1
         else
@@ -127,6 +136,20 @@ class PeopleController < ApplicationController
       @checkman = @person.checkmen.find_all_by_status("open")
       @c_mail_content  = "Hi #{@person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
 
+      respond_to do |format|
+        format.js
+      end
+    end
+
+    def mail_content_type_prodrel
+      @person = Person.find(params[:id])
+      respond_to do |format|
+        format.js
+      end
+    end
+
+    def mail_content_type_all
+      @person = Person.find(params[:id])
       respond_to do |format|
         format.js
       end

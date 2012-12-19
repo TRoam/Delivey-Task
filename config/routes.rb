@@ -2,10 +2,13 @@ DeliveryManagementTaskBoard::Application.routes.draw do
 
    resources :checkmen do 
      collection do 
+       post 'send_multiple'
+       post 'mail_multiple'
        get 'item_detail'
        get 'import'
        match  'search' =>'checkmen#search', :via => [:get ,:post], :as => :search
      end
+
    end
    post "checkmen/import"  => "checkmen#upload"
    resources :components do
@@ -24,6 +27,8 @@ DeliveryManagementTaskBoard::Application.routes.draw do
    end
    resources :people do
      member do
+       get 'mail_content_type_prodrel'
+       get 'mail_content_type_all'
        get 'manual_mail'
        post 'manual_mail'
        get 'sendmail'

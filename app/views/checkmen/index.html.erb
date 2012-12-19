@@ -1,10 +1,22 @@
 <h3>Checkman Errors </h3>
-<%= content_for :leftside do%>
-
-<%end%>
+  <div class="alert alert-success">
+      Chose file and import new data, You can get import help 
+      <a  data-toggle="modal" href="#import-help">here!</a>
+    </div>
+  <div >
+<%= form_for :upload ,:url=>{:action=>:upload},:html=>{:multipart => true} ,:remote=>true  do |f|%>
+  <div>
+    
+      <strong>Predrel:</strong> <%= f.file_field :file1%>
+       <strong>ALL:</strong><%= f.file_field :file2 %>
+           <strong>Release:</strong><%= f.select :release  ,options_for_select({"V7Z"=>"V7Z","GTP"=>"GTP"},"V7Z")%>
+<%= f.submit "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:200px"%>  
+<% end %>
+</div>   
+   
+</div>
 <div style="margin-bottom: 15px">
 <button id="search" class="btn btn-info" data-toggle="button" >Filter</button>
-<button id="new_import" class="btn btn-info" data-toggle="button">Import</button>
 </div>
 <div id="search_form">
 <%= search_form_for @q, url: search_checkmen_path, method: :post do |f|%>
@@ -23,13 +35,10 @@
 <div id="import-result">
   <a class="close" data-dismiss="alert">×</a>
 </div>
-<%= render "import"%>
 <%= render "importhelp"%>
     <div id="main-alert" class="alert alert-info">
       <%= notice%>
       <a class="close" data-dismiss="alert">×</a>
     </div>
 <%= render  "result"%>
-<%= content_for :rightside do%>
 <div id="comment_area" ></div>
-<% end%>

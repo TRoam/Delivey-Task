@@ -1,6 +1,17 @@
-	<div id="item-detail"></div>
+<div id="commentModal" class="modal hide fade" >
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="item-detail">
+	<div class="alert alert-info" id="checkman_<%= @checkman.id%>">
+	<h4>Detail information</h4>
+	 
+	 <li>DLM:<br /><%= @checkman.dlm%></li>
+	 <li>Realease system:<br /><%= @checkman.release%></li>
+	 <li>1st Fount:<br /><%= @checkman.foundat%></li>
+	 <li>Update at:<br /><%= @checkman.updated_at%></li>
+	 <li>Unique Id:<br /><%= @checkman.uniqueid%></li>
+</div>
+</div>
 
-<a class="close" id="checkman_<%=@checkman.id%>">×</a>
 <div class="alert" id="old-comment">
 <h5>Comments</h5>
  	<% @checkman.comments.each do |c|%>
@@ -35,3 +46,4 @@
 <%= f.submit 'Submit'%>
 <%end%>
 </fieldset>
+</div>

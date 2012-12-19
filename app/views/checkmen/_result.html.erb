@@ -1,22 +1,46 @@
+<%= form_tag mail_multiple_checkmen_path, method: :patch_mail ,:remote =>true do %>
 <table id="checkmen" class="display">
+<div class="btn-group">
+  <%= submit_tag "Send Email", :class=>"btn btn-info"%>
+  <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+   <%= submit_tag "Send to each Responsible",:class =>"dropdown-menu btn "%></a>
+  </ul>
+</div>
 	<thead>
+		<th><input type="checkbox" onclick="toggle_checkall('checkman', this.checked);" /></th>
+		<th>Check ID</th>
+		<th>Message ID</th>
+		<th>Object Name</th>
 		<th>Priority</th>
-		<th>Status</th>
 		<th>System</th>
-		<th>Check(Check_id)</th>
-		<th>Checkmessage(message_id)</th>
-		<th>Objectname</th>
+		<th>App.Comp</th>
 		<th>Package</th>
-		<th>Application Component</th>
-		<th>Contact</th>
-		<th>Responsible_Name</th>
-		<th>Prodrel</th>
-	    <th>Comment</th>
+		<th>Responsible</th>
+		<th>Prod.Rel</th>
+		<th>Status</th>
+	    <th style="display: none">Comment</th>
 	</thead>
 	<tbody>
 		<% @checkman.each do |checkman|%>
 		<tr id="checkman_<%= checkman.id%>">
-		<td><%= checkman.priority %></td>
+		<td id="check_box"><%= check_box_tag "checkman_ids[]", checkman.id %></td>
+		<td ><%= checkman.checkid%></td>
+		<td ><%= checkman.messageid%></td>
+		<td ><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
+		<td ><%= checkman.priority %></td>
+		<td ><%= checkman.release%></td>
+		<td ><%= checkman.objectresponsible.component.applicationcomponent%></td>
+		<td ><%= link_to checkman.objectresponsible.component.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
+		<td ><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
+		<td ><%if checkman.prodrel? %>
+			<i class="icon-ok"></i>True
+			<%else%>
+			<i class="icon-remove"></i>False
+			<%end%>
+		</td>
 		<td>
 			<span>
 	    	<% if checkman.comments.empty?||checkman.comments.last.feedback=="open"%>
@@ -26,22 +50,10 @@
 			<%end%>
 	    	</span>
 	    </td>
-		<td><%= checkman.release%></td>
-		<td><%= checkman.checkid%></td>
-		<td><%= checkman.messageid%></td>
-		<td><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
-		<td><%= link_to checkman.objectresponsible.component.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
-		<td><%= checkman.objectresponsible.component.applicationcomponent%></td>
-		<td><%= checkman.objectresponsible.contact%></td>
-		<td><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
-		<td><%if checkman.prodrel? %>
-			<i class="icon-ok"></i>
-			<%else%>
-			<i class="icon-remove"></i>
-			<%end%>
-		</td>
-	    <td><span><%= checkman.comments.empty?? "No Comment":checkman.comments.last.content%></span><%= link_to "", edit_checkman_path(checkman.id),:remote=>true,:class=>"icon-pencil"%></td>
+	    
+	    <td style = "display:none"><span></span><%= link_to "", edit_checkman_path(checkman.id),:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
 	</tbody>
 </table>
+<% end -%>

@@ -155,5 +155,126 @@ class CheckmenController < ApplicationController
     index  
     render :index
   end
+  
+  def mail_multiple 
+  @checkman = Checkman.find(params[:checkman_ids]) unless params[:checkman_ids].blank?
+  @respeople = Array.new
+  n = 0
+  @checkman.each do |c|
+      @respeople[n] = c.objectresponsible.person.responsibleperson
+      n = n+1 
+  end
+  @respeople = @respeople.uniq
+  
+  if params[:commit]!="Send Email"
+    @respeople.each do |r|
+      current_person = Person.find_by_responsibleperson(r)
+      current_checkman = Array.new
+    @checkman.each do |cu|
+      if cu.objectresponsible.person.responsibleperson == r
+          current_checkman<< cu
+      end
+    end
+       @c_mail_address = current_person.email
+       @c_mail_subject = "[Action] Open production relevant CHECKMAN messages in" + current_checkman.first.release
+       @c_mail_content = "Hi #{current_person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{current_checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{current_checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+    Spreadsheet.client_encoding = 'UTF-8'
+          book = Spreadsheet::Workbook.new
+          sheet1 = book.create_worksheet :name=>'checkman_errors'
+          sheet1.row(0).concat %w{System Priority Prodrel Check(Check_id) Checkmessage(message_id) Objectname Package Application_Component }
+          count_row = 1
+          current_checkman.each do |c|
+            sheet1[count_row,0] = c.release
+            sheet1[count_row,1] = c.priority 
+            sheet1[count_row,2] = c.prodrel
+            sheet1[count_row,3] = c.checkid
+            sheet1[count_row,4] = c.messageid
+            sheet1[count_row,5] = c.objectresponsible.objectname
+            sheet1[count_row,6] = c.objectresponsible.component.package 
+            sheet1[count_row,7] = c.objectresponsible.component.applicationcomponent
+            count_row += 1
+         end
+          e_format = Spreadsheet::Format.new :color => :blue,
+                                   :size => 11,
+                                   :pattern_fg_color =>:red
+          sheet1.row(0).default_format = e_format
+         filepath = r+"_checkman_error_"+current_checkman.first.release+"_"+current_checkman.first.ncount.to_s+"_"+current_checkman.count.to_s+".xls"
+         cu_filepath = "C:/Users/I076609/Documents/Aptana Studio 3 Workspace/Delivery Management Task Board/"+filepath
+         book.write filepath
+          WIN32OLE.ole_initialize
+          outlook = WIN32OLE.new('Outlook.Application')  
+          message = outlook.CreateItem(0)  
+          message.Subject = @c_mail_subject
+          message.Body = @c_mail_content
+          message.To = @c_mail_address
+          message.Attachments.Add(cu_filepath, 1)  
+          message.Send 
+   end
+   @send_type = 0
+  else
+    Spreadsheet.client_encoding = 'UTF-8'
+          book = Spreadsheet::Workbook.new
+          sheet1 = book.create_worksheet :name=>'checkman_errors'
+          sheet1.row(0).concat %w{System Priority Prodrel Check(Check_id) Checkmessage(message_id) Objectname Package Application_Component Responsible}
+          count_row = 1
+          @checkman.each do |c|
+            sheet1[count_row,0] = c.release
+            sheet1[count_row,1] = c.priority 
+            sheet1[count_row,2] = c.prodrel
+            sheet1[count_row,3] = c.checkid
+            sheet1[count_row,4] = c.messageid
+            sheet1[count_row,5] = c.objectresponsible.objectname
+            sheet1[count_row,6] = c.objectresponsible.component.package 
+            sheet1[count_row,7] = c.objectresponsible.component.applicationcomponent
+            sheet1[count_row,8] = c.objectresponsible.person.responsibleperson
+            count_row += 1
+         end
+          e_format = Spreadsheet::Format.new :color => :blue,
+                                   :size => 11,
+                                   :pattern_fg_color =>:red
+          sheet1.row(0).default_format = e_format
+         filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"
+         @cu_filepath = "C:/Users/I076609/Documents/Aptana Studio 3 Workspace/Delivery Management Task Board/"+filepath
+         book.write filepath
+    @person = Person.find_all_by_responsibleperson(@respeople)
+    @c_mail_content  = "Hi ,\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+    m = 0
+    @person.each do |p|
+      if m ==0
+        @c_mail_address = p.email
+      else
+        @c_mail_address << "\;"+ p.email
+      end
+      m = m+1
+    end
+    @send_type = 1 
+  end
+    respond_to do |format|
+      format.js
+    end
+  end
 
+  def send_multiple
+    @mail_address = params[:T_mail_address].split(";")
+    @mail_cc_address = params[:T_mail_cc_address].split(";") unless params[:T_mail_cc_address].blank?
+    @filepath = params[:filepath]
+    WIN32OLE.ole_initialize
+          outlook = WIN32OLE.new('Outlook.Application')  
+          message = outlook.CreateItem(0)  
+          message.Subject = params[:T_mail_subject]
+          message.Body = params[:T_mail_content]
+          message.To = @mail_address[0]
+          @mail_address.each do |address|
+            message.Recipients.Add address
+          end
+          if !@mail_cc_address.nil?
+            message.Cc = @c_mail_cc_address[0]
+          end
+          message.Attachments.Add(@filepath, 1)  
+          message.Send 
+
+       respond_to do |format|
+        format.js
+       end
+  end
 end
