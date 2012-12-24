@@ -86,23 +86,30 @@ class ComponentsController < ApplicationController
       if request.post? && params[:file]
         nowtime = Time.new
         n ,@number= 0
-        file = params[:file].read
+        file = params[:file]
         CSV.parse(file) do |row|
           n +=1
           #SKIP:header first or blank row
-          next if n==1 or row.join.blank?          
-          if !Component.find_by_package(row[0])
+          next if n==1 or row.join.blank? 
+          component =Component.find_by_package(row[0])       
+          if !component
             component.create(
                             :package => row[0],
                             :softwarecomponent =>row[1],
                             :applicationcomponent => row[2],
                             :changeperson => row[3]
                             )
+          else
+            component.softwarecomponent = row[1]
+            component.applicationcomponent = row[2]
+            component.changeperson = row[3]
+            component.save
           end
+
           @number += 1
         end
         flash[:notice] = "Import Successful! #{@number} records saved"
-        @component = Component.find_all_by_sql("SELECT * FROM Components WHERE Created_at > #{nowtime} ")       
+        @component = Component.find(1)      
       else
         flash[:notice] = "Please select a file and import!"
         redirect_to :action=>:import

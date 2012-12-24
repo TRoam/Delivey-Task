@@ -1,29 +1,31 @@
-<div id="commentModal" class="modal hide fade" >
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<div id="commentmyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+    <button type="button"  id="checkman_<%= @checkman.id%>" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Comments and Detail information</h3>
+  </div>
+  <div class="modal-body">
 <div id="item-detail">
 	<div class="alert alert-info" id="checkman_<%= @checkman.id%>">
-	<h4>Detail information</h4>
+	<h5>Detail information</h5>
 	 
 	 <li>DLM:<br /><%= @checkman.dlm%></li>
-	 <li>Realease system:<br /><%= @checkman.release%></li>
-	 <li>1st Fount:<br /><%= @checkman.foundat%></li>
-	 <li>Update at:<br /><%= @checkman.updated_at%></li>
-	 <li>Unique Id:<br /><%= @checkman.uniqueid%></li>
+	 <li>1st Fount:<%= @checkman.foundat%></li>
+	 <li>Update at:<%= @checkman.updated_at%></li>
+	 <li>Unique Id:<%= @checkman.uniqueid%></li>
 </div>
 </div>
-
 <div class="alert" id="old-comment">
 <h5>Comments</h5>
  	<% @checkman.comments.each do |c|%>
  <div class="row-fluid" id="<%= c.id%>">
- 	<div class="span10">
- 	<%= c.commenter%> at <%= c.updated_at%>Says:<br /><%= c.content%>
- 	</div>
- 	<div class="span2">
-       <%= c.feedback%>
+ 	<div class="span12">
+ 		<strong>Time:</strong><%= c.updated_at%> <br />
+ 		<strong>Chang By:</strong><%= c.commenter%><br />
+ 	    <strong> Comntent:</strong><%= c.content%><br />
+ 	    <strong>Status:</strong><%= c.feedback%><br />
  	</div>
  </div>
- ---------------------------------------------
+ ----------------------------------------------------------
  <%end%>
 </div>	
 <fieldset>
@@ -38,12 +40,17 @@
 <%= c.radio_button :feedback,"solved"%><i class="icon-check"></i>solved
 </label>
 </div>
-<div class="alert alert-info" style="padding:5px">
+<div class="alert alert-info" >
 <p class="help-block">Your comment</p>
 <%= c.text_area :content ,:placeholder =>"Please enter your comment here" ,:style =>"height:60px"%>
 <%end%>
 </div>
-<%= f.submit 'Submit'%>
-<%end%>
+
 </fieldset>
+</div>
+<div class="modal-footer">
+   
+    <%= f.submit 'Submit',:class=>"btn"%>
+<%end%>
+  </div>
 </div>

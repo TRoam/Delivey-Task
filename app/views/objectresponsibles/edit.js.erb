@@ -1,7 +1,11 @@
+$("#object_edit_area").find("div").remove();
+$("table#checkmen tr").css('background','');
+$("#checkmen").find("#object_<%= @object.id%>").css('background','#66FF66');
 $("#object_edit_area").append("<%= j render :partial => 'form'%>")
-var divheight = $("#object_edit_area").height();
-var windowheight = $(window).height();
-if(divheight > windowheight){
-	$("#object_edit_area").find("div:first").remove();
-	return;
-}
+$("#object_edit_area").find(".close").bind(
+	'click',
+	function(event){
+		var tableid = '#' +$(this).attr("id");
+		$("#checkmen").find(tableid).css('background','');
+	}
+	)

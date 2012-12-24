@@ -1,3 +1,4 @@
+<div class="span10" >
 <h1>Object information</h1>
 
 <div style="margin-bottom: 15px">
@@ -15,7 +16,7 @@
 		<th>Package</th>
 		<th>Contact</th>
 		<th>Responsible Person</th>
-		<th></th>
+		<th style="display: none"></th>
 	</thead>
 	<tbody>
 		<% @object.each do |object|%>
@@ -25,16 +26,18 @@
 		<td><%= object.component.package %></td>
 		<td><%= object.contact%></td>
 		<td><%= object.person.responsibleperson%></td>			
-		<td><%= link_to "" , edit_objectresponsible_path(object.id),:remote=>true,:class=>"icon-pencil"%></td>
+		<td style="display:none"><%= link_to "" , edit_objectresponsible_path(object.id),:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
 	</tbody>	
 </table>
 </div>
-<%= content_for :rightside do%>
+</div>
+<div class="span2" >
 <div id="person_right">
-	<div id="object_edit_area">
 	<div id="object_create_area"></div>
+	<div id="object_edit_area">
+	
 	</div>
 </div>
-<%end%>
+</div>

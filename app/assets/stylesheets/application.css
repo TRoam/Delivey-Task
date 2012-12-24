@@ -33,9 +33,6 @@
  body{
    background-image:url("background.png");
  }
- #item-detail{
-  margin-top: 30px;
- }
  #create_form{
   display: none;
  }

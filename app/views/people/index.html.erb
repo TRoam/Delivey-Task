@@ -1,3 +1,4 @@
+<div class="span10" >
 <h1>Person information</h1>
 <div class="alert alert-success">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -9,7 +10,7 @@
 		<th>SAP Name</th>
 		<th>ID</th>
 		<th>Email</th>
-		<th>Aactive</th>
+		<th style="display:none">Aactive</th>
 	</thead>
 	<tbody>
 		<% @person.each do |c|%>
@@ -18,11 +19,12 @@
 		<td><%= c.sapname%></td>
 		<td><%= c.eid%></td>
 		<td><%= c.email%></td>		
-		<td><%= link_to "" , edit_person_path(c.id) ,:remote=>true,:class=>"icon-pencil"%></td>
+		<td style="display:none"><%= link_to "" , edit_person_path(c.id) ,:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
 	</tbody>	
 </table>
-<%= content_for :rightside do%>
+</div>
+<div class="span2" >
 <div id="person_edit_area"></div>
-<%end%>
+</div>

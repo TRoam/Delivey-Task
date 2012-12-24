@@ -1,8 +1,8 @@
-<h1>All Compoents </h1>
-
+<div class="span10" >
+  <h1>All Compoents </h1>
 <div  style="margin-bottom: 15px">
 <button id="component-create-button" class="btn btn-info" data-toggle="button">Create</button>
-<button id="component-import" class="btn btn-info" data-toggle="button">Import</button>
+<button id="component-import" class="btn btn-info " data-toggle="button">Import</button>
 </div>
 <div id="component-import-form">
 	<div class="alert alert-info">
@@ -11,17 +11,18 @@
     </div>
     <div class="alert alert-success">
 	<strong>You can import a file</strong>
-	<%= form_tag :url=>{:action=>:upload},:html =>{:multipart => true} do%>
+	<%= form_tag :action=>:upload ,:html =>{:multipart => true} do%>
 	<%= file_field_tag :file%>	
     <%= submit_tag "Import"%>
     <% end %> 
-    </div>   
+    </div>  
 </div>
 <div class="alert alert-success">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <%= notice%>
 </div>
 <%= render "import"%>
+
 <div id="mytable">
 <table id="checkmen" class="display">
 	<thead>
@@ -37,7 +38,8 @@
 	</tbody>	
 </table>
 </div>
-<%= content_for :rightside do%>
+</div>
+<div class="span2" >
 <div id="create_form">
   <div class="alert alert-success" id="component_<%=@component.id%>" style="padding:5px">
 <%= form_for(@component, :remote => true) do |f| %>
@@ -74,4 +76,4 @@
 </div>
 </div>
 <div id="edit_area"></div>
-<%end%>
+</div>

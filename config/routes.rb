@@ -6,11 +6,11 @@ DeliveryManagementTaskBoard::Application.routes.draw do
        post 'mail_multiple'
        get 'item_detail'
        get 'import'
+       post 'upload'
        match  'search' =>'checkmen#search', :via => [:get ,:post], :as => :search
      end
 
    end
-   post "checkmen/import"  => "checkmen#upload"
    resources :components do
      member do
        get 'detail'

@@ -5,7 +5,7 @@ class CreateComments < ActiveRecord::Migration
       t.string  :commenter
       t.text    :content
       t.string  :feedback ,:default =>"open"
-
+      
       t.timestamps
     end
   end

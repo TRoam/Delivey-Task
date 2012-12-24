@@ -54,11 +54,9 @@ $(document).ready(function(){
   //close person edit
   //close item_detail imformation
   //close the comment
-  $("#comment_area").find(".close").live(
+  $("#commentmyModal").find(".close").live(
         'click',
          function(event){
-            $("#item-detail").empty();
-            $(this).parent().hide();
             var tableid = '#' + $(this).attr("id");
             $("#checkmen").find(tableid).css('background','');
   })

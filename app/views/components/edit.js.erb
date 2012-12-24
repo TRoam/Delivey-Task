@@ -1,7 +1,11 @@
-$("#edit_area").append("<%= j render :partial => 'form'%>")
-var divheight = $("#edit_area").height();
-var windowheight = $(window).height();
-if(divheight > windowheight){
-	$("#edit_area").find("div:first").remove();
-	return;
-}
+$("#edit_area").find("div").remove();
+$("table#checkmen tr").css('background','');
+$("#checkmen").find("#component_<%= @component.id%>").css('background','#66FF66');
+$("#edit_area").append("<%= j render :partial => 'form'%>").css("margin-top","150px");
+$("#edit_area").find(".close").bind(
+	'click',
+	function(event){
+		var tableid = '#' +$(this).attr("id");
+		$("#checkmen").find(tableid).css('background','');
+	}
+	)

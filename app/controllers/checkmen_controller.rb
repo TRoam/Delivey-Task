@@ -15,7 +15,7 @@ class CheckmenController < ApplicationController
        else
           @objectresponsible = @q.result
           @checkman = Array.new()
-          @objectresponsible.each do |o|
+          @objectresponsible.each do |o| 
             @checkman = @checkman + o.checkmen.all
           end
        end
@@ -90,58 +90,72 @@ class CheckmenController < ApplicationController
     @uploadrel = Array.new
     if request.post?
       #initialize release ,importnumber 
-      temp_release = params[:upload][:release]
+      temp_release = params[:release]
       n , m = 0,0
             #check file1
-      if params[:upload][:file1]
+        if params[:file1]&&params[:release]!="NULL"&&params[:isprodrel]!="NULL"
+          @result = Checkman.upload_to_database(params[:file1],temp_release,params[:isprodrel])
+          @checkman= Checkman.find_all_by_status("open")
+          respond_to do |format|
+            format.html
+          end
+          else
+            if !params[:file1]
+              render :js =>"alert('Oops!Please chose one file!');" 
+            else
+              if params[:isprodrel] == "NULL"
+                render "Oops!Please select if it Prod.rel!"
+              else
+                render "Oops!Please select a System!"
+              end
+            end
+          end
+       
         #this file is prodrel ,set prodrel true
         #get the path of import file
-        infile1 = params[:upload][:file1].read
-        linenumber1 = 0
-        #import file 
-        CSV.parse(infile1) do |row|
-          n += 1
-          #SKIP: header first or blank row
-          next if n==1 or row.join.blank?
-            row[1..7].each do |str|
-              unless Encoding.compatible?(str,1.to_s)
-                str = str.encode("UTF-8",undef: :replace)
-              end
-            end
-          @uploadrel[linenumber1] = row
-          linenumber1 +=1
-        end
-      end
+        # infile1 = params[:upload][:file1].read
+        # linenumber1 = 0
+        # #import file 
+        # CSV.parse(infile1) do |row|
+        #   n += 1
+        #   #SKIP: header first or blank row
+        #   next if n==1 or row.join.blank?
+        #     row[1..7].each do |str|
+        #       unless Encoding.compatible?(str,1.to_s)
+        #         str = str.encode("UTF-8",undef: :replace)
+        #       end
+        #     end
+        #   @uploadrel[linenumber1] = row
+        #   linenumber1 +=1
+        # end
+     
       #check and import file2
-      if params[:upload][:file2]
-        #save release ,prodrel
-        #this file is prodrel ,set prodrel false
-        #get the path of import file
-        infile2 = params[:upload][:file2].read
-        linenumber2 = 0
-        #import file 
-        CSV.parse(infile2) do |row|
-          m += 1
-          #SKIP: header first or blank row
-          next if m==1 or row.join.blank?
-          row[1..7].each do |str|
-              unless Encoding.compatible?(str,1.to_s)
-                str = str.encode("UTF-8",undef: :replace)
-              end
-            end
-          @uploadall[linenumber2] = row
-          linenumber2 += 1 
-        end
-      end
-      @importnumber = @uploadall.length + @uploadrel.length
-     flash[:notice] = "Import successful !, #{@importnumber} ,records are imported.Data are saving..."
+      # if params[:file2]
+        # Checkman.upload_to_database(params[:file2],temp_release,0)
+        # #save release ,prodrel
+        # #this file is prodrel ,set prodrel false
+        # #get the path of import file
+        # # infile2 = params[:upload][:file2].read
+        # # linenumber2 = 0
+        # # #import file 
+        # # CSV.parse(infile2) do |row|
+        # #   m += 1
+        # #   #SKIP: header first or blank row
+        # #   next if m==1 or row.join.blank?
+        # #   row[1..7].each do |str|
+        # #       unless Encoding.compatible?(str,1.to_s)
+        # #         str = str.encode("UTF-8",undef: :replace)
+        # #       end
+        # #     end
+        # #   @uploadall[linenumber2] = row
+        # #   linenumber2 += 1 
+        # # end
+      # end
+     #  @importnumber = @uploadall.length + @uploadrel.length
+     # flash[:notice] = "Import successful !, #{@importnumber} ,records are imported.Data are saving..."
      # Delayed::Job.enqueue(UploadJob.new(@uploadall,@uploadrel,temp_release))
     end    
-    respond_to do |format|
-      format.html
-      format.js
-    end
-    Checkman.upload_to_database(@uploadall,@uploadrel,temp_release)
+    # Checkman.upload_to_database(@uploadall,@uploadrel,temp_release)
   end
 
   def item_detail
@@ -157,10 +171,20 @@ class CheckmenController < ApplicationController
   end
   
   def mail_multiple 
+  @checkman_ids = params[:checkman_ids]
   @checkman = Checkman.find(params[:checkman_ids]) unless params[:checkman_ids].blank?
   @respeople = Array.new
   n = 0
   @checkman.each do |c|
+     if c.comments.first.nil?
+       Comment.create(
+            :feedback=>"address",
+            :checkman_id => c.id
+       )
+     else
+       c.comments.last.feedback ="address"
+       c.comments.last.save
+     end
       @respeople[n] = c.objectresponsible.person.responsibleperson
       n = n+1 
   end
@@ -249,6 +273,7 @@ class CheckmenController < ApplicationController
     end
     @send_type = 1 
   end
+  
     respond_to do |format|
       format.js
     end

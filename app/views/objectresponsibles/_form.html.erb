@@ -1,5 +1,5 @@
 <div class="alert alert-success" id="object_<%=@object.id%>">
-  <a class="close" data-dismiss="alert">×</a>
+  <a class="close" id="object_<%=@object.id%>" data-dismiss="alert">×</a>
 <%= form_for @object,:remote=>true do |f|%>
   <% if @object.errors.any? %>
     <div id="error_explanation">
