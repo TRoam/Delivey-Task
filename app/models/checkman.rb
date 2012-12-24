@@ -58,8 +58,8 @@ class Checkman < ActiveRecord::Base
                           object.component_id = component.id           
                  end
                 check.objectresponsible_id = object.id
-                #save object_responsible
-                
+            #save object_responsible
+                object.save
             #save check_man
                 check.save
             # record ++
