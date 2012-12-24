@@ -5,7 +5,6 @@ class ObjectresponsiblesController < ApplicationController
     flash[:notice] ="Hi ,there are #{@number} objects!"
   end
   def edit
-     
     @object = Objectresponsible.find(params[:id])
   end
   
@@ -52,10 +51,10 @@ class ObjectresponsiblesController < ApplicationController
       @object = Objectresponsible.new
       @package = Component.all
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @object }
-      format.js
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @object }
+        format.js
     end
     end
     

@@ -22,7 +22,6 @@
  		<strong>Time:</strong><%= c.updated_at%> <br />
  		<strong>Chang By:</strong><%= c.commenter%><br />
  	    <strong> Comntent:</strong><%= c.content%><br />
- 	    <strong>Status:</strong><%= c.feedback%><br />
  	</div>
  </div>
  ----------------------------------------------------------
@@ -30,22 +29,22 @@
 </div>	
 <fieldset>
 <%= form_for @checkman,:url=>{:controller=>:checkmen,:action=>:update},:html=>{:multipart=>true},:remote=>true  do |f|%>
-<%= f.fields_for :comments do |c|%>
 <div class="alert alert-success">
 <p class="help-block">Please chose the status of this item</p>
 <label class="radio">
-<%= c.radio_button :feedback,"open"%><i class="icon-share"></i>open
+<%= f.radio_button :feedback,"open"%><i class="icon-share"></i>open
 </label>
 <label class="radio">
-<%= c.radio_button :feedback,"solved"%><i class="icon-check"></i>solved
+<%= f.radio_button :feedback,"solved"%><i class="icon-check"></i>solved
 </label>
 </div>
+<%= f.fields_for :comments do |c|%>
+
 <div class="alert alert-info" >
 <p class="help-block">Your comment</p>
 <%= c.text_area :content ,:placeholder =>"Please enter your comment here" ,:style =>"height:60px"%>
 <%end%>
 </div>
-
 </fieldset>
 </div>
 <div class="modal-footer">

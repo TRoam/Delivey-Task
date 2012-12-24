@@ -4,7 +4,6 @@ class CreateComments < ActiveRecord::Migration
       t.integer :checkman_id
       t.string  :commenter
       t.text    :content
-      t.string  :feedback ,:default =>"open"
       
       t.timestamps
     end

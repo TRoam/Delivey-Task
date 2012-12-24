@@ -1,7 +1,7 @@
 <div class="alert alert-info" style="padding-left: 5px">
   <a class="close" data-dismiss="alert">×</a>
 <%= form_for @object,:remote=>true do |f|%>
-<%= f.fields_for :component do |c|%>
+<%= f.fields_for :package do |c|%>
   <div class="field">
   	<%= c.label :Package%>
   	<%= c.select  :package, options_from_collection_for_select(@package,:id,:package) %>

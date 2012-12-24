@@ -1,6 +1,9 @@
 <tr id="component_<%=component.id%>">
-	<td><%= link_to  component.package,:action => :detail,:id=>component.id%></td>
-	<td><%= component.softwarecomponent%></td>
-	<td><%= component.applicationcomponent%></td>
+	<td><%= link_to  component.applicationcomponent ,:action => :detail,:id=>component.id%></td>
+	<td><%= component.decription%></td>
+	<td><%= component.original%></td>
+	<td><%= component.dev_comp_owner %></td>
+	<td><%= component.dev_product_owner %></td>
+	<td><%= component.ims_manager %></td>
 	<td><%= link_to "" , edit_component_path(component.id) ,:remote=>true,:class=>"icon-pencil"%></td>
 </tr>

@@ -1,10 +1,10 @@
+<%= @checkman_ids.each do |c|%>
+ $("tr#checkman_<%=c%>").css("color","#FFFF00");
+<%end%>
 if (<%= @send_type%> == 0) {
-
    alert("send mail successful!");
-
 }
- else{
-   
+ else{ 
     $("<%= j render :partial =>'mail_multiple'%>").modal();
  };
 

@@ -2,7 +2,7 @@
 <h1>Object information</h1>
 
 <div style="margin-bottom: 15px">
-<%= link_to "Create Object_Responsible" ,new_objectresponsible_path,:remote=>true,:class=>"btn btn-info"%>
+<%= link_to "Create Object" ,new_objectresponsible_path,:remote=>true,:class=>"btn btn-info"%>
 </div>
 <div class="alert alert-success">
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -14,6 +14,7 @@
 		<th>Object Name</th>
 		<th>Object Type</th>
 		<th>Package</th>
+		<th>Appl.Component</th>
 		<th>Contact</th>
 		<th>Responsible Person</th>
 		<th style="display: none"></th>
@@ -23,13 +24,14 @@
 		<tr id="object_<%= object.id%>">
 		<td><%= link_to  object.objectname,:action => :detail,:id=>object.id%></td>
 		<td><%= object.objecttype%></td>
-		<td><%= object.component.package %></td>
+		<td><%= object.package.package %></td>
+		<td><%= link_to  object.component.applicationcomponent,detail_components_path(object.id)%></td>
 		<td><%= object.contact%></td>
 		<td><%= object.person.responsibleperson%></td>			
 		<td style="display:none"><%= link_to "" , edit_objectresponsible_path(object.id),:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
-	</tbody>	
+	</tbody>
 </table>
 </div>
 </div>
@@ -37,7 +39,6 @@
 <div id="person_right">
 	<div id="object_create_area"></div>
 	<div id="object_edit_area">
-	
 	</div>
 </div>
 </div>

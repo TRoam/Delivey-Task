@@ -25,10 +25,12 @@ gem 'will_paginate'
 gem 'jquery-rails'
 gem 'delayed_job_active_record'
 gem 'daemons'
+# fixxed win32ole error
 gem "spreadsheet"
 gem 'ruby-ntlm'
 gem 'acts_as_xlsx'
 gem 'ruby-ole','1.2.11.4'
+# import file
 gem 'roo'
 # gem 'simple_form'
 # To use ActiveModel has_secure_password

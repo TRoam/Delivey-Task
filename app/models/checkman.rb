@@ -49,13 +49,14 @@ class Checkman < ActiveRecord::Base
                      )
                   
        #update component information
-                          component=Component.find_by_package(a[6])
-                           if !component
-                                component=Component.create(
-                                            :package => a[6]
-                                           )                
+                          package =Package.find_by_package(a[6])
+                           if !package
+                                package=Package.create(
+                                            :package => a[6],
+                                            :component_id =>1
+                                           )
                            end
-                          object.component_id = component.id           
+                          object.package_id = package.id           
                  end
                 check.objectresponsible_id = object.id
             #save object_responsible

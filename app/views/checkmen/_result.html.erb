@@ -33,7 +33,7 @@
 		<td ><%= checkman.priority %></td>
 		<td ><%= checkman.release%></td>
 		<td ><%= checkman.objectresponsible.component.applicationcomponent%></td>
-		<td ><%= link_to checkman.objectresponsible.component.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
+		<td ><%= link_to checkman.objectresponsible.package.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
 		<td ><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
 		<td ><%if checkman.prodrel? %>
 			<i class="icon-ok"></i>True
@@ -43,9 +43,12 @@
 		</td>
 		<td>
 			<span>
-	    	<% if checkman.comments.empty?||checkman.comments.last.feedback=="open"%>
-	    	<i class="icon-share"></i>open
-			<%else%>
+	    	<% case checkman.feedback %>
+	    	<% when "open" %>
+	    	<i class="icon-share"></i>Open
+	    	<% when "addressed"%> 
+	    	<i class="icon-download-alt"></i>Addressed
+			<% when "solved"%>
 			<i class="icon-check"></i>solved
 			<%end%>
 	    	</span>

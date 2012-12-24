@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121119055626) do
+ActiveRecord::Schema.define(:version => 20121224054536) do
 
   create_table "checkmen", :force => true do |t|
     t.string   "status",               :default => "open"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20121119055626) do
     t.string   "key"
     t.integer  "ncount"
     t.integer  "objectresponsible_id"
+    t.string   "feedback",             :default => "open"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
   end
@@ -34,17 +35,18 @@ ActiveRecord::Schema.define(:version => 20121119055626) do
     t.integer  "checkman_id"
     t.string   "commenter"
     t.text     "content"
-    t.string   "feedback",    :default => "open"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "components", :force => true do |t|
-    t.string   "package"
     t.string   "softwarecomponent"
     t.string   "applicationcomponent"
-    t.date     "changeon"
-    t.string   "changeperson"
+    t.text     "description"
+    t.string   "original"
+    t.string   "dev_comp_owner"
+    t.string   "dev_product_owner"
+    t.string   "ims_manager"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
   end
@@ -68,11 +70,18 @@ ActiveRecord::Schema.define(:version => 20121119055626) do
   create_table "objectresponsibles", :force => true do |t|
     t.string   "objectname"
     t.string   "objecttype"
-    t.string   "contact",      :default => "SAP"
+    t.string   "contact",    :default => "SAP"
     t.integer  "person_id"
+    t.integer  "package_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "packages", :force => true do |t|
+    t.string   "package"
     t.integer  "component_id"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "people", :force => true do |t|

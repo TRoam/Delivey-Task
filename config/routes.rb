@@ -16,6 +16,8 @@ DeliveryManagementTaskBoard::Application.routes.draw do
        get 'detail'
      end
      collection do
+       post 'package_to_component'
+       get  'custom'
        post 'import'
        post 'upload'
      end

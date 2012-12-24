@@ -78,46 +78,66 @@ class ComponentsController < ApplicationController
     end
     end
     
-    def import      
-    end
+   
 
     def upload
+
       #nil?
       if request.post? && params[:file]
-        nowtime = Time.new
-        n ,@number= 0
-        file = params[:file]
-        CSV.parse(file) do |row|
-          n +=1
-          #SKIP:header first or blank row
-          next if n==1 or row.join.blank? 
-          component =Component.find_by_package(row[0])       
-          if !component
-            component.create(
-                            :package => row[0],
-                            :softwarecomponent =>row[1],
-                            :applicationcomponent => row[2],
-                            :changeperson => row[3]
-                            )
-          else
-            component.softwarecomponent = row[1]
-            component.applicationcomponent = row[2]
-            component.changeperson = row[3]
-            component.save
-          end
 
-          @number += 1
-        end
-        flash[:notice] = "Import Successful! #{@number} records saved"
-        @component = Component.find(1)      
+        Component.upload_component(params[:file])
+        render :js =>"alert('Upload Successful');"
+      #   nowtime = Time.new
+      #   n ,@number= 0
+      #   file = params[:file]
+      #   CSV.parse(file) do |row|
+      #     n +=1
+      #     #SKIP:header first or blank row
+      #     next if n==1 or row.join.blank? 
+      #     component =Component.find_by_package(row[0])       
+      #     if !component
+      #       component.create(
+      #                       :package => row[0],
+      #                       :softwarecomponent =>row[1],
+      #                       :applicationcomponent => row[2],
+      #                       :changeperson => row[3]
+      #                       )
+      #     else
+      #       component.softwarecomponent = row[1]
+      #       component.applicationcomponent = row[2]
+      #       component.changeperson = row[3]
+      #       component.save
+      #     end
+
+      #     @number += 1
+      #   end
+      #   flash[:notice] = "Import Successful! #{@number} records saved"
+      #   @component = Component.find(1)      
       else
-        flash[:notice] = "Please select a file and import!"
-        redirect_to :action=>:import
+         render :js =>"alert('Please choose a file!');"
       end
     #rescue => exception 
     # If an exception is thrown, the transaction rolls back and we end up in this rescue bloc
     # get the error and HTML escape it 
     #   flash[:notice] = "There are some errors during import,please try again!"
     #  redirect_to :action =>:impot
+    end
+
+    def custom
+      @component = Component.all
+      @package   = Package.where("component_id =?",1)
+    end
+
+    def package_to_component
+      component_id = params[:component]
+      @package_ids = params[:checkman_ids]
+      @package =Package.find(params[:checkman_ids])
+      @package.each do |p|
+        p.component_id = component_id
+        p.save
+      end
+      respond_to do |format|
+        format.js
+      end
     end
 end

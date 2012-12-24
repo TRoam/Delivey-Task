@@ -55,9 +55,9 @@ class CheckmenController < ApplicationController
     @checkman = Checkman.find(params[:id]) 
     comment = Comment.create(
            :content => params[:checkman][:comments][:content],
-           :checkman_id =>params[:id],
-           :feedback => params[:checkman][:comments][:feedback]
+           :checkman_id =>params[:id]
       )
+    @checkman.feedback = params[:checkman][:feedback]
     @comment = @checkman.comments.last
     respond_to do |format|
       if @checkman.save
@@ -176,15 +176,8 @@ class CheckmenController < ApplicationController
   @respeople = Array.new
   n = 0
   @checkman.each do |c|
-     if c.comments.first.nil?
-       Comment.create(
-            :feedback=>"address",
-            :checkman_id => c.id
-       )
-     else
-       c.comments.last.feedback ="address"
-       c.comments.last.save
-     end
+      c.feedback = "Addressed"
+      c.save
       @respeople[n] = c.objectresponsible.person.responsibleperson
       n = n+1 
   end
@@ -273,7 +266,6 @@ class CheckmenController < ApplicationController
     end
     @send_type = 1 
   end
-  
     respond_to do |format|
       format.js
     end
@@ -297,7 +289,6 @@ class CheckmenController < ApplicationController
           end
           message.Attachments.Add(@filepath, 1)  
           message.Send 
-
        respond_to do |format|
         format.js
        end

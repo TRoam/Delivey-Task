@@ -13,6 +13,7 @@ class CreateCheckmen < ActiveRecord::Migration
       t.string  :key
       t.integer :ncount
       t.integer :objectresponsible_id
+      t.string  :feedback ,:default =>"open"
       
       t.timestamps 
    

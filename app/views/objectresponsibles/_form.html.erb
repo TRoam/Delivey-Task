@@ -12,9 +12,11 @@
     </div>
   <% end %>
     <%= f.label :package %>
-    <input class="span12 input-xlarge" id="disabledInput" type="text" placeholder="<%= @object.component.package %>" disabled>
+    <input class="span12 input-xlarge" id="disabledInput" type="text" placeholder="<%= @object.package.package %>" disabled>
   	<%= f.label :Objectname%>
-     <input class="span12 input-xlarge" id="disabledInput" type="text" placeholder="<%= @object.objectname %>" disabled>
+     <input  type="text" placeholder="<%= @object.objectname %>" disabled>
+     <%= f.label :Application_Component %>
+     <input class="span12 input-xlarge" id="disabledInput" type="text" placeholder="<%= @object.component.applicationcomponent%>" disable>
   <div class="field">
     <%=f.label :Contact%>
     <input class="span12 input-xlarge" id="disabledInput" type="text" placeholder="<%= @object.contact %>" disabled>

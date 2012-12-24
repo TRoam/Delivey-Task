@@ -1,7 +1,8 @@
 <tr id="object_<%= @object.id%>">
 <td><%= link_to  @object.objectname,:action => :detail,:id=>@object.id%></td>
 <td><%= @object.objecttype%></td>
-<td><%= @object.component.package %></td>	
+<td><%= @object.package.package %></td>	
+<td><%= link_to  @object.component.applicationcomponent,detail_components_path(@object.id)%></td>
 <td><%= @object.contact%></td>
 <td><%= @object.person.responsibleperson%></td>			
 <td><%= link_to "" , edit_objectresponsible_path(@object.id),:remote=>true,:class=>"icon-pencil"%></td>
