@@ -36,8 +36,8 @@ DeliveryManagementTaskBoard::Application.configure do
   config.action_mailer.smtp_settings = {
     :address              => "mail.sap.com",
     :port                 => 25,
-    :user_name            => 'roam.tang',
-    :password             => 'TGF615twf',
+    :user_name            => '',
+    :password             => '',
     :authentication       => :ntlm,
     :domain               =>"sap.com",
     :enable_starttls_auto => true

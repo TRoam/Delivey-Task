@@ -92,8 +92,8 @@ class PeopleController < ApplicationController
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
          @filepath = @person.responsibleperson+"_checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"
-         filepath = "C:/Users/I076609/Documents/Aptana Studio 3 Workspace/Delivery Management Task Board/"+@filepath
          book.write @filepath
+         filepath = File.expand_path(@filepath)
           WIN32OLE.ole_initialize
           outlook = WIN32OLE.new('Outlook.Application')  
           message = outlook.CreateItem(0)  

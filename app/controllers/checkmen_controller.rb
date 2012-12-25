@@ -216,8 +216,8 @@ class CheckmenController < ApplicationController
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
          filepath = r+"_checkman_error_"+current_checkman.first.release+"_"+current_checkman.first.ncount.to_s+"_"+current_checkman.count.to_s+".xls"
-         cu_filepath = "C:/Users/I076609/Documents/Aptana Studio 3 Workspace/Delivery Management Task Board/"+filepath
          book.write filepath
+         cu_filepath = File.expand_path(filepath)
           WIN32OLE.ole_initialize
           outlook = WIN32OLE.new('Outlook.Application')  
           message = outlook.CreateItem(0)  
@@ -250,9 +250,9 @@ class CheckmenController < ApplicationController
                                    :size => 11,
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
-         filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"
-         @cu_filepath = "C:/Users/I076609/Documents/Aptana Studio 3 Workspace/Delivery Management Task Board/"+filepath
+         filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"  
          book.write filepath
+         @cu_filepath = File.expand_path(filepath)
     @person = Person.find_all_by_responsibleperson(@respeople)
     @c_mail_content  = "Hi ,\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
     m = 0
