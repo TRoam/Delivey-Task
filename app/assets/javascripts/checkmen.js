@@ -61,10 +61,29 @@ $(document).ready(function(){
             $("#checkmen").find(tableid).css('background','');
   })
   // Table format --with DATATABLE
+   $('#component').dataTable(
+  {
+      // "bJQueryUI": true,
+    "bProcessing": true,
+    "iDisplayLength":30,
+    // "bServerSide": true,
+    // "sScrollX": "100%",
+    "bStateSave": true,
+    // "bScrollCollapse": true,
+     "iCookieDuration": 60*60*24,
+     "bLengthChange": false,
+     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
+    // "bSortCellsTop": false,
+    "sZeroRecords": "Nothing found - sorry",
+    // "sScrollY": "400",
+    // "bScrollCollapse": true,
+    "sPaginationType": "full_numbers"
+  });
   $('#package').dataTable(
   {
       // "bJQueryUI": true,
     "bProcessing": true,
+    "iDisplayLength":30,
     // "bServerSide": true,
     // "sScrollX": "100%",
     "bStateSave": true,

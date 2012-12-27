@@ -2,6 +2,7 @@
 class Checkman < ActiveRecord::Base
   attr_accessible :objectname,:status,:foundat,:priority,:checkid,:messageid,:uniqueid,:release,:prodrel,:count,:key,:ncount,:feedback,:comments
   belongs_to :objectresponsible
+
   has_many   :comments
     def self.upload_to_database(file,temp_release,isp)
       @upload = Array.new
@@ -13,7 +14,7 @@ class Checkman < ActiveRecord::Base
         row_number = row_number+1
       end
       c = Checkman.limit(1).where("status = ? and release = ?", "open", temp_release)
-      if c
+      if c.nil?
         temp_count = c[0].ncount
       else
         temp_count = 0
@@ -44,16 +45,20 @@ class Checkman < ActiveRecord::Base
                     object = Objectresponsible.create(
                       :objectname => a[3],
                       :contact => a[5],
-                      :objecttype => a[4],
-                      :person_id =>1
+                      :objecttype => a[4]
                      )
-                  
+                    person = Person.find_by_responsibleperson(a[5])
+                    if !person
+                      person = Person.create(
+                        :responsibleperson => a[5]
+                        )
+                    end
+                    object.person_id = person.id
        #update component information
                           package =Package.find_by_package(a[6])
                            if !package
                                 package=Package.create(
-                                            :package => a[6],
-                                            :component_id =>1
+                                            :package => a[6]
                                            )
                            end
                           object.package_id = package.id           

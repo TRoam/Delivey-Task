@@ -1,0 +1,23 @@
+<h3>Packages</h3>
+<hr>
+<%= link_to "Assign",custom_packages_path,:class => "btn btn-info"%>
+<table id="checkmen">
+    <thead id="checkmen">
+    	<th>Package</th>
+    	<th>Appl.Component</th>
+    	<th>Owner</th>
+    </thead>
+    <tbody>
+        <%  @package.each do |p|%>
+        <tr>
+    	<td><%= p.package %></td>
+    	<td>
+            <% if !p.component_id.nil? %>
+            <%= p.component.applicationcomponent %>
+            <%end%>
+        </td>
+    	<td><%= p.owner %></td>
+        </tr>
+        <% end -%>
+    </tbody>
+</table>

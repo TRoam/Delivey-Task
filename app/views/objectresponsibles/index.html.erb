@@ -1,5 +1,6 @@
 <div class="span10" >
-<h1>Object information</h1>
+<h3>Object information</h3>
+<hr>
 
 <div style="margin-bottom: 15px">
 <%= link_to "Create Object" ,new_objectresponsible_path,:remote=>true,:class=>"btn btn-info"%>
@@ -25,7 +26,11 @@
 		<td><%= link_to  object.objectname,:action => :detail,:id=>object.id%></td>
 		<td><%= object.objecttype%></td>
 		<td><%= object.package.package %></td>
-		<td><%= link_to  object.component.applicationcomponent,detail_components_path(object.id)%></td>
+		<td>
+			<% if object.package.component_id.nil? %>
+			<%else%>
+			<%= link_to object.package.component.applicationcomponent,detail_component_path(object.id)%></td>
+			<% end -%>
 		<td><%= object.contact%></td>
 		<td><%= object.person.responsibleperson%></td>			
 		<td style="display:none"><%= link_to "" , edit_objectresponsible_path(object.id),:remote=>true,:class=>"icon-pencil"%></td>

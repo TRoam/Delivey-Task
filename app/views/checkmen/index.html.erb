@@ -9,7 +9,7 @@
       <strong>File:</strong> <%= file_field_tag :file1%>
        <strong>Prod.Rel:</strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","YES"=>1,"No"=>0,},:selected=>"") %>
         <strong>Release:</strong><%= select_tag :release  ,options_for_select({""=>"NULL","EHP7"=>"V7Z","EHP6"=>"C6Z","EHP6H"=>"EXC"},:selected=>"")%>
-<%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:200px"%>  
+<%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>  
 <% end %>
 </div>
 </div>
@@ -19,20 +19,17 @@
 <div id="search_form">
 <%= search_form_for @q, url: search_checkmen_path, method: :post do |f|%>
  <div class="field">
- <fieldset>
-  <legend>Condition </legend>
   <%= f.condition_fields do |c| %>
     <%= render "condition_fields", f: c %>
   <% end %>
   <%= link_to_add_fields "Add Conditions", f, :condition %>
-  </fieldset>
   </div>
-  <div class="actions"><%= f.submit "Search" %></div>
+  <div class="actions"><%= f.submit "Search" ,  :class => "btn btn-info"%></div>
 <% end %>
 </div>
-<div id="import-result">
+<!-- <div id="import-result">
   <a class="close" data-dismiss="alert">×</a>
-</div>
+</div> -->
 <%= render "importhelp"%>
     <div id="main-alert" class="alert alert-info">
       <%= notice%>

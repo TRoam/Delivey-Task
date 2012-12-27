@@ -1,0 +1,42 @@
+<div class="alert alert-info" style="margin-top: 20px">
+		<%= notice%>
+	</div>
+	<%= form_tag package_to_component_packages_path ,:remote=>true  do%>
+<div class="span5">
+	
+	<table id="package">
+		<thead>
+			<th><input type="checkbox" onclick="toggle_checkall('checkman', this.checked);" /></th>
+			<th>Package</th>
+		</thead>
+		<tbody >
+			<%@package.each do |p| %>
+			<tr id="package_<%= p.id%>">
+				<td id="check_box"><%= check_box_tag "checkman_ids[]", p.id %></td>
+				<td><%= p.package %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+
+<div class="span1">
+	<%= submit_tag "Submit",:class => "btn "%>
+</div>
+<div class="span5">
+	<table id="component">
+		<thead>
+			<th></th>
+			<th>Appl.Component</th>
+		</thead>
+		<tbody>
+			<%@component.each do |c|%>
+			<tr>
+			<td><%= radio_button_tag 'component',c.id %></td>
+			<td><%= c.applicationcomponent %></td>
+			</tr>
+		    <% end %>
+		</tbody>
+	</table>
+</div>
+<% end %>

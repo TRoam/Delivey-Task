@@ -39,17 +39,17 @@ class ComponentsController < ApplicationController
      end
     end
     def detail
-      @component = Component.find(params[:id])
-      @checkman = @component.checkmen.find_all_by_status("open")
+      @package = Package.find(params[:id])
+      @checkman = @package.checkmen.find_all_by_status("open")
       @count = @checkman.count
       if @count == 0 
          respond_to do |format|
-          format.html{flash[:notice] = "congratulations!There is no checkman errors in the component!"}
+          format.html{flash[:notice] = "congratulations!There is no checkman errors in the Package!"}
           format.js 
          end
       else
         respond_to do |format|
-          format.html{flash[:notice] = "In the package :  #{@component.package},there are #{@count} still open records!"}
+          format.html{flash[:notice] = "In the package :  #{@package.package},there are #{@count} still open records!"}
           format.js 
         end
       end
@@ -85,8 +85,11 @@ class ComponentsController < ApplicationController
       #nil?
       if request.post? && params[:file]
 
-        Component.upload_component(params[:file])
-        render :js =>"alert('Upload Successful');"
+        number= Component.upload_component(params[:file])
+        @components = Component.all
+        @component  = Component.new
+        flash[:notice] = "upload successful, add #{number}records"
+        render :index
       #   nowtime = Time.new
       #   n ,@number= 0
       #   file = params[:file]
@@ -123,21 +126,4 @@ class ComponentsController < ApplicationController
     #  redirect_to :action =>:impot
     end
 
-    def custom
-      @component = Component.all
-      @package   = Package.where("component_id =?",1)
-    end
-
-    def package_to_component
-      component_id = params[:component]
-      @package_ids = params[:checkman_ids]
-      @package =Package.find(params[:checkman_ids])
-      @package.each do |p|
-        p.component_id = component_id
-        p.save
-      end
-      respond_to do |format|
-        format.js
-      end
-    end
 end

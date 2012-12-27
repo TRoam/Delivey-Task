@@ -1,11 +1,10 @@
 <div class="span10" >
-  <h1>All Components </h1>
+  <h3>All Components </h3>
 <div  style="margin-bottom: 15px">
 
 <button id="component-create-button" class="btn btn-info" data-toggle="button">Create</button>
 
 <button id="component-import" class="btn btn-info " data-toggle="button">Import</button>
-<%= link_to "Packages Action",custom_components_path,:class => "btn btn-info"%>
 </div>
 <div id="component-import-form">
 	<div class="alert alert-info">
@@ -14,10 +13,10 @@
     </div>
     <div class="alert alert-success">
 	<strong>You can import a file</strong>
-	<%= form_tag upload_components_path ,:html =>{:multipart => true} ,:remote=>true do%>
+	<%= form_tag upload_components_path ,multipart: :true,:remote=>true do%>
 	<%= file_field_tag :file%>	
     <%= submit_tag "Import"%>
-    <% end %> 
+    <% end %>
     </div>  
 </div>
 <div class="alert alert-success">
@@ -25,7 +24,6 @@
   <%= notice%>
 </div>
 <%= render "import"%>
-
 <div id="mytable">
 <table id="checkmen" class="display">
 	<thead>

@@ -11,7 +11,7 @@ class CheckmenController < ApplicationController
      # @checkman = params[:distinct].to_i.zero? ? @q.result : @q.result(distinct: true)
      @q=Objectresponsible.search(params[:q])
        if params[:q].nil?
-         @checkman =Checkman.find_all_by_status("open")
+         @checkman =Checkman.limit(100).find_all_by_status("open")
        else
           @objectresponsible = @q.result
           @checkman = Array.new()

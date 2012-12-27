@@ -1,0 +1,12 @@
+<%if @result == 0%>
+<%@package.each do |p|%>
+$("#package_<%= p%>").remove();
+<%end%>
+alert("Update successful");
+<%else%>
+ <%if @result = 1%>
+ alert("Oops! Please choose a component");
+ <%else%>
+ alert("Please choose packages");
+ <%end%>
+<%end%>

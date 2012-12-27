@@ -27,11 +27,12 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 # fixxed win32ole error
 gem "spreadsheet"
+gem 'roo'
+# gem 'acts_as_xlsx'
 gem 'ruby-ntlm'
-gem 'acts_as_xlsx'
 gem 'ruby-ole','1.2.11.4'
 # import file
-gem 'roo'
+
 # gem 'simple_form'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -44,5 +45,5 @@ gem 'roo'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-#To use debugger
-gem 'debugger'
+# To use debugger
+# gem 'debugger'

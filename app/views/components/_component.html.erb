@@ -1,6 +1,6 @@
 <tr id="component_<%=component.id%>">
-	<td><%= link_to  component.applicationcomponent ,:action => :detail,:id=>component.id%></td>
-	<td><%= component.decription%></td>
+	<td><%= link_to_unless !component.packages.nil?, component.applicationcomponent ,:action =>:detail,:id=>component.id%></td>
+	<td><%= component.description%></td>
 	<td><%= component.original%></td>
 	<td><%= component.dev_comp_owner %></td>
 	<td><%= component.dev_product_owner %></td>

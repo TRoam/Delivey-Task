@@ -14,6 +14,9 @@
  *= require  dataTables/jquery.dataTables
  *= require_tree .
  */
+ .menu_image{
+   background: url(sap-logo.png) no-repeat;
+ }
  #T_mail_address{
    width: 450px;
  }
@@ -31,7 +34,7 @@
   width:1250px;
  }
  body{
-   background-image:url("background.png");
+   background-image:url("5752.png");
  }
  #create_form{
   display: none;

@@ -1,6 +1,8 @@
 <%= form_tag mail_multiple_checkmen_path, method: :patch_mail ,:remote =>true do %>
 <table id="checkmen" class="display">
-<div class="btn-group">
+
+	<thead>
+		<div class="btn-group">
   <%= submit_tag "Send Email", :class=>"btn btn-info"%>
   <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
@@ -9,7 +11,6 @@
    <%= submit_tag "Send to each Responsible",:class =>"dropdown-menu btn "%></a>
   </ul>
 </div>
-	<thead>
 		<th><input type="checkbox" onclick="toggle_checkall('checkman', this.checked);" /></th>
 		<th>Check ID</th>
 		<th>Message ID</th>
@@ -32,8 +33,13 @@
 		<td ><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
 		<td ><%= checkman.priority %></td>
 		<td ><%= checkman.release%></td>
-		<td ><%= checkman.objectresponsible.component.applicationcomponent%></td>
-		<td ><%= link_to checkman.objectresponsible.package.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.component.id%></td>
+		<td >
+			<% if checkman.objectresponsible.package.component_id.nil? %>
+			<%else%>
+			<%= checkman.objectresponsible.package.component.applicationcomponent%>
+ 			<%end%>
+		</td>
+		<td ><%= link_to checkman.objectresponsible.package.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.package.id%></td>
 		<td ><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
 		<td ><%if checkman.prodrel? %>
 			<i class="icon-ok"></i>True

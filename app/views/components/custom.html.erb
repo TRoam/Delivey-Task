@@ -1,7 +1,6 @@
-<div class="row">
 <%= form_tag package_to_component_components_path ,:remote=>true  do%>
 <%= submit_tag "Submit",:class => "btn"%>
-  <div class="span4">
+  <div class="span4" >
 	<table id="checkmen">
 		<thead>
 			<th></th>
@@ -9,14 +8,17 @@
 		</thead>
 		<tbody>
 			<%@component.each do |c|%>
+			<tr>
 			<td><%= radio_button_tag 'component',c.id %></td>
 			<td><%= c.applicationcomponent %></td>
+			</tr>
 		    <% end %>
+
 		</tbody>
 	</table>
 <div>
 
-<div class="span8 offset4">
+<div class="span8 offset8">
 	<table id="package">
 		<thead>
 			<th><input type="checkbox" onclick="toggle_checkall('checkman', this.checked);" /></th>
@@ -34,4 +36,3 @@
 </div>
 <div>
 <% end %>
-</div>
