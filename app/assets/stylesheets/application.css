@@ -14,6 +14,10 @@
  *= require  dataTables/jquery.dataTables
  *= require_tree .
  */
+ #link_menu{
+  font-size: 140%;
+  line-height: 150%;
+ }
  .menu_image{
    background: url(sap-logo.png) no-repeat;
  }

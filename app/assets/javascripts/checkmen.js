@@ -9,6 +9,16 @@ function toggle_checkall(field_name, state) {
     }
   }
 };
+function toggle_checkall(field_name,state){
+  var checkboxes = $("#package input")
+  var count = checkboxes.length;
+  for (var i = 0; i < count; i++) {
+    if (checkboxes[i].type == "checkbox"
+        && checkboxes[i].name == field_name + "_ids[]") {
+      checkboxes[i].checked = state;
+    }
+  }
+};
 
 // toggle comments and detail checkman information
 

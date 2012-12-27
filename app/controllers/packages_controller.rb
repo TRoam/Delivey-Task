@@ -15,7 +15,7 @@ class PackagesController < ApplicationController
       end
     end
 
-    def package_to_component
+def package_to_component
     if params[:component]&&params[:checkman_ids]
     	 component_id = params[:component]
       @package_ids = params[:checkman_ids]

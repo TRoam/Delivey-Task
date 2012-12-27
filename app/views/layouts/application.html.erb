@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
   <style>
       body {
-         margin-top: 40px/* 60px to make the container go all the way to the bottom of the topbar */
+         margin-top: 50px/* 60px to make the container go all the way to the bottom of the topbar */
         /* 40px*/
       }
     </style>
@@ -15,9 +15,10 @@
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
+
         <ul class="nav" style="margin-left: 20px" >
           <li class="dropdown"> 
-                <a href="../" class="brand dropdown-toggle " data-toggle="dropdown">Delivery<b class="caret"></b></a>
+                <a href="../" class="brand dropdown-toggle " data-toggle="dropdown"><%= image_tag("sap-logo.png") %><big><i>Delivery</i></big><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="../">Home</a></li>
                   <li><a href="#">Done Criteria</a></li>
@@ -38,11 +39,26 @@
           <!-- <div class="nav-collapse collapse"> -->
 
             <ul class="nav">
-              <li><%= link_to 'Checkman'  , checkmen_path %></li>
-              <li><%= link_to 'Object'    ,objectresponsibles_path  %></li>
-              <li><%= link_to 'Package'   ,packages_path %></li>
-              <li><%= link_to 'Appl.Component' ,components_path %></li>
-              <li><%= link_to 'Responsible'    ,people_path  %></li>
+              <li><%= link_to(checkmen_path) do%>
+                    <span id="link_menu">checkman</span>
+                    <% end -%>
+              </li>
+              <li><%= link_to objectresponsibles_path  do%>
+                  <span id="link_menu"> Object</span>
+                  <% end -%>
+              </li>
+              <li><%= link_to packages_path do%>
+                <span id="link_menu">Package</span>
+                <% end -%>
+              </li>
+              <li><%= link_to components_path do%>
+                  <span id="link_menu">Appl.Component</span>
+                  <% end -%>
+              </li>
+              <li><%= link_to people_path do %>
+                <span id="link_menu">Responsible</span>
+                <% end -%>
+              </li>
             </ul>
             
           <!-- </div>/.nav-collapse  -->

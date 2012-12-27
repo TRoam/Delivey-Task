@@ -1,5 +1,5 @@
 <%if @result == 0%>
-<%@package.each do |p|%>
+<%@package_ids.each do |p|%>
 $("#package_<%= p%>").remove();
 <%end%>
 alert("Update successful");
