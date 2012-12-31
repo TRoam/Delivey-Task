@@ -1,5 +1,5 @@
 //select all or unselectall
-function toggle_checkall(field_name, state) {
+function toggle_checkall_result(field_name, state) {
   var checkboxes = $("#checkmen input")
   var count = checkboxes.length;
   for (var i = 0; i < count; i++) {
@@ -38,7 +38,7 @@ $(document).ready(function(){
   }
     )
   // live event for every td ,and once click it ,the detial information will display
-  $("#checkmen tbody>tr td:not('#check_box')").live(
+  $(".display tbody>tr td:not('#check_box')").live(
     'click',
     function(){
       $(this).parent().find("a:last").trigger('click');

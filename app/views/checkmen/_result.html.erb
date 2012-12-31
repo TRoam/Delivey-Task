@@ -1,5 +1,5 @@
 <%= form_tag mail_multiple_checkmen_path, method: :patch_mail ,:remote =>true do %>
-<table id="checkmen" class="display">
+<table id="checkmen">
 
 	<thead>
 		<div class="btn-group">
@@ -11,7 +11,8 @@
    <%= submit_tag "Send to each Responsible",:class =>"dropdown-menu btn "%></a>
   </ul>
 </div>
-		<th><input type="checkbox" onclick="toggle_checkall('checkman', this.checked);" /></th>
+		<th><input type="checkbox" onclick="toggle_checkall_result('checkman', this.checked);" /></th>
+		<th>Status</th>
 		<th>Check ID</th>
 		<th>Message ID</th>
 		<th>Object Name</th>
@@ -21,13 +22,22 @@
 		<th>Package</th>
 		<th>Responsible</th>
 		<th>Prod.Rel</th>
-		<th>Status</th>
-	    <th style="display: none">Comment</th>
 	</thead>
 	<tbody>
 		<% @checkman.each do |checkman|%>
 		<tr id="checkman_<%= checkman.id%>">
 		<td id="check_box"><%= check_box_tag "checkman_ids[]", checkman.id %></td>
+		<td>
+			<%= link_to edit_checkman_path(checkman.id),:remote=>true  do %>
+			<span><i class="icon-pencil"></i>
+	    	<% if  checkman.feedback =="open" %>
+	    	Open
+	    	<% else%> 
+	    	Addressed
+			<%end%>
+	    	</span>
+	    	<% end -%>
+	    </td>
 		<td ><%= checkman.checkid%></td>
 		<td ><%= checkman.messageid%></td>
 		<td ><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
@@ -47,20 +57,6 @@
 			<i class="icon-remove"></i>False
 			<%end%>
 		</td>
-		<td>
-			<span>
-	    	<% case checkman.feedback %>
-	    	<% when "open" %>
-	    	<i class="icon-share"></i>Open
-	    	<% when "addressed"%> 
-	    	<i class="icon-download-alt"></i>Addressed
-			<% when "solved"%>
-			<i class="icon-check"></i>solved
-			<%end%>
-	    	</span>
-	    </td>
-	    
-	    <td style = "display:none"><span></span><%= link_to "", edit_checkman_path(checkman.id),:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
 	</tbody>

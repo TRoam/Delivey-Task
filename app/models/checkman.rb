@@ -72,9 +72,11 @@ class Checkman < ActiveRecord::Base
                   @number += 1
            else
                   # this item already exist then do
+                  if isp==1
+                      checkman.prodrel = 1
+                  end
                   check.status = "open"
                   check.ncount = temp_count + 1
-                  check.prodrel = 1
                   check.save
            end
        end

@@ -2,13 +2,14 @@
       Chose file and import new data, You can get import help 
       <a  data-toggle="modal" href="#import-help">here!</a>
     </div> -->
-<legend><h4>Checkman Overview </h4></legend>
+<h4>Checkman Overview </h4>
+<hr>
   <div >
 <%= form_tag upload_checkmen_path, multipart: :true ,:remote=>true do%>
   <div>
-      <strong>File:</strong> <%= file_field_tag :file1%>
+       <strong>File:</strong><%= file_field_tag :file1%>
        <strong>Prod.Rel:</strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","YES"=>1,"No"=>0,},:selected=>"") %>
-        <strong>Release:</strong><%= select_tag :release  ,options_for_select({""=>"NULL","EHP7"=>"V7Z","EHP6"=>"C6Z","EHP6H"=>"EXC"},:selected=>"")%>
+       <strong>&nbsp;&nbsp;&nbsp;Release:</strong><%= select_tag :release  ,options_for_select({""=>"NULL","EHP7"=>"V7Z","EHP6"=>"C6Z","EHP6H"=>"EXC"},:selected=>"")%>
 <%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>  
 <% end %>
 </div>

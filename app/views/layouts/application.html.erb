@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
   <style>
       body {
-         margin-top: 50px/* 60px to make the container go all the way to the bottom of the topbar */
+         margin-top: 60px/* 60px to make the container go all the way to the bottom of the topbar */
         /* 40px*/
       }
     </style>
@@ -18,7 +18,7 @@
 
         <ul class="nav" style="margin-left: 20px" >
           <li class="dropdown"> 
-                <a href="../" class="brand dropdown-toggle " data-toggle="dropdown"><%= image_tag("sap-logo.png") %><big><i>Delivery</i></big><b class="caret"></b></a>
+                <a href="../" class="brand dropdown-toggle " data-toggle="dropdown"><%= image_tag("sap-logo.png") %><big style="line-height: 150%">&nbsp;Delivery</big><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="../">Home</a></li>
                   <li><a href="#">Done Criteria</a></li>
@@ -39,31 +39,35 @@
           <!-- <div class="nav-collapse collapse"> -->
 
             <ul class="nav">
-              <li><%= link_to(checkmen_path) do%>
-                    <span id="link_menu">checkman</span>
+              <li id="menu_1"><%= link_to(checkmen_path) do%>
+                    <span id="link_menu">Checkman</span>
                     <% end -%>
               </li>
-              <li><%= link_to objectresponsibles_path  do%>
+              <li id="menu_2"><%= link_to people_path do %>
+                <span id="link_menu">Responsible</span>
+                <% end -%>
+              </li>
+              <li id="menu_3"><%= link_to objectresponsibles_path  do%>
                   <span id="link_menu"> Object</span>
                   <% end -%>
               </li>
-              <li><%= link_to packages_path do%>
+              <li id="menu_4"><%= link_to packages_path do%>
                 <span id="link_menu">Package</span>
                 <% end -%>
               </li>
-              <li><%= link_to components_path do%>
+              <li id="menu_5"><%= link_to components_path do%>
                   <span id="link_menu">Appl.Component</span>
                   <% end -%>
               </li>
-              <li><%= link_to people_path do %>
-                <span id="link_menu">Responsible</span>
-                <% end -%>
+              <li id="menu_6"><%= link_to email_templates_path do%>
+                  <span id="link_menu">Email Template</span>
+                  <% end -%>
               </li>
             </ul>
             
           <!-- </div>/.nav-collapse  -->
         </div>
-        <!--     <form class="navbar-form pull-right">
+           <!--  <form class="navbar-form pull-right">
               <input class="span2" type="text" placeholder="Your ID">
               <input class="span2" type="password" placeholder="Password">
               <button type="submit" class="btn">Sign in</button>

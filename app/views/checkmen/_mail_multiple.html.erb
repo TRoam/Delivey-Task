@@ -25,6 +25,7 @@
   </div>
   <div style="display:none">
     <%= text_area_tag :filepath, "#{@cu_filepath}" %>
+    <%= text_field_tag :ids , "#{@checkman_ids}"%>
   </div>
   <div class="modal-footer">
     <%= submit_tag "Send" ,:class => "btn-primary"%>

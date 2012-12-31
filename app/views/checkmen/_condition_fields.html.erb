@@ -1,8 +1,8 @@
 <div class="field">
   <%= f.attribute_fields do |a| %>
-    <%= a.attribute_select associations: [:checkmen,:package,:person]%>
+    <%= a.attribute_select associations: [:objectresponsible,:package,:component,:person]%>
   <% end %>
-  <!-- <%= f.predicate_select %> -->
+  <%= f.predicate_select %>
   <%= f.value_fields do |v| %>
     <%= v.text_field :value %>
   <% end %>

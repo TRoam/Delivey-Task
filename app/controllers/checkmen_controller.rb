@@ -9,15 +9,12 @@ class CheckmenController < ApplicationController
 
      #@q = Checkman.search(params[:q])
      # @checkman = params[:distinct].to_i.zero? ? @q.result : @q.result(distinct: true)
-     @q=Objectresponsible.search(params[:q])
+     @q=Checkman.search(params[:q])
        if params[:q].nil?
          @checkman =Checkman.limit(100).find_all_by_status("open")
        else
-          @objectresponsible = @q.result
-          @checkman = Array.new()
-          @objectresponsible.each do |o| 
-            @checkman = @checkman + o.checkmen.all
-          end
+          @checkman = @q.result
+          
        end
      @number = @checkman.count
      flash[:notice] = "There are #{@number} records!"
@@ -104,9 +101,9 @@ class CheckmenController < ApplicationController
               render :js =>"alert('Oops!Please chose one file!');" 
             else
               if params[:isprodrel] == "NULL"
-                render "Oops!Please select if it Prod.rel!"
+                render :js=>"alert('Oops!Please select if it Prod.rel!');"
               else
-                render "Oops!Please select a System!"
+                render :js=>"alert('Oops!Please select a System!');"
               end
             end
           end
@@ -171,16 +168,16 @@ class CheckmenController < ApplicationController
   end
   
   def mail_multiple 
+  if !params[:checkman_ids].blank?
   @checkman_ids = params[:checkman_ids]
-  @checkman = Checkman.find(params[:checkman_ids]) unless params[:checkman_ids].blank?
+  @checkman = Checkman.find(params[:checkman_ids]) 
   @respeople = Array.new
   n = 0
   @checkman.each do |c|
-      c.feedback = "Addressed"
-      c.save
       @respeople[n] = c.objectresponsible.person.responsibleperson
       n = n+1 
   end
+
   @respeople = @respeople.uniq
   
   if params[:commit]!="Send Email"
@@ -194,7 +191,7 @@ class CheckmenController < ApplicationController
     end
        @c_mail_address = current_person.email
        @c_mail_subject = "[Action] Open production relevant CHECKMAN messages in" + current_checkman.first.release
-       @c_mail_content = "Hi #{current_person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{current_checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{current_checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+       @c_mail_content = "Hi #{current_person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for ,as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{current_checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
     Spreadsheet.client_encoding = 'UTF-8'
           book = Spreadsheet::Workbook.new
           sheet1 = book.create_worksheet :name=>'checkman_errors'
@@ -207,8 +204,9 @@ class CheckmenController < ApplicationController
             sheet1[count_row,3] = c.checkid
             sheet1[count_row,4] = c.messageid
             sheet1[count_row,5] = c.objectresponsible.objectname
-            sheet1[count_row,6] = c.objectresponsible.component.package 
-            sheet1[count_row,7] = c.objectresponsible.component.applicationcomponent
+            sheet1[count_row,6] = c.objectresponsible.package.package 
+            sheet1[count_row,7] = c.objectresponsible.package.component.applicationcomponent
+            sheet1[count_row,8] = c.objectresponsible.person.responsibleperson
             count_row += 1
          end
           e_format = Spreadsheet::Format.new :color => :blue,
@@ -226,6 +224,10 @@ class CheckmenController < ApplicationController
           message.To = @c_mail_address
           message.Attachments.Add(cu_filepath, 1)  
           message.Send 
+          current_checkman.each do |c|
+            c.feedback = "Addressed"
+            c.save
+          end
    end
    @send_type = 0
   else
@@ -241,8 +243,8 @@ class CheckmenController < ApplicationController
             sheet1[count_row,3] = c.checkid
             sheet1[count_row,4] = c.messageid
             sheet1[count_row,5] = c.objectresponsible.objectname
-            sheet1[count_row,6] = c.objectresponsible.component.package 
-            sheet1[count_row,7] = c.objectresponsible.component.applicationcomponent
+            sheet1[count_row,6] = c.objectresponsible.package.package
+            sheet1[count_row,7] = c.objectresponsible.package.component.applicationcomponent
             sheet1[count_row,8] = c.objectresponsible.person.responsibleperson
             count_row += 1
          end
@@ -254,13 +256,15 @@ class CheckmenController < ApplicationController
          book.write filepath
          @cu_filepath = File.expand_path(filepath)
     @person = Person.find_all_by_responsibleperson(@respeople)
-    @c_mail_content  = "Hi ,\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+    @c_mail_content  = "Hi ,\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.package.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
     m = 0
     @person.each do |p|
       if m ==0
         @c_mail_address = p.email
       else
+        if p.email 
         @c_mail_address << "\;"+ p.email
+        end
       end
       m = m+1
     end
@@ -269,6 +273,9 @@ class CheckmenController < ApplicationController
     respond_to do |format|
       format.js
     end
+  else 
+    render  :js =>"alert('Oops!There is no selected message !Please select..');"
+  end
   end
 
   def send_multiple
@@ -288,9 +295,10 @@ class CheckmenController < ApplicationController
             message.Cc = @c_mail_cc_address[0]
           end
           message.Attachments.Add(@filepath, 1)  
-          message.Send 
+          message.Send
        respond_to do |format|
         format.js
        end
   end
+
 end
