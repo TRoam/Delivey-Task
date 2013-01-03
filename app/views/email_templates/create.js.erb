@@ -1,0 +1,8 @@
+<%if @result == 1%>
+	$("#new_template_area").remove();
+    $("<%= j render :partial => 'form'%>").appendTo("#template_edit_area");
+    $("<%= j render :partial => 'li'%>").appendTo(".tabbable ul");
+    alert("Create Template Success");
+<%else%>
+    alert("Please fill the form! Name and content cann't be blank!");
+<%end%>

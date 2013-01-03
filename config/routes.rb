@@ -1,7 +1,18 @@
 DeliveryManagementTaskBoard::Application.routes.draw do
 
+  resources :email_templates   do
+    
+  end
+
+  resources :packages, :only => [:index, :show] do
+    collection do 
+       post 'package_to_component'
+       get  'custom'
+     end
+  end
+ 
    resources :checkmen do 
-     collection do 
+     collection do
        post 'send_multiple'
        post 'mail_multiple'
        get 'item_detail'
@@ -9,24 +20,27 @@ DeliveryManagementTaskBoard::Application.routes.draw do
        post 'upload'
        match  'search' =>'checkmen#search', :via => [:get ,:post], :as => :search
      end
-
    end
+
+
    resources :components do
      member do
        get 'detail'
      end
      collection do
-       post 'package_to_component'
-       get  'custom'
        post 'import'
        post 'upload'
      end
    end
+
+
     resources :objectresponsibles do
      member do
        get 'detail'
      end
    end
+
+
    resources :people do
      member do
        get 'mail_content_type_prodrel'

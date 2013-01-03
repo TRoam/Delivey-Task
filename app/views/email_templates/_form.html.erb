@@ -1,0 +1,10 @@
+<div id="template_area">
+	<h4><%= @email_template.name %></h4>
+	<legend></legend>
+	<div class="well">
+		<%= @email_template.content %>
+	</div>
+	<%= link_to edit_email_template_path(@email_template.id), :remote=>true do %>
+		<button class="alert alert-success">Edit This Template</button>
+	<% end -%>
+</div>

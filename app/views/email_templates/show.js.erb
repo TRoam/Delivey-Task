@@ -1,0 +1,5 @@
+$(".tabbable li").removeClass("active");
+$("#template_<%= @email_template.id%>").addClass("active");
+$("#new_template_area").remove();
+$("#template_area").remove();
+$("#template_edit_area").append("<%= j render :partial => 'form'%>");
