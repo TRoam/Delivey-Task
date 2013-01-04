@@ -1,7 +1,4 @@
 require 'csv'
-# require 'upload_job'
-# require 'checkmen_helper'
-
 class CheckmenController < ApplicationController
   # GET /checkmen
   # GET /checkmen.json
@@ -19,10 +16,13 @@ class CheckmenController < ApplicationController
      @number = @checkman.count
      flash[:notice] = "There are #{@number} records!"
      @q.build_condition if @q.conditions.empty?
-     @q.build_sort if @q.sorts.empty?   
-     # respond_to do |format|
-     #    format.js
-     # end
+     @q.build_sort if @q.sorts.empty?
+
+
+     respond_to do |format|
+      format.html
+      format.json {render json: CheckmenDatatable.new(view_context)}
+     end
   end
 
   # GET /checkmen/1
@@ -300,5 +300,9 @@ class CheckmenController < ApplicationController
        respond_to do |format|
         format.js
        end
+  end
+
+  def datatable
+
   end
 end

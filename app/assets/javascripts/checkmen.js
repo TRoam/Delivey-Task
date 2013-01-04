@@ -110,7 +110,8 @@ $(document).ready(function(){
   $('#checkmen').dataTable({
     // "bJQueryUI": true,
     "bProcessing": true,
-    // "bServerSide": true,
+    "bServerSide": true,
+    "sAjaxSource":$("#checkmen").data("source"),
     // "sScrollX": "100%",
     "bStateSave": true,
     // "bScrollCollapse": true,

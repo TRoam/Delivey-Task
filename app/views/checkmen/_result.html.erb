@@ -1,6 +1,5 @@
 <%= form_tag mail_multiple_checkmen_path, method: :patch_mail ,:remote =>true do %>
-<table id="checkmen">
-
+<table id="checkmen" data-source="<%= checkmen_url(format: "json") %>">
 	<thead>
 		<div class="btn-group">
   <%= submit_tag "Send Email", :class=>"btn btn-info"%>
@@ -24,41 +23,7 @@
 		<th>Prod.Rel</th>
 	</thead>
 	<tbody>
-		<% @checkman.each do |checkman|%>
-		<tr id="checkman_<%= checkman.id%>">
-		<td id="check_box"><%= check_box_tag "checkman_ids[]", checkman.id %></td>
-		<td>
-			<%= link_to edit_checkman_path(checkman.id),:remote=>true  do %>
-			<span><i class="icon-pencil"></i>
-	    	<% if  checkman.feedback =="open" %>
-	    	Open
-	    	<% else%> 
-	    	Addressed
-			<%end%>
-	    	</span>
-	    	<% end -%>
-	    </td>
-		<td ><%= checkman.checkid%></td>
-		<td ><%= checkman.messageid%></td>
-		<td ><%= link_to checkman.objectresponsible.objectname, :controller =>:objectresponsibles,:action =>:detail,:id=>checkman.objectresponsible.id%></td>
-		<td ><%= checkman.priority %></td>
-		<td ><%= checkman.release%></td>
-		<td >
-			<% if checkman.objectresponsible.package.component_id.nil? %>
-			<%else%>
-			<%= checkman.objectresponsible.package.component.applicationcomponent%>
- 			<%end%>
-		</td>
-		<td ><%= link_to checkman.objectresponsible.package.package,:controller => :components,:action =>:detail,:id=>checkman.objectresponsible.package.id%></td>
-		<td ><%= link_to checkman.objectresponsible.person.responsibleperson, :controller =>:people,:action =>:detail,:id =>checkman.objectresponsible.person.id%></td>
-		<td ><%if checkman.prodrel? %>
-			<i class="icon-ok"></i>True
-			<%else%>
-			<i class="icon-remove"></i>False
-			<%end%>
-		</td>
-		</tr>
-		<%end%>
+		
 	</tbody>
 </table>
 <% end -%>
