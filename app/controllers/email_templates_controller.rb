@@ -46,4 +46,15 @@ class EmailTemplatesController < ApplicationController
     format.js
    end
   end
+
+  def destroy
+    @email_template = EmailTemplate.find(params[:id])
+    @email_template.destroy
+    @email_template = EmailTemplate.new()
+    @id = params[:id]
+    respond_to do |format|
+      format.html { redirect_to emailtemplates_url }
+      format.js
+    end
+  end
 end

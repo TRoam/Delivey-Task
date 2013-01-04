@@ -7,4 +7,7 @@
 	<%= link_to edit_email_template_path(@email_template.id), :remote=>true do %>
 		<button class="alert alert-success">Edit This Template</button>
 	<% end -%>
+	<%= link_to email_template_path(@email_template), :method => :delete, :confirm => "Are you sure?" ,:remote=>true do%>
+	<button class="alert alert-success">Destory</button>
+	<% end -%>
 </div>

@@ -169,6 +169,7 @@ class CheckmenController < ApplicationController
   
   def mail_multiple 
   if !params[:checkman_ids].blank?
+  @email_templates = EmailTemplate.all
   @checkman_ids = params[:checkman_ids]
   @checkman = Checkman.find(params[:checkman_ids]) 
   @respeople = Array.new
@@ -300,5 +301,4 @@ class CheckmenController < ApplicationController
         format.js
        end
   end
-
 end
