@@ -1,5 +1,5 @@
 class CheckmenDatatable
-	delegate :params,:h,:link_to, :number_to_current, to: :@view
+	delegate :params,:h,:link_to, :number_to_current, :check_box_tag,to: :@view
 
 	def initialize(view)
 		@view = view
@@ -18,33 +18,48 @@ private
 	def data
 		checkmen.map do |c|
 			[
+
 				# h('<input id="checkman_ids_" name="checkman_ids[]" type="checkbox" value="#{c.id}">')
-
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove"),
-				h("icon-remove")
-
+				check_box_tag('checkman_ids[]',c.id),
+				link_to(:action =>'edit',:id=>c.id,:remote=>true) do
+					if c.feedback == "open"
+						"Open"
+					else
+						"Addressed"
+					end
+				end,
+				h(c.checkid),
+				h(c.messageid),
+				h(c.objectresponsible.objectname),
+				h(c.priority),
+				h(c.release),
+				if c.objectresponsible.package.component_id.nil?
+					h("-")
+				else
+					h(c.objectresponsible.package.component.applicationcomponent)
+				end,
+				h(c.objectresponsible.package.package),
+				h(c.objectresponsible.person.responsibleperson),	
+				if c.prodrel?
+					h("Ture")
+				else
+					h("False")
+				end
 			]
 		end
 	end
 
-	def checkmen
+   def checkmen
       @checkmen ||= fetch_checkmen
-    end
+   end
 
   def fetch_checkmen
     checkmen = Checkman.order("#{sort_column} #{sort_direction}")
     checkmen = checkmen.page(page).per_page(per_page)
     if params[:sSearch].present?
-      checkmen = checkmen.where("checkid like :search ", search: "%#{params[:sSearch]}%")
+      package = Package.where("package like :search " , search: "%#{params[:sSearch]}%")
+      # checkmen = package.objectresponsibles.checkmen.find_all_by_status("open")
+      checkmen = checkmen.where("checkid like :search or messageid like :search or release like :search or status like :search or dlm like :search or feedback like :search or prodrel like :search", search: "%#{params[:sSearch]}%")
     end
     checkmen
   end
@@ -54,12 +69,12 @@ private
   end
 
   def per_page
-    params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
+     10
   end
 
   def sort_column
-    columns = %w[checkid messageid]
-    columns[params[:iSortCol_0].to_i]
+    columns = %w[checkid messageid ]
+    columns[params[:iSortCol_3].to_i]
   end
 
   def sort_direction

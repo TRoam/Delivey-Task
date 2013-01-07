@@ -20,8 +20,10 @@
       <span class="add-on">Suject<i class=" icon-book"></i></span>
       <%= text_field_tag  :T_mail_subject ,"[Action] Open production relevant CHECKMAN messages in #{@checkman.first.release}"%>
       </div>
-      <%= select_tag "template" ,options_from_collection_for_select(@email_templates,:id,:name) %>
-      <%= text_area_tag  :T_mail_content ,"#{@c_mail_content}" %>
+      <%= select_tag "template" ,options_from_collection_for_select(@email_templates,:id,:name) ,:class=>"span7" %>
+      <div id="mail_content">
+      <!--  -->
+      </div>
     </div>
   </div>
   <div style="display:none">

@@ -1,5 +1,15 @@
+$("button.close").click(function(){
+	$("#emailModal").remove;
+});
 <%if @send_type == 0 %>
 $("tr#checkman_7155").css("color","#FFFF00");
 <%else%>
 $("<%= j render :partial =>'mail_multiple'%>").modal();
+//email template change
+$("select#template").live(
+	'change',
+	function(){
+    var detail_url =  "/email_templates/" + $(this).attr("value") + "/detail" ;
+    $.get(detail_url);
+});
 <%end%>

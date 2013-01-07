@@ -30,6 +30,7 @@ class ComponentsController < ApplicationController
       end
     end
   end
+
    def show
     @component = Component.find(params[:id])
 
@@ -45,7 +46,7 @@ class ComponentsController < ApplicationController
       if @count == 0 
          respond_to do |format|
           format.html{flash[:notice] = "congratulations!There is no checkman errors in the Package!"}
-          format.js 
+          format.json
          end
       else
         respond_to do |format|

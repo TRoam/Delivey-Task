@@ -6,22 +6,19 @@ class CheckmenController < ApplicationController
 
      #@q = Checkman.search(params[:q])
      # @checkman = params[:distinct].to_i.zero? ? @q.result : @q.result(distinct: true)
-     @q=Checkman.search(params[:q])
-       if params[:q].nil?
-         @checkman =Checkman.limit(100).find_all_by_status("open")
-       else
-          @checkman = @q.result
-          
-       end
-     @number = @checkman.count
-     flash[:notice] = "There are #{@number} records!"
-     @q.build_condition if @q.conditions.empty?
-     @q.build_sort if @q.sorts.empty?
-
+     # @q=Checkman.search(params[:q])
+     #   if params[:q].nil?
+     #     @checkman =Checkman.find_all_by_status("open")
+     #   else
+     #      @checkman = @q.result
+     #   end
+     # @number = @checkman.count
+     # @q.build_condition if @q.conditions.empty?
+     # @q.build_sort if @q.sorts.empty?
 
      respond_to do |format|
       format.html
-      format.json {render json: CheckmenDatatable.new(view_context)}
+      format.json {render json:CheckmenDatatable.new(view_context)}
      end
   end
 
@@ -275,7 +272,7 @@ class CheckmenController < ApplicationController
       format.js
     end
   else 
-    render  :js =>"alert('Oops!There is no selected message !Please select..');"
+    render  :js =>"alert('There is no selected message !Please select..');"
   end
   end
 
@@ -302,7 +299,4 @@ class CheckmenController < ApplicationController
        end
   end
 
-  def datatable
-
-  end
 end

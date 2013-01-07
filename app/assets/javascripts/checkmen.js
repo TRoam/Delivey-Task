@@ -1,6 +1,6 @@
 //select all or unselectall
 function toggle_checkall_result(field_name, state) {
-  var checkboxes = $("#checkmen input")
+  var checkboxes = $("#checkmen_result input")
   var count = checkboxes.length;
   for (var i = 0; i < count; i++) {
     if (checkboxes[i].type == "checkbox"
@@ -19,6 +19,7 @@ function toggle_checkall(field_name,state){
     }
   }
 };
+
 
 // toggle comments and detail checkman information
 
@@ -51,10 +52,6 @@ $(document).ready(function(){
   //       };
   //   }
   //   )
-  //send mail to 
-  // manual_mail send 
-  // make the right side donn't move with the main div
- //create component and improt
   $("#component-import").width(80).click(function(){
     $("#component-import-form").slideToggle();
   })
@@ -79,6 +76,7 @@ $(document).ready(function(){
     // "bServerSide": true,
     // "sScrollX": "100%",
     "bStateSave": true,
+    "bAutoWidth": false,
     // "bScrollCollapse": true,
      "iCookieDuration": 60*60*24,
      "bLengthChange": false,
@@ -95,34 +93,44 @@ $(document).ready(function(){
     "bProcessing": true,
     "iDisplayLength":30,
     // "bServerSide": true,
-    // "sScrollX": "100%",
     "bStateSave": true,
-    // "bScrollCollapse": true,
+    "bAutoWidth": false,
      "iCookieDuration": 60*60*24,
      "bLengthChange": false,
      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
     // "bSortCellsTop": false,
     "sZeroRecords": "Nothing found - sorry",
-    // "sScrollY": "400",
-    // "bScrollCollapse": true,
     "sPaginationType": "full_numbers"
   });
-  $('#checkmen').dataTable({
-    // "bJQueryUI": true,
-    "bProcessing": true,
-    "bServerSide": true,
-    "sAjaxSource":$("#checkmen").data("source"),
-    // "sScrollX": "100%",
-    "bStateSave": true,
-    // "bScrollCollapse": true,
-     "iCookieDuration": 60*60*24,
-     "bLengthChange": false,
-     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
-    // "bSortCellsTop": false,
-    "sZeroRecords": "Nothing found - sorry",
-    // "sScrollY": "400",
-    // "bScrollCollapse": true,
-    "sPaginationType": "full_numbers"
+    // other tables (component ,package,)
+    $('#checkmen').dataTable({
+      // "bJQueryUI": true,
+      "bProcessing": true,
+      "iDisplayLength":20,
+      // "bServerSide": true,
+      "bStateSave": true,
+      "bAutoWidth": false,
+      "iCookieDuration": 60*60*24,
+      "bLengthChange": false,
+      // "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
+      // "bSortCellsTop": false,
+      "sZeroRecords": "Nothing found - sorry",
+      "sPaginationType": "full_numbers"
+    });
+  //data table for overview
+  $('#checkmen_result').dataTable({
+     "sDom": 'RC<"clear">lfrtip',
+      "bJQueryUI": true,
+      "bProcessing": true,
+      "bServerSide": true,
+      "iDisplayLength":20,
+      "sAjaxSource":$("#checkmen_result").data("source"),
+      "bStateSave": true,
+      "bAutoWidth": false,
+      "iCookieDuration": 60*60*24,
+      "bLengthChange": false,
+      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
+      "sPaginationType": "full_numbers"
   });
   // left-side self-adaption and the scroll
    var height = $(window).height();

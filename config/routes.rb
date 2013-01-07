@@ -1,7 +1,9 @@
 DeliveryManagementTaskBoard::Application.routes.draw do
 
   resources :email_templates   do
-    
+    member do 
+      get 'detail'
+    end
   end
 
   resources :packages, :only => [:index, :show] do

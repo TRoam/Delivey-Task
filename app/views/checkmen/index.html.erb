@@ -8,33 +8,24 @@
 <%= form_tag upload_checkmen_path, multipart: :true ,:remote=>true do%>
   <div>
        <strong>File:</strong><%= file_field_tag :file1%>
-       <strong>Prod.Rel:</strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","YES"=>1,"All"=>0,},:selected=>"") %>
+       <strong>Prod.Rel:</strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","Prod.Rel"=>1,"All"=>0,},:selected=>"") %>
        <strong>&nbsp;&nbsp;&nbsp;Release:</strong><%= select_tag :release  ,options_for_select({""=>"NULL","EHP7"=>"V7Z","EHP6"=>"C6Z","EHP6H"=>"EXC"},:selected=>"")%>
-<%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>  
+<%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>
 <% end %>
 </div>
 </div>
-<div style="margin-bottom: 15px">
+<!-- <div style="margin-bottom: 15px">
 <button id="search" class="btn btn-info" data-toggle="button" >Filter</button>
-</div>
-<div id="search_form">
-<%= search_form_for @q, url: search_checkmen_path, method: :post do |f|%>
- <div class="field">
-  <%= f.condition_fields do |c| %>
-    <%= render "condition_fields", f: c %>
-  <% end %>
-  <%= link_to_add_fields "Add Conditions", f, :condition %>
-  </div>
-  <div class="actions"><%= f.submit "Search" ,  :class => "btn btn-info"%></div>
-<% end %>
-</div>
+</div> -->
+<!-- <div id="search_form"> -->
+
 <!-- <div id="import-result">
   <a class="close" data-dismiss="alert">×</a>
 </div> -->
 <%= render "importhelp"%>
-    <div id="main-alert" class="alert alert-info">
+   <!--  <div id="main-alert" class="alert alert-info">
       <%= notice%>
       <a class="close" data-dismiss="alert">×</a>
-    </div>
+    </div> -->
 <%= render  "result"%>
 <div id="comment_area" ></div>
