@@ -14,7 +14,14 @@
          </div>
          <% end -%>
          <% @email_templates.each do |t| %>
-         <li id="template_<%= t.id%>"><%= link_to t.name, email_template_path(t.id) ,:remote=>true, "data-toggle" =>"tab"  %></li>
+         <li id="template_<%= t.id%>">
+         	<%= link_to email_template_path(t.id) ,:remote=>true, "data-toggle" =>"tab" do %>
+         	   <strong><%= t.name %></strong> <br>
+         	   <%if t.subject %>
+         	   <small class="small"><%= t.subject %></small>
+         	   <% end -%>
+         	<% end -%>
+         </li>
          <% end -%>
        </ul>
     </div>
@@ -49,10 +56,6 @@
 				<tr>
 					<td>object</td>
 					<td><span class="badge badge-warning">#object#</span></td>
-				</tr>
-				<tr>
-					<td>release</td>
-					<td><span class="badge badge-warning">#release#</span></td>
 				</tr>
 				<tr>
 					<td>System</td>

@@ -1,2 +1,4 @@
-$("#text_area_tag:last").remove();
-$("#mail_content:last").append("<%= j render :partial =>'mail_content'%>")
+var modal_div =$(".modal#emailModal:last");
+modal_div.find("#text_area_tag").remove();
+modal_div.find("input#T_mail_subject").attr("value","<%= @email_template.subject%>");
+modal_div.find("#mail_content").append("<%= j render :partial =>'mail_content'%>")

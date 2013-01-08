@@ -15,10 +15,11 @@ class CheckmenController < ApplicationController
      # @number = @checkman.count
      # @q.build_condition if @q.conditions.empty?
      # @q.build_sort if @q.sorts.empty?
+     @checkman = Checkman.where("status='open'and prodrel='t'")
 
      respond_to do |format|
       format.html
-      format.json {render json:CheckmenDatatable.new(view_context)}
+      format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
      end
   end
 
@@ -89,9 +90,10 @@ class CheckmenController < ApplicationController
             #check file1
         if params[:file1]&&params[:release]!="NULL"&&params[:isprodrel]!="NULL"
           @result = Checkman.upload_to_database(params[:file1],temp_release,params[:isprodrel])
-          @checkman= Checkman.find_all_by_status("open")
+          @checkman = Checkman.where(:status=>"open")
           respond_to do |format|
             format.html
+            format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
           end
           else
             if !params[:file1]
@@ -160,8 +162,27 @@ class CheckmenController < ApplicationController
   end
 
   def search
-    index  
-    render :index
+    filter = params[:select]
+    content = params[:content]
+    c_content = 1
+    @checkman = Checkman.where("prodrel = ? ",true)
+    # case filter
+    # when "prodrel" then 
+      # if params[:content] =="true"
+        # c_content = 1
+      # else
+        # c_content = 0
+      # end
+      # @checkman = Checkman.where("prodrel = ? ",c_content)
+    # when "person" then
+      # @person = Person.where(:responsibleperson =>content)
+      # @checkman = @person.checkmen.where(:status=>"open")
+    # end
+    respond_to do |format|
+      format.html
+      format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
+    end
+    
   end
   
   def mail_multiple 
@@ -211,7 +232,7 @@ class CheckmenController < ApplicationController
                                    :size => 11,
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
-         filepath = r+"_checkman_error_"+current_checkman.first.release+"_"+current_checkman.first.ncount.to_s+"_"+current_checkman.count.to_s+".xls"
+         filepath = r+"_checkman_error_"+current_checkman.first.release+"_"+current_checkman.first.ncount.to_s+"_"+current_checkman.count.to_s+Time.now.strftime('%H%M%S')+".xls"
          book.write filepath
          cu_filepath = File.expand_path(filepath)
           WIN32OLE.ole_initialize
@@ -250,7 +271,7 @@ class CheckmenController < ApplicationController
                                    :size => 11,
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
-         filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"  
+         filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+"_"+Time.now.strftime('%H%M%S')+".xls"  
          book.write filepath
          @cu_filepath = File.expand_path(filepath)
     @person = Person.find_all_by_responsibleperson(@respeople)
@@ -280,23 +301,33 @@ class CheckmenController < ApplicationController
     @mail_address = params[:T_mail_address].split(";")
     @mail_cc_address = params[:T_mail_cc_address].split(";") unless params[:T_mail_cc_address].blank?
     @filepath = params[:filepath]
+    @ids = params[:ids].split("\"")
+    length = @ids.length
+    @checkman = Checkman.find(@ids[1].to_i)
+    @mail_content = params[:T_mail_content].gsub(/#system#/,@checkman.release).gsub(/#component#/,@checkman.objectresponsible.package.component.applicationcomponent).gsub(/#name#/,@checkman.objectresponsible.person.responsibleperson).gsub(/#package#/, @checkman.objectresponsible.package.package)
     WIN32OLE.ole_initialize
           outlook = WIN32OLE.new('Outlook.Application')  
           message = outlook.CreateItem(0)  
           message.Subject = params[:T_mail_subject]
-          message.Body = params[:T_mail_content]
-          message.To = @mail_address[0]
+          message.Body = @mail_content
+          # message.To = @mail_address[0]
           @mail_address.each do |address|
             message.Recipients.Add address
           end
           if !@mail_cc_address.nil?
             message.Cc = @c_mail_cc_address[0]
           end
-          message.Attachments.Add(@filepath, 1)  
+          message.Attachments.Add(@filepath, 1)
           message.Send
-       respond_to do |format|
-        format.js
-       end
+     i=1
+     while i<length
+      checkman = Checkman.find(@ids[i])
+      checkman.feedback = "Addressed"
+      checkman.save
+      i = i+2
+     end
+     respond_to do |format|
+      format.js
+     end
   end
-
 end

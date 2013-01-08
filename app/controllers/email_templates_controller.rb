@@ -59,7 +59,7 @@ class EmailTemplatesController < ApplicationController
   end
 
   def detail
-    @email_template = EmailTemplate.find(params[:id]).content
+    @email_template = EmailTemplate.find(params[:id])
    
     respond_to do |format|
       format.js

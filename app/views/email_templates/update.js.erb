@@ -1,5 +1,5 @@
 $("#new_template_area").remove();
 $("#template_area").remove();
 $("#template_edit_area").append("<%= j render :partial => 'form'%>");
-$("#template_<%= @email_template.id%>").find("a").text("<%= @email_template.name%>");
+$("#template_<%= @email_template.id%>").find("a").html("<strong><%= @email_template.name %></strong><br><small class='small'><%= @email_template.subject %></small>");
 alert("Update success");

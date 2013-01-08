@@ -6,6 +6,10 @@
 <span class="add-on"><i class=" icon-tag"></i>Template Name:</span>
 <%= f.text_field :name ,:class=>"span10" %>
 </div>
+<div class="input-prepend">
+<span class="add-on"><i class=" icon-book"></i>Suject:</span>
+<%= f.text_field :subject ,:class =>"span11" %>
+</div>
 <%= f.text_area :content %> <br>
 <%= f.submit "Save Template" ,:class =>"btn btn-success"%>
 <% end -%>

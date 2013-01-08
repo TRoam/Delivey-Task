@@ -1,1 +1,8 @@
-<li id="template_<%= @email_template.id%>"><%= link_to @email_template.name, email_template_path(@email_template.id) ,:remote=>true, "data-toggle" =>"tab"  %></li>
+<li id="template_<%= @email_template.id%>">
+	<%= link_to email_template_path( @email_template.id) ,:remote=>true, "data-toggle" =>"tab" do %>
+ 	   <strong><%=  @email_template.name %></strong> <br>
+ 	   <%if  @email_template.subject %>
+ 	   <small class="small"><%=  @email_template.subject %></small>
+ 	   <% end -%>
+    <% end -%>
+</li>

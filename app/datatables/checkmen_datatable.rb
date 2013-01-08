@@ -1,8 +1,9 @@
 class CheckmenDatatable
 	delegate :params,:h,:link_to, :number_to_current, :check_box_tag,to: :@view
 
-	def initialize(view)
+	def initialize(view , checkman)
 		@view = view
+		@checkman = checkman
 	end
 
 	def as_json(options = {})
@@ -41,7 +42,7 @@ private
 				h(c.objectresponsible.package.package),
 				h(c.objectresponsible.person.responsibleperson),	
 				if c.prodrel?
-					h("Ture")
+					h("True")
 				else
 					h("False")
 				end
@@ -54,7 +55,7 @@ private
    end
 
   def fetch_checkmen
-    checkmen = Checkman.order("#{sort_column} #{sort_direction}")
+    checkmen = @checkman.order("#{sort_column} #{sort_direction}")
     checkmen = checkmen.page(page).per_page(per_page)
     if params[:sSearch].present?
       package = Package.where("package like :search " , search: "%#{params[:sSearch]}%")

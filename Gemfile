@@ -6,14 +6,14 @@ gem 'rails', '3.2.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem "ransack", :git => "git://github.com/ernie/ransack.git" # Track git repo
+gem "ransack"#, :git => "git://github.com/ernie/ransack.git" # Track git repo
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'jquery-datatables-rails', :git => "git://github.com/rweng/jquery-datatables-rails.git"
+  gem 'jquery-datatables-rails'  #, :git => "git://github.com/rweng/jquery-datatables-rails.git"
   gem 'jquery-ui-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes

@@ -14,14 +14,19 @@
 <% end %>
 </div>
 </div>
-<!-- <div style="margin-bottom: 15px">
+<div style="margin-bottom: 15px">
 <button id="search" class="btn btn-info" data-toggle="button" >Filter</button>
-</div> -->
-<!-- <div id="search_form"> -->
-
+</div>
+<div id="search_form">
+<%= form_tag search_checkmen_path  do%>
+  <%= select_tag :select ,options_for_select({"component" => "component","package" =>"package","person" =>"person","object"=>"onjectname","prodrel"=>"prodrel"})%>
+  <%= text_field_tag :content %> <br >
+  <%= submit_tag "Search" , :class=>"btn btn-info"%>
+<% end -%>
+</div>
 <!-- <div id="import-result">
   <a class="close" data-dismiss="alert">×</a>
-</div> -->
+<!-- </div> --> 
 <%= render "importhelp"%>
    <!--  <div id="main-alert" class="alert alert-info">
       <%= notice%>

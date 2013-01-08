@@ -14,6 +14,9 @@
  *= require  dataTables/jquery.dataTables
  *= require_tree .
  */
+ .small{
+  margin-left: 8px;
+ }
  #email_template_content{
   height: 320px;
   width: 750px;

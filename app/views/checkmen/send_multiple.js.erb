@@ -1,2 +1,6 @@
-$("#emailModal").modal('hide');
-alert("send successful!")
+$(".modal#emailModal:last").remove();
+alert("send successful!");
+var check_input =$("table input");
+for(var i = check_input.length -1;i>=0;i--){
+	check_input[i].checked = false;
+};
