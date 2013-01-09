@@ -20,6 +20,7 @@ private
 		checkmen.map do |c|
 			[
 
+				
 				# h('<input id="checkman_ids_" name="checkman_ids[]" type="checkbox" value="#{c.id}">')
 				check_box_tag('checkman_ids[]',c.id),
 				link_to(:action =>'edit',:id=>c.id,:remote=>true) do
@@ -41,7 +42,7 @@ private
 				end,
 				h(c.objectresponsible.package.package),
 				h(c.objectresponsible.person.responsibleperson),	
-				if c.prodrel?
+				if c.prodrel == true
 					h("True")
 				else
 					h("False")

@@ -124,7 +124,7 @@ $(document).ready(function(){
       "bProcessing": true,
       "bServerSide": true,
       "iDisplayLength":20,
-      "sAjaxSource":$("#checkmen_result").data("source"),
+      "sAjaxSource":$("#data").data("source"),
       "bStateSave": true,
       "bAutoWidth": false,
       "iCookieDuration": 60*60*24,

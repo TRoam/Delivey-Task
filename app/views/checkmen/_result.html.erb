@@ -1,5 +1,6 @@
 <%= form_tag mail_multiple_checkmen_path, method: :patch_mail ,:remote =>true do %>
-<table id="checkmen_result" data-source="<%= checkmen_url(format: "json") %>">
+
+<table id="checkmen_result" >
 	<thead>
 		<div class="btn-group">
   <%= submit_tag "Send Email", :class=>"btn btn-info"%>

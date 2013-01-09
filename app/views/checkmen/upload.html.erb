@@ -1,4 +1,5 @@
 <script type="text/javascript">
  alert("<%= @result[1]%> items be imported ,and <%= @result[0]%> items were fixxd!");
 </script>
+<input type="hidden" id="data" data-source="<%= checkmen_url(format: "json")%>">
 <%= render 'result'%>

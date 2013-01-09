@@ -4,156 +4,100 @@ class Checkman < ActiveRecord::Base
   belongs_to :objectresponsible
 
   has_many   :comments
-    def self.upload_to_database(file,temp_release,isp)
-      @upload = Array.new
-      row_number = 0
+  def self.upload_to_database(file,temp_release,isp)
+
+      # read upload file
       spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        @upload[row_number] = spreadsheet.row(i)
-        row_number = row_number+1
-      end
-      c = Checkman.limit(1).where("status = ? and release = ?", "open", temp_release)
-      if c.nil?
-        temp_count = c[0].ncount
-      else
+
+      # get ncount
+      c = Checkman.limit(1).where("status = ? and release = ? ", "open", temp_release)
+      if c.blank?
         temp_count = 0
+      else
+        temp_count = c[0].ncount
       end
+
+      # @number of excel
       @number = 0
-      if !@upload.nil?
-        @upload.each do |a|
-          temp_key  = a[0].to_s + a[1] + a[2] + a[3] + a[4] + a[5] + a[8].to_s + temp_release
-          check=Checkman.find_by_key(temp_key)
-          #judge if this item is exist
-           if check.nil?
-                # create and save
-              check  = Checkman.new(
-                        :foundat => a[7],
-                        :priority => a[0],
-                        :checkid => a[1],
-                        :messageid =>a[2],
-                        :uniqueid => a[8],
-                        :release => temp_release,
-                        :key => temp_key,
-                        :ncount => temp_count+1,
-                        :prodrel => isp
-                                               )
-              # bulid comment
-              # update object information
-               object = Objectresponsible.find_by_objectname(a[3])
-                if !object
-                    object = Objectresponsible.create(
-                      :objectname => a[3],
-                      :contact => a[5],
-                      :objecttype => a[4]
-                     )
-                    person = Person.find_by_responsibleperson(a[5])
-                    if !person
-                      person = Person.create(
-                        :responsibleperson => a[5]
-                        )
-                    end
-                    object.person_id = person.id
-       #update component information
-                          package =Package.find_by_package(a[6])
-                           if !package
-                                package=Package.create(
-                                            :package => a[6]
-                                           )
-                           end
-                          object.package_id = package.id           
+
+
+      # do insert into database
+      (2..spreadsheet.last_row).each do |i|
+
+        temp_key  = spreadsheet.row(i)[0].to_s + spreadsheet.row(i)[1] + spreadsheet.row(i)[2] + spreadsheet.row(i)[3] + spreadsheet.row(i)[4] + spreadsheet.row(i)[5] + spreadsheet.row(i)[8].to_s + temp_release
+        #judge if this item is exist
+        check = Checkman.find_by_key(temp_key)
+
+        if check.nil?
+          return 231
+          #then this item is new and insert it to database
+          check = Checkman.new(
+                    :foundat   => spreadsheet.row(i)[7],
+                    :priority  => spreadsheet.row(i)[0],
+                    :checkid   => spreadsheet.row(i)[1],
+                    :messageid => spreadsheet.row(i)[2],
+                    :uniqueid  => spreadsheet.row(i)[8],
+                    :release   => temp_release,
+                    :key       => temp_key,
+                    :ncount    => temp_count+1,
+                    :prodrel   => isp.to_i
+                               )
+
+          #update object information
+          object = object = Objectresponsible.find_by_objectname(spreadsheet.row(i)[3])
+            if !object
+              object =Objectresponsible.create(
+                      :objectname => spreadsheet.row(i)[3],
+                      :contact    => spreadsheet.row(i)[5],
+                      :objecttype => spreadsheet.row(i)[4]
+                )
+              person = Person.find_by_responsibleperson(spreadsheet.row(i)[5])
+                if !person
+                        person = Person.create(
+                          :responsibleperson => spreadsheet.row(i)[5]
+                          )
                  end
-                check.objectresponsible_id = object.id
-            #save object_responsible
-                object.save
+                object.person_id = person.id
+                package =Package.find_by_package(spreadsheet.row(i)[6])
+                 if !package
+                      package=Package.create(
+                              :package => spreadsheet.row(i)[6]
+                                 )
+                 end
+                object.package_id = package.id 
+
+                #save object_responsible
+                object.save    
+            end
+
+            check.objectresponsible_id = object.id           
             #save check_man
                 check.save
             # record ++
                   @number += 1
-           else
-                  # this item already exist then do
-                  if isp==1
-                      checkman.prodrel = 1
-                  end
-                  check.status = "open"
-                  check.ncount = temp_count + 1
-                  check.save
-           end
-       end
-    end 
-    # if !@uploadall.nil?
-    #     @uploadall.each do |a|
-    #       temp_key  = a[0].to_s + a[1] + a[2] + a[3] + a[4] + a[5] + a[8].to_s + temp_release
-    #       check=Checkman.find_by_key(temp_key)
-    #       #judge if this item is exist
-    #        if check.nil?
-    #             # create and save
-    #           check     = Checkman.new(
-    #                     :foundat => a[7],
-    #                     :priority => a[0],
-    #                     :checkid => a[1],
-    #                     :messageid =>a[2],
-    #                     :uniqueid => a[8],
-    #                     :release => temp_release,
-    #                     :key => temp_key,
-    #                     :ncount => temp_count+1,
-    #                     :prodrel => 0
-    #                                            )
-    #           # bulid comment
-    #           # update object information
-    #                  object=Objectresponsible.find_by_objectname(a[3])
-    #             if !object
-    #                 object = Objectresponsible.new(
-    #                   :objectname => a[3],
-    #                   :contact => a[5],
-    #                   :objecttype => a[4]
-    #                  )
-    #                   object.person_id = 1
-                     
-    #    #update component information
-    #                       component = Component.find_by_package(a[6])
-    #                        if !component
-    #                             component=Component.create(
-    #                                         :package => a[6]
-    #                                        )                
-    #                        end
-    #                       object.component_id = component.id
-    #              end
-    #                check.objectresponsible_id = object.id
-
-           
-    #             object.save
-    #         #save check_man
-    #             check.save
-            
-    #         # record ++
-    #               @number += 1
-    #        else
-    #               # this item already exist then do
-    #               check.status = "open"
-    #               check.ncount = temp_count + 1
-    #               check.prodrel = 0
-    #               check.save
-    #        end
-    #    end
-    # end 
-    # check how many records ware fixxed
-    @fixxednumber  =  0 
+        else
+            # this item already exist then do
+            if isp.to_i ==1
+              check.prodrel = true
+            end
+            check.status = "open"
+            check.ncount = temp_count + 1
+            check.save   
+        end
+      end
+   @fixxednumber  =  0 
     # check conut ,set fixed items' status to "solved"!
-	   Checkman.where( "status = 'open' and ncount = ?" , temp_count).each do |p|
-	        if p.release ==temp_release
-					   p.status = "solved"
-					    @fixxednumber += 1
-					else
-					  p.ncount = temp_count +1
-					end
-            p.save
-	   end
+    Checkman.where( "status = 'open' and release = ? and ncount = ?" ,temp_release, temp_count).each do |p|
+        p.status = "solved"
+        p.save
+        @fixxednumber += 1
+    end
+
 	   result_import = Array.new
 	   result_import[0] =@fixxednumber
 	   result_import[1] =@number
      return result_import
-	end
+	 end
 
   def self.open_spreadsheet(file)
     case File.extname(file.original_filename)

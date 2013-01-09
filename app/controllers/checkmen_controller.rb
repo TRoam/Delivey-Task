@@ -15,7 +15,7 @@ class CheckmenController < ApplicationController
      # @number = @checkman.count
      # @q.build_condition if @q.conditions.empty?
      # @q.build_sort if @q.sorts.empty?
-     @checkman = Checkman.where("status='open'and prodrel='t'")
+     @checkman = Checkman.where("status='open'")
 
      respond_to do |format|
       format.html
@@ -81,23 +81,22 @@ class CheckmenController < ApplicationController
 
   # import new data
   def upload
-    @uploadall = Array.new
-    @uploadrel = Array.new
     if request.post?
       #initialize release ,importnumber 
       temp_release = params[:release]
-      n , m = 0,0
-            #check file1
+      isp = params[:isprodrel]
+      n,m = 0,0
+      #check file1
         if params[:file1]&&params[:release]!="NULL"&&params[:isprodrel]!="NULL"
-          @result = Checkman.upload_to_database(params[:file1],temp_release,params[:isprodrel])
-          @checkman = Checkman.where(:status=>"open")
+          @result = Checkman.upload_to_database(params[:file1],temp_release,isp)
+          @checkman = Checkman.where("status = 'open' and release =?",temp_release)
           respond_to do |format|
             format.html
-            format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
+            format.json {render json: CheckmenDatatable.new(view_context,@checkman)}
           end
           else
             if !params[:file1]
-              render :js =>"alert('Oops!Please chose one file!');" 
+              render :js =>"alert('Oops!Please chose one file!');"
             else
               if params[:isprodrel] == "NULL"
                 render :js=>"alert('Oops!Please select if it Prod.rel!');"
@@ -106,52 +105,7 @@ class CheckmenController < ApplicationController
               end
             end
           end
-       
-        #this file is prodrel ,set prodrel true
-        #get the path of import file
-        # infile1 = params[:upload][:file1].read
-        # linenumber1 = 0
-        # #import file 
-        # CSV.parse(infile1) do |row|
-        #   n += 1
-        #   #SKIP: header first or blank row
-        #   next if n==1 or row.join.blank?
-        #     row[1..7].each do |str|
-        #       unless Encoding.compatible?(str,1.to_s)
-        #         str = str.encode("UTF-8",undef: :replace)
-        #       end
-        #     end
-        #   @uploadrel[linenumber1] = row
-        #   linenumber1 +=1
-        # end
-     
-      #check and import file2
-      # if params[:file2]
-        # Checkman.upload_to_database(params[:file2],temp_release,0)
-        # #save release ,prodrel
-        # #this file is prodrel ,set prodrel false
-        # #get the path of import file
-        # # infile2 = params[:upload][:file2].read
-        # # linenumber2 = 0
-        # # #import file 
-        # # CSV.parse(infile2) do |row|
-        # #   m += 1
-        # #   #SKIP: header first or blank row
-        # #   next if m==1 or row.join.blank?
-        # #   row[1..7].each do |str|
-        # #       unless Encoding.compatible?(str,1.to_s)
-        # #         str = str.encode("UTF-8",undef: :replace)
-        # #       end
-        # #     end
-        # #   @uploadall[linenumber2] = row
-        # #   linenumber2 += 1 
-        # # end
-      # end
-     #  @importnumber = @uploadall.length + @uploadrel.length
-     # flash[:notice] = "Import successful !, #{@importnumber} ,records are imported.Data are saving..."
-     # Delayed::Job.enqueue(UploadJob.new(@uploadall,@uploadrel,temp_release))
-    end    
-    # Checkman.upload_to_database(@uploadall,@uploadrel,temp_release)
+    end  
   end
 
   def item_detail
@@ -164,20 +118,17 @@ class CheckmenController < ApplicationController
   def search
     filter = params[:select]
     content = params[:content]
-    c_content = 1
-    @checkman = Checkman.where("prodrel = ? ",true)
-    # case filter
-    # when "prodrel" then 
-      # if params[:content] =="true"
-        # c_content = 1
-      # else
-        # c_content = 0
-      # end
-      # @checkman = Checkman.where("prodrel = ? ",c_content)
-    # when "person" then
-      # @person = Person.where(:responsibleperson =>content)
-      # @checkman = @person.checkmen.where(:status=>"open")
-    # end
+    case filter
+    when "prodrel" then 
+      if params[:content] =="true"
+        @checkman = Checkman.where("prodrel = ? ",true)
+      else
+        @checkman = Checkman.where("prodrel = ? ",false)
+      end
+    when "person" then
+      @person = Person.where(:responsibleperson =>content)
+      @checkman = @person.checkmen.where(:status=>"open")
+    end
     respond_to do |format|
       format.html
       format.json {render json:CheckmenDatatable.new(view_context,@checkman)}

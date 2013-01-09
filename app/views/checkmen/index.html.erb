@@ -28,9 +28,10 @@
   <a class="close" data-dismiss="alert">×</a>
 <!-- </div> --> 
 <%= render "importhelp"%>
-   <!--  <div id="main-alert" class="alert alert-info">
-      <%= notice%>
-      <a class="close" data-dismiss="alert">×</a>
+    <!--  <div id="main-alert" class="alert alert-info">
+     <%= notice%>
+     <a class="close" data-dismiss="alert">×</a>
     </div> -->
+<input type="hidden"  id="data" data-source="<%= checkmen_url(format: "json") %>">
 <%= render  "result"%>
 <div id="comment_area" ></div>
