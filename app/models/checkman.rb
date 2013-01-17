@@ -29,7 +29,7 @@ class Checkman < ActiveRecord::Base
         check = Checkman.find_by_key(temp_key)
 
         if check.nil?
-          return 231
+          
           #then this item is new and insert it to database
           check = Checkman.new(
                     :foundat   => spreadsheet.row(i)[7],
@@ -51,13 +51,13 @@ class Checkman < ActiveRecord::Base
                       :contact    => spreadsheet.row(i)[5],
                       :objecttype => spreadsheet.row(i)[4]
                 )
-              person = Person.find_by_responsibleperson(spreadsheet.row(i)[5])
-                if !person
-                        person = Person.create(
-                          :responsibleperson => spreadsheet.row(i)[5]
-                          )
-                 end
-                object.person_id = person.id
+              # person = Person.find_by_sapname(spreadsheet.row(i)[5])
+              #   if !person
+              #           person = Person.create(
+              #             :sapname => spreadsheet.row(i)[5]
+              #             )
+              #    end
+              #   object.person_id = person.id
                 package =Package.find_by_package(spreadsheet.row(i)[6])
                  if !package
                       package=Package.create(

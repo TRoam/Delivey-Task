@@ -4,22 +4,28 @@ class CheckmenController < ApplicationController
   # GET /checkmen.json
   def index
 
-     #@q = Checkman.search(params[:q])
-     # @checkman = params[:distinct].to_i.zero? ? @q.result : @q.result(distinct: true)
-     # @q=Checkman.search(params[:q])
-     #   if params[:q].nil?
-     #     @checkman =Checkman.find_all_by_status("open")
-     #   else
-     #      @checkman = @q.result
-     #   end
-     # @number = @checkman.count
-     # @q.build_condition if @q.conditions.empty?
-     # @q.build_sort if @q.sorts.empty?
-     @checkman = Checkman.where("status='open'")
+      # if params[:select].nil?
+          @checkman = Checkman.where("status='open'")
+      # else
+      #     filter = params[:select]
+      #     content = params[:content]
+      #     case filter
+      #     when "prodrel" then 
+      #       if params[:content] =="ture"
+      #         @checkman = Checkman.where("prodrel = ? ",true)
+      #       else
+      #         @checkman = Checkman.where("prodrel = ? ",false)
+      #       end
+      #     when "person" then
+      #       @person = Person.find_by_sapname(content)
+      #       @objectresponsible = @person.objectresponsibles
+      #     end
+      #  end
 
+     
      respond_to do |format|
       format.html
-      format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
+      format.json {render json:CheckmenDatatable.new(view_context, @checkman)}
      end
   end
 
@@ -29,7 +35,7 @@ class CheckmenController < ApplicationController
     @checkman = Checkman.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html # show.html.erbg
       format.json { render json: @checkman }
     end
   end
@@ -116,24 +122,9 @@ class CheckmenController < ApplicationController
   end
 
   def search
-    filter = params[:select]
-    content = params[:content]
-    case filter
-    when "prodrel" then 
-      if params[:content] =="true"
-        @checkman = Checkman.where("prodrel = ? ",true)
-      else
-        @checkman = Checkman.where("prodrel = ? ",false)
-      end
-    when "person" then
-      @person = Person.where(:responsibleperson =>content)
-      @checkman = @person.checkmen.where(:status=>"open")
-    end
-    respond_to do |format|
-      format.html
-      format.json {render json:CheckmenDatatable.new(view_context,@checkman)}
-    end
-    
+     index
+     render index
+     
   end
   
   def mail_multiple 
@@ -144,7 +135,7 @@ class CheckmenController < ApplicationController
   @respeople = Array.new
   n = 0
   @checkman.each do |c|
-      @respeople[n] = c.objectresponsible.person.responsibleperson
+      @respeople[n] = c.objectresponsible.person.sapname
       n = n+1 
   end
 
@@ -152,16 +143,16 @@ class CheckmenController < ApplicationController
   
   if params[:commit]!="Send Email"
     @respeople.each do |r|
-      current_person = Person.find_by_responsibleperson(r)
+      current_person = Person.find_by_sapname(r)
       current_checkman = Array.new
     @checkman.each do |cu|
-      if cu.objectresponsible.person.responsibleperson == r
+      if cu.objectresponsible.person.sapname == r
           current_checkman<< cu
       end
     end
        @c_mail_address = current_person.email
        @c_mail_subject = "[Action] Open production relevant CHECKMAN messages in" + current_checkman.first.release
-       @c_mail_content = "Hi #{current_person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for ,as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{current_checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+       @c_mail_content = "Hi #{current_person.sapname},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for ,as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{current_checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
     Spreadsheet.client_encoding = 'UTF-8'
           book = Spreadsheet::Workbook.new
           sheet1 = book.create_worksheet :name=>'checkman_errors'
@@ -176,7 +167,7 @@ class CheckmenController < ApplicationController
             sheet1[count_row,5] = c.objectresponsible.objectname
             sheet1[count_row,6] = c.objectresponsible.package.package 
             sheet1[count_row,7] = c.objectresponsible.package.component.applicationcomponent
-            sheet1[count_row,8] = c.objectresponsible.person.responsibleperson
+            sheet1[count_row,8] = c.objectresponsible.person.sapname
             count_row += 1
          end
           e_format = Spreadsheet::Format.new :color => :blue,
@@ -215,7 +206,7 @@ class CheckmenController < ApplicationController
             sheet1[count_row,5] = c.objectresponsible.objectname
             sheet1[count_row,6] = c.objectresponsible.package.package
             sheet1[count_row,7] = c.objectresponsible.package.component.applicationcomponent
-            sheet1[count_row,8] = c.objectresponsible.person.responsibleperson
+            sheet1[count_row,8] = c.objectresponsible.person.sapname
             count_row += 1
          end
           e_format = Spreadsheet::Format.new :color => :blue,
@@ -225,7 +216,7 @@ class CheckmenController < ApplicationController
          filepath = "checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+"_"+Time.now.strftime('%H%M%S')+".xls"  
          book.write filepath
          @cu_filepath = File.expand_path(filepath)
-    @person = Person.find_all_by_responsibleperson(@respeople)
+    @person = Person.find_all_by_sapname(@respeople)
     @c_mail_content  = "Hi ,\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.package.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
     m = 0
     @person.each do |p|
@@ -255,7 +246,7 @@ class CheckmenController < ApplicationController
     @ids = params[:ids].split("\"")
     length = @ids.length
     @checkman = Checkman.find(@ids[1].to_i)
-    @mail_content = params[:T_mail_content].gsub(/#system#/,@checkman.release).gsub(/#component#/,@checkman.objectresponsible.package.component.applicationcomponent).gsub(/#name#/,@checkman.objectresponsible.person.responsibleperson).gsub(/#package#/, @checkman.objectresponsible.package.package)
+    @mail_content = params[:T_mail_content].gsub(/#system#/,@checkman.release).gsub(/#component#/,@checkman.objectresponsible.package.component.applicationcomponent).gsub(/#name#/,@checkman.objectresponsible.person.sapname).gsub(/#package#/, @checkman.objectresponsible.package.package)
     WIN32OLE.ole_initialize
           outlook = WIN32OLE.new('Outlook.Application')  
           message = outlook.CreateItem(0)  
@@ -270,15 +261,78 @@ class CheckmenController < ApplicationController
           end
           message.Attachments.Add(@filepath, 1)
           message.Send
+     @check_ids = Array.new()
      i=1
      while i<length
       checkman = Checkman.find(@ids[i])
       checkman.feedback = "Addressed"
       checkman.save
+      @check_ids << @ids[i]
       i = i+2
      end
      respond_to do |format|
       format.js
      end
+  end
+
+  def person_edit
+    @checkman = Checkman.find(params[:id])
+    @object = @checkman.objectresponsible
+    if @object.person_id
+      @person = @object.person
+    else
+      @person = ""
+    end
+    if @object.package.component_id.nil?
+       @component = ""
+     else
+       @component = @object.package.component.applicationcomponent
+     end
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def update_person_edit
+    @checkmanid= params[:checkmanid]
+    @object = Objectresponsible.find(params[:id])
+    @package = @object.package
+    if params[:component].present?
+      @component = Component.where(:applicationcomponent=>params[:component])
+      if !@component.empty?
+        @package.component_id = @component[0].id
+      else
+        @component=Component.create(
+          :applicationcomponent => params[:component]
+          )
+        @package.component_id = @component.id
+      end
+        @package.save
+    end
+    if params[:sapname].present?
+      @person = Person.where(:sapname => params[:sapname])
+      if @person.empty?
+        @person = Person.create(
+                  :sapname =>params[:sapname],
+                  :firstname =>params[:firstname],
+                  :lastname =>params[:lastname],
+                  :eid =>params[:eid],
+                  :email=>params[:email]
+          )
+      else
+        @person = @person[0]
+        @person.sapname   =params[:sapname]
+        @person.firstname =params[:firstname]
+        @person.lastname  =params[:lastname]
+        @person.eid       =params[:eid]
+        @person.email     =params[:email]
+        @person.save
+      end
+      @object.person_id = @person.id
+    end
+    @object.save
+  end
+  respond_to do |format|
+    format.js
   end
 end

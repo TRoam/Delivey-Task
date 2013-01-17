@@ -6,7 +6,7 @@
   <button type="button" class="btn btn-primary">All</button>
   </div>
   <%= link_to({:action=>:manual_mail},:id=>@person.id,:remote=>true,:class=>"btn btn-primary") do%>
-  <i class="icon-envelope"></i><span> Send mail to <%= @person.responsibleperson%></span>
+  <i class="icon-envelope"></i><span> Send mail to <%= @person.sapname%></span>
   <%end%>
   <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
   <ul class="dropdown-menu">
@@ -32,7 +32,7 @@
 <%= render "checkmen/result"%>
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <h5 id="myModalLabel">Edit information of <%= @person.responsibleperson%></h5>
+    <h5 id="myModalLabel">Edit information of <%= @person.sapname%></h5>
   </div>
   <div class="modal-body">
     <div id="person_edit_area"></div>

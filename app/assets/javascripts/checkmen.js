@@ -25,7 +25,7 @@ function toggle_checkall(field_name,state){
 
 $(document).ready(function(){
 
-
+   
   //mial Prodrel?
   $("#people_mail_button button:first").live(
     'click',
@@ -67,71 +67,7 @@ $(document).ready(function(){
             var tableid = '#' + $(this).attr("id");
             $("#checkmen").find(tableid).css('background','');
   })
-  // Table format --with DATATABLE
-   $('#component').dataTable(
-  {
-      // "bJQueryUI": true,
-    "bProcessing": true,
-    "iDisplayLength":30,
-    // "bServerSide": true,
-    // "sScrollX": "100%",
-    "bStateSave": true,
-    "bAutoWidth": false,
-    // "bScrollCollapse": true,
-     "iCookieDuration": 60*60*24,
-     "bLengthChange": false,
-     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
-    // "bSortCellsTop": false,
-    "sZeroRecords": "Nothing found - sorry",
-    // "sScrollY": "400",
-    // "bScrollCollapse": true,
-    "sPaginationType": "full_numbers"
-  });
-  $('#package').dataTable(
-  {
-      // "bJQueryUI": true,
-    "bProcessing": true,
-    "iDisplayLength":30,
-    // "bServerSide": true,
-    "bStateSave": true,
-    "bAutoWidth": false,
-     "iCookieDuration": 60*60*24,
-     "bLengthChange": false,
-     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
-    // "bSortCellsTop": false,
-    "sZeroRecords": "Nothing found - sorry",
-    "sPaginationType": "full_numbers"
-  });
-    // other tables (component ,package,)
-    $('#checkmen').dataTable({
-      // "bJQueryUI": true,
-      "bProcessing": true,
-      "iDisplayLength":20,
-      // "bServerSide": true,
-      "bStateSave": true,
-      "bAutoWidth": false,
-      "iCookieDuration": 60*60*24,
-      "bLengthChange": false,
-      // "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
-      // "bSortCellsTop": false,
-      "sZeroRecords": "Nothing found - sorry",
-      "sPaginationType": "full_numbers"
-    });
-  //data table for overview
-  $('#checkmen_result').dataTable({
-     "sDom": 'RC<"clear">lfrtip',
-      "bJQueryUI": true,
-      "bProcessing": true,
-      "bServerSide": true,
-      "iDisplayLength":20,
-      "sAjaxSource":$("#data").data("source"),
-      "bStateSave": true,
-      "bAutoWidth": false,
-      "iCookieDuration": 60*60*24,
-      "bLengthChange": false,
-      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0 ] }] ,
-      "sPaginationType": "full_numbers"
-  });
+
   // left-side self-adaption and the scroll
    var height = $(window).height();
    $("#left-side").height(height)

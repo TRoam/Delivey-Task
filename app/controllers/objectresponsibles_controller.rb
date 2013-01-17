@@ -10,10 +10,10 @@ class ObjectresponsiblesController < ApplicationController
   
   def update
     @object = Objectresponsible.find(params[:id])
-    @person = Person.find_by_responsibleperson(params[:objectresponsible][:contact])
+    @person = Person.find_by_sapname(params[:objectresponsible][:contact])
     if !@person
       @person = Person.create(
-              :responsibleperson =>params[:objectresponsible][:contact]                
+              :sapname =>params[:objectresponsible][:contact]                
         )
     end
     @object.person_id  = @person.id
@@ -66,10 +66,10 @@ class ObjectresponsiblesController < ApplicationController
                               :objecttype   => params[:objectresponsible][:objecttype],
                               :component_id => params[:objectresponsible][:component][:package]
                                      )
-         person = Person.find_by_responsibleperson(params[:objectresponsible][:person])
+         person = Person.find_by_sapname(params[:objectresponsible][:person])
          if !person
            person = Person.create(
-                        :responsibleperson => params[:objectresponsible][:person]
+                        :sapname => params[:objectresponsible][:person]
                                   )    
          end
          @object.person_id = person.id

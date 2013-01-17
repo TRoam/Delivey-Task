@@ -7,31 +7,14 @@
   <div >
 <%= form_tag upload_checkmen_path, multipart: :true ,:remote=>true do%>
   <div>
-       <strong>File:</strong><%= file_field_tag :file1%>
-       <strong>Prod.Rel:</strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","Prod.Rel"=>1,"All"=>0,},:selected=>"") %>
-       <strong>&nbsp;&nbsp;&nbsp;Release:</strong><%= select_tag :release  ,options_for_select({""=>"NULL","EHP7"=>"V7Z","EHP6"=>"C6Z","EHP6H"=>"EXC"},:selected=>"")%>
+       <strong>File:  </strong><%= file_field_tag :file1%>
+       <strong>Prodution Relevant: </strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","YES"=>1,"All"=>0,},:selected=>"") %>
+       <strong>&nbsp;&nbsp;&nbsp;System: </strong><%= select_tag :release  ,options_for_select({""=>"NULL","V7Z"=>"V7Z","C6Z"=>"C6Z","EXC"=>"EXC"},:selected=>"")%>
 <%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>
 <% end %>
 </div>
 </div>
-<div style="margin-bottom: 15px">
-<button id="search" class="btn btn-info" data-toggle="button" >Filter</button>
-</div>
-<div id="search_form">
-<%= form_tag search_checkmen_path  do%>
-  <%= select_tag :select ,options_for_select({"component" => "component","package" =>"package","person" =>"person","object"=>"onjectname","prodrel"=>"prodrel"})%>
-  <%= text_field_tag :content %> <br >
-  <%= submit_tag "Search" , :class=>"btn btn-info"%>
-<% end -%>
-</div>
-<!-- <div id="import-result">
-  <a class="close" data-dismiss="alert">×</a>
-<!-- </div> --> 
-<%= render "importhelp"%>
-    <!--  <div id="main-alert" class="alert alert-info">
-     <%= notice%>
-     <a class="close" data-dismiss="alert">×</a>
-    </div> -->
+<%= render "importhelp"%>   
 <input type="hidden"  id="data" data-source="<%= checkmen_url(format: "json") %>">
 <%= render  "result"%>
 <div id="comment_area" ></div>

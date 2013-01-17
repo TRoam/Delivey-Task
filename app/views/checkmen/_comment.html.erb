@@ -9,9 +9,9 @@
 	<h5>Detail information</h5>
 	 
 	 <li>DLM:<br /><%= @checkman.dlm%></li>
-	 <li>1st Fount:<%= @checkman.foundat%></li>
-	 <li>Update at:<%= @checkman.updated_at%></li>
-	 <li>Unique Id:<%= @checkman.uniqueid%></li>
+	 <li>1st Found:<%= @checkman.foundat%></li>
+	 <!-- <li>Update at:<%= @checkman.updated_at%></li>
+	 <li>Unique Id:<%= @checkman.uniqueid%></li> -->
 </div>
 </div>
 <div class="alert" id="old-comment">
@@ -30,7 +30,7 @@
 <fieldset>
 <%= form_for @checkman,:url=>{:controller=>:checkmen,:action=>:update},:html=>{:multipart=>true},:remote=>true  do |f|%>
 <div class="alert alert-success">
-<p class="help-block">Please chose the status of this item</p>
+<p class="help-block">Please choose the status of this item</p>
 <label class="radio">
 <%= f.radio_button :feedback,"open"%><i class="icon-share"></i>open
 </label>

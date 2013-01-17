@@ -6,7 +6,8 @@ gem 'rails', '3.2.9'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem "ransack"#, :git => "git://github.com/ernie/ransack.git" # Track git repo
+gem 'thin'
+# gem "ransack"#, :git => "git://github.com/ernie/ransack.git" # Track git repo
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -38,7 +39,7 @@ gem 'ruby-ole','1.2.11.4'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-gem 'jbuilder'
+# gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'

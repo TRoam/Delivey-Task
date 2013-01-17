@@ -15,8 +15,8 @@
 	<tbody>
 		<% @person.each do |c|%>
 		<tr id="person_<%= c.id%>">
-		<td><%= link_to  c.responsibleperson,:action => :detail,:id=>c.id%></td>
-		<td><%= c.sapname%></td>
+		<td><%c.sapname%></td>
+		<td><%= link_to c.sapname ,:action => :detail,:id=>c.id%></td>
 		<td><%= c.eid%></td>
 		<td><%= c.email%></td>		
 		<td style="display:none"><%= link_to "" , edit_person_path(c.id) ,:remote=>true,:class=>"icon-pencil"%></td>

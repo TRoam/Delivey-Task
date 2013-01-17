@@ -14,7 +14,12 @@ DeliveryManagementTaskBoard::Application.routes.draw do
   end
  
    resources :checkmen do 
+      member  do
+        get 'person_edit'
+
+      end
      collection do
+       post 'update_person_edit'
        post 'send_multiple'
        post 'mail_multiple'
        get 'item_detail'

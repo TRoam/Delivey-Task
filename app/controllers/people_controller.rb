@@ -47,7 +47,7 @@ class PeopleController < ApplicationController
       if @count == 0 
           flash[:notice] = "congratulations!There is no checkman errors in the component!"
       else
-         flash[:notice] ="There are #{@count} still open records responsibled by #{@person.responsibleperson}!"
+         flash[:notice] ="There are #{@count} still open records responsibled by #{@person.sapname}!"
       end
     end
     
@@ -67,7 +67,7 @@ class PeopleController < ApplicationController
       else
        @c_mail_address = @person.email
        @c_mail_subject = "[Action] Open production relevant CHECKMAN messages in" + @checkman.first.release
-       @c_mail_content = "Hi #{@person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+       @c_mail_content = "Hi #{@person.sapname},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
        
       end
       if !@c_mail_address.nil? && !@c_mail_subject.nil?
@@ -91,7 +91,7 @@ class PeopleController < ApplicationController
                                    :size => 11,
                                    :pattern_fg_color =>:red
           sheet1.row(0).default_format = e_format
-         @filepath = @person.responsibleperson+"_checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"
+         @filepath = @person.sapname+"_checkman_error_"+@checkman.first.release+"_"+@checkman.first.ncount.to_s+"_"+@checkman.count.to_s+".xls"
          book.write @filepath
          filepath = File.expand_path(@filepath)
           WIN32OLE.ole_initialize
@@ -134,7 +134,7 @@ class PeopleController < ApplicationController
     def email_format
       @person = Person.find(params[:id])
       @checkman = @person.checkmen.find_all_by_status("open")
-      @c_mail_content  = "Hi #{@person.responsibleperson},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
+      @c_mail_content  = "Hi #{@person.sapname},\n\nERP EHP7 ends ,please process remaing production-relevant CHECKMAN messages for #{@checkman.first.objectresponsible.component.applicationcomponent},as these would otherwise hinder task-based production for component validation to start:\n\nLAST Version Anthor is you.\n\nHints for processing:\n .Result in the attachment are from system #{@checkman.first.release}\nIn case you need an exception,please create this using approver = SCHMIAUKE!\n\nMany Thanks & Regards"
 
       respond_to do |format|
         format.js

@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h1>Hi, <%= @person.responsibleperson %></h1>
+    <h1>Hi, <%= @person.sapname %></h1>
     <p>
        Below are checkman errors<br/>
     </p>
@@ -35,7 +35,7 @@
 		<td><%= checkman.messageid%></td>
 		<td><%= checkman.objectresponsible.objectname%></td>
 		<td><%= checkman.objectresponsible.component.package%></td>
-		<td><%= checkman.objectresponsible.person.responsibleperson%></td>
+		<td><%= checkman.objectresponsible.person.sapname%></td>
 		<td><%if checkman.prodrel? %>
 			<i class="icon-ok"></i>
 			<%else%>

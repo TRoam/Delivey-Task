@@ -1,0 +1,5 @@
+var oTable=$("#checkmen_result").dataTable();
+var ntd = $(".person_edit#<%=@checkmanid%>");
+ntd.text("<%=@person.sapname%>");
+var ntr = ntd.parents("tr")[0];
+oTable.fnClose(ntr);
