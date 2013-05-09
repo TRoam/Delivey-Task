@@ -20,7 +20,7 @@
       <span class="add-on">Suject<i class=" icon-book"></i></span>
       <%= text_field_tag  :T_mail_subject ,"[Action] Open production relevant CHECKMAN messages in #{@checkman.first.release}"%>
       </div>
-      <%= select_tag "template" ,options_from_collection_for_select(@email_templates,:id,:name) ,:include_blank=>true,:style=>"width:510px" %>
+      <%= select_tag "template" ,options_from_collection_for_select(@email_templates,:id,:name) ,:prompt=>"choose template",:style=>"width:510px" %>
       <div id="mail_content">
       <!--  -->
       </div>

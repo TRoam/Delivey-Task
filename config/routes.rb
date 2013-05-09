@@ -16,7 +16,6 @@ DeliveryManagementTaskBoard::Application.routes.draw do
    resources :checkmen do 
       member  do
         get 'person_edit'
-
       end
      collection do
        post 'update_person_edit'

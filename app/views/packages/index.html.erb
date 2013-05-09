@@ -9,14 +9,19 @@
     </thead>
     <tbody>
         <%  @package.each do |p|%>
-        <tr>
+        <tr id="package_<%= p.id%>">
     	<td><%= p.package %></td>
     	<td>
             <% if !p.component_id.nil? %>
             <%= p.component.applicationcomponent %>
             <%end%>
         </td>
-    	<td><%= p.owner %></td>
+    	<td class="package_edit" id="<%=p.id%>"><%if p.owner.present? %>
+            <%= p.owner %>
+            <%else %>
+            <i class="icon-pencil"></i>
+            <% end -%>
+        </td>
         </tr>
         <% end -%>
     </tbody>

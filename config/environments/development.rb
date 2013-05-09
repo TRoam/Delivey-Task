@@ -27,21 +27,23 @@ DeliveryManagementTaskBoard::Application.configure do
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
-
+  #nginx send_file
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
+  config.cache_store = :mem_cache_store
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   #send mail
   config.active_record.auto_explain_threshold_in_seconds = 0.5
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :address              => "mail.sap.com",
-    :port                 => 25,
-    :user_name            => '',
-    :password             => '',
-    :authentication       => :ntlm,
-    :domain               =>"sap.com",
-    :enable_starttls_auto => true
-  }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :address              => "mail.sap.com",
+  #   :port                 => 25,
+  #   :user_name            => '',
+  #   :password             => '',
+  #   :authentication       => :ntlm,
+  #   :domain               =>"sap.com",
+  #   :enable_starttls_auto => true
+  # }
  
   # Do not compress assets
   config.assets.compress = false

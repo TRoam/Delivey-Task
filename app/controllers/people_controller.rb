@@ -17,17 +17,15 @@ class PeopleController < ApplicationController
   end
   def update
     @person = Person.find(params[:id])
-
+    @person.update_attributes(params[:person])
+    if params[:orgunit].present?
+          @person.orgunit =params[:orgunit]
+          @person.ims = params[:orgunit].rindex("IMS").present?? "IMS":nil
+    end
     respond_to do |format|
-      if @person.update_attributes(params[:person])
         format.html { redirect_to @person, notice: 'Product was successfully updated.' }
         format.json { head :no_content }
         format.js
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
-        format.js
-      end
     end
   end
    def show

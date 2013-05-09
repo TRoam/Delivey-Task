@@ -35,6 +35,7 @@ gem 'ruby-ole','1.2.11.4'
 # import file
 
 # gem 'simple_form'
+gem 'memcache-client'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

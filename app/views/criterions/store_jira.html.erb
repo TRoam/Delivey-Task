@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delivery-Checkman</title>
+  <!-- <%= stylesheet_link_tag    "application", :media => "all" %> -->
+  <%= javascript_include_tag "application" %>
+
+</head>
+<body >
+
+<!-- <iframe src="http://localhost:8080/DoneCriteria/index.html#nav-demoable" ></iframe> -->
+<script type="text/javascript">
+	$.ajax({
+   		type:"post",
+   		url:"https://sapjira.wdf.sap.corp/rest/api/2/search?jsonp-callback=?",
+   		data:{
+   	    "jql": "project = <%= @jira_project%> and fixVersion =  '<%= @fixVersion%>' and issueType in ('User Story','Backlog Item')",
+   	    "startAt": 0,
+   	    "maxResults": 1000
+   	},
+   		dataType:"jsonp",
+   		success:function(json){
+   			console.log(json);
+   			$.ajax({
+   				type:"post",
+   				url:"http://localhost:3000/criterions/save_jira",
+   				dataType:"json",
+   				data:{issues:json,fixVersion:<%= @fixVersion %>,project:"<%= @jira_project%>"},
+   				success:function(){
+   					
+   				}
+   			});
+   		},
+   		error:function(json){
+   			alert("error");console.log(json);
+   		}
+   	});
+</script>
+</body>
+</html>

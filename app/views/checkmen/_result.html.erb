@@ -7,6 +7,7 @@
 	  <ul class="dropdown-menu">
 	   <%= submit_tag "Send to each Responsible",:class =>"dropdown-menu btn "%></a>
 	  </ul>
+	  <!-- <%= submit_tag "Export EXCEL" , :class=>"btn btn-info" ,:style =>"margin-left:10px"%> -->
 </div>
 <table id="checkmen_result" >
 
@@ -15,27 +16,29 @@
 	    <tr>
 			<th><input type="checkbox" onclick="toggle_checkall_result('checkman', this.checked);" /></th>
 			<th>Status</th>
-			<th>Check ID</th>
-			<th>Message ID</th>
-			<th>Object Name</th>
-			<th>Priority</th>
 			<th>System</th>
 			<th>App.Comp</th>
 			<th>Package</th>
+			<th>Object Name</th>
+			<th>Priority</th>
+			<th>Check ID</th>
+			<th>Message ID</th>
 			<th>Responsible</th>
+			<th>IMS</th>
 			<th>Prod.Rel</th>
 		</tr>
          <tr>
 	  	<th ></th>
 		<th id="status_select">All</th>
-		<th id="tfoot_input" >All</th>
-		<th id="tfoot_input">All</th>
-		<th id="tfoot_input">All</th>
-		<th id="status_select">All</th>
 		<th id="status_select">All</th>
 		<th id="tfoot_input">App.Comp</th>
 		<th id="tfoot_input">Package</th>
+		<th id="tfoot_input" >All</th>
+		<th id="status_select">All</th>
+		<th id="tfoot_input">All</th>
+		<th id="tfoot_input">All</th>
 		<th id="tfoot_input_P">Responsible</th>
+		<th id="status_select">ALL</th>
 		<th id="status_select">All</th>
 	</tr>
 	</thead>
@@ -45,6 +48,5 @@
 	<tbody>
 	</tbody>
 
-	
 </table>
 <% end -%>

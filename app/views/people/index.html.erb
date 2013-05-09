@@ -6,23 +6,27 @@
 </div>	
 <table id="checkmen" class="display" >
 	<thead>
-		<th>Name</th>
 		<th>SAP Name</th>
+		<th>Name</th>
 		<th>ID</th>
+		<th>OrgUnit</th>
+		<th>IMS</th>
 		<th>Email</th>
 		<th style="display:none">Aactive</th>
 	</thead>
 	<tbody>
 		<% @person.each do |c|%>
 		<tr id="person_<%= c.id%>">
-		<td><%c.sapname%></td>
-		<td><%= link_to c.sapname ,:action => :detail,:id=>c.id%></td>
+		<td><%=  c.sapname %></td>
+		<td><%=c.firstname%> <%= c.lastname%></td>
 		<td><%= c.eid%></td>
+		<td><%= c.orgunit %> </td>
+		<td><%= c.ims%></td>
 		<td><%= c.email%></td>		
 		<td style="display:none"><%= link_to "" , edit_person_path(c.id) ,:remote=>true,:class=>"icon-pencil"%></td>
 		</tr>
 		<%end%>
-	</tbody>	
+	</tbody>
 </table>
 </div>
 <div class="span2" >

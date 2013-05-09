@@ -9,7 +9,7 @@
   <div>
        <strong>File:  </strong><%= file_field_tag :file1%>
        <strong>Prodution Relevant: </strong><%= select_tag :isprodrel,options_for_select({""=>"NULL","YES"=>1,"All"=>0,},:selected=>"") %>
-       <strong>&nbsp;&nbsp;&nbsp;System: </strong><%= select_tag :release  ,options_for_select({""=>"NULL","V7Z"=>"V7Z","C6Z"=>"C6Z","EXC"=>"EXC"},:selected=>"")%>
+       <strong>&nbsp;&nbsp;&nbsp;System: </strong><%= select_tag :release  ,options_for_select({""=>"NULL","V7Z"=>"V7Z","C6Z"=>"C6Z","EXC"=>"EXC","C7Z"=>"C7Z"},:selected=>"")%>
 <%= submit_tag "Upload" , :disable_with =>"Uploading....",:class=>"btn btn-info",:style=>"margin-left:50px"%>
 <% end %>
 </div>

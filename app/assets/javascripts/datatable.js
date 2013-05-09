@@ -15,13 +15,19 @@ $(document).ready(function(){
 			      // "bStateSave": true
 			      "iDisplayLength":15,
 			      "iCookieDuration": 60*60*24,
-			      "bLengthChange": false,
-			      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,7,8 ] },] ,
+			      // "bLengthChange": false,
+			      "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 0,3,4,10 ] },] ,
 			      "sPaginationType": "full_numbers",
 			      "oLanguage": {
 			      "sSearch": "Search in checkmen:",
-			      "sLoadingRecords": "Please wait - loading...",
-			      "sZeroRecords": "--Cangratulations, No Checkmen error here!--"
+			      "sLoadingRecords": "Busy,Please wait - loading...",
+			      "sZeroRecords": "--Cangratulations, No Checkmen error here!--",
+            "sProcessing": "Server is busy,please wait--loadding...",
+            "sLengthMenu": '<strong>Display </strong><select>'+
+                          '<option value="15">15</option>'+
+                          '<option value="100">100</option>'+
+                          '<option value="-1">All</option>'+
+                          '</select>'
 			    }
 			  }).columnFilter({
 			  	   "sPlaceHolder": "head:before",
@@ -30,18 +36,21 @@ $(document).ready(function(){
 			  			{"type":"select",
 			  			 "values":['open','Addressed'],
 			  			},
+              {"type":"select",
+               "values":['V7Z','EXC','C6Z',"C7Z"],
+              },
+              {"type":"text"},
+              {"type":"text"},
+			  			{"type":"text"},
+              {"type":"select",
+               "values":[1,2,3,4],
+              },
 			  			{"type":"text"},
 			  			{"type":"text"},
 			  			{"type":"text"},
-			  			{"type":"select",
-			  			 "values":[1,2,3,4],
-			  			},
-			  			{"type":"select",
-			  			 "values":['V7Z','EXC','C6Z'],
-			  			},
-			  			{"type":"text"},
-			  			{"type":"text"},
-			  			{"type":"text"},
+              {"type":"select",
+               "values":['YES','NO'],
+              },
 			  			{"type":"select",
 			  			 "values":['Prodrel'],
 			  			},
@@ -63,9 +72,13 @@ $(document).ready(function(){
         {
           var person_edit_url = "/checkmen/"+$(this).attr("id")+ "/person_edit";
           $.get(person_edit_url);
+          return false;
         };
     }
     );
+
+
+  
     // Table format --with DATATABLE
   $('#component').dataTable(
   {
@@ -102,7 +115,7 @@ $(document).ready(function(){
     "sPaginationType": "full_numbers"
   });
     // other tables (component ,package,)
-    $('#checkmen').dataTable({
+    var package_table =  $('#checkmen').dataTable({
       // "bJQueryUI": true,
       "bProcessing": true,
       "iDisplayLength":20,
@@ -116,5 +129,22 @@ $(document).ready(function(){
       
       "sPaginationType": "full_numbers"
     });
+
+  $(".package_edit").live(
+    'click',
+    function(){
+      var nTr =$(this).parents('tr')[0];
+      if (package_table.fnIsOpen(nTr))
+        {
+          package_table.fnClose(nTr);
+        } 
+      else
+        {
+          var package_edit_url = "/packages/"+$(this).attr("id")+ "/package_edit";
+           $.get(package_edit_url);
+          return false;
+        };
+    }
+    );
   
 })

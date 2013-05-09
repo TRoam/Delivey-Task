@@ -4,8 +4,8 @@ if (<%=@result==1%>)
  } 
 else
 {
-	var oTable=$("#checkmen_result").dataTable();
-	var ntd = $("#<%=@checkmanid%>.person_edit");
+	var oTable=$("#checkmen").dataTable();
+	var ntd = $("#<%=@package.id%>.package_edit");
 	ntd.text("<%=@person.firstname+' '+@person.lastname%>");
 	var ntr = ntd.parents("tr")[0];
 	oTable.fnClose(ntr);

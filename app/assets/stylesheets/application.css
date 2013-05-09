@@ -15,11 +15,20 @@
  *= require_tree .
  */
 
+#checkmen_result{
+  text-align:center;
+  zoom:85%;
+}
+#checkmen {
+  text-align:center;  
+}
 .person_edit{
   cursor:pointer;
   color: #0088cc;
   text-decoration: none;
-  
+}
+.package_edit{
+   cursor:pointer;
 }
  .small{
   margin-left: 8px;

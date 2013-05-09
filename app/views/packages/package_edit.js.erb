@@ -1,0 +1,16 @@
+$(document).ready(function() {
+
+    var oTable = $("#checkmen").dataTable();
+    var nTr= $("#<%= @package.id%>").parents('tr')[0];
+    oTable.fnOpen( nTr, "<%= j render :partial=>'package_edit'%>", 'details' );
+    $("form.editperson").submit(
+		  function(){
+		  var formdata = $(this).serialize();
+		  $.ajax({
+		    type:'POST',
+		    url:'/package/update_package_edit',
+		    data:formdata
+		  });
+		  return false;
+		  });
+} );

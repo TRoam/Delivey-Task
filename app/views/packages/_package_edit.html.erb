@@ -1,4 +1,4 @@
-<%= form_tag update_person_edit_checkmen_path ,:class=>"editperson" do%>
+<%= form_tag update_package_edit_packages_path ,:class=>"editperson" do%>
 <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
 	<tr>
         <td><label>Object</label></td><td><input  type="text" placeholder="<%= @object.objectname %>" disabled></td>
@@ -10,8 +10,7 @@
       	<td><label >User ID</label></td> <td><%= text_field_tag :eid ,@person.eid %> </td>
       	<td><label >Email</label></td> <td><%= email_field_tag :email ,@person.email%> </td>
         <td><label >OrgUnit</label></td> <td><%= text_field_tag :orgunit ,@person.orgunit%> </td>
-      	<input type="hidden" name="id" value="<%=@object.id%>">
-      	<input type="hidden" name="checkmanid" value="<%=@checkman.id%>">
+      	<input type="hidden" name="id" value="<%=@package.id%>">
         <td> <%= submit_tag "Save And Update" %> </td></tr>
         <!-- <td><label class="update_person_edit_form btn ">Save Changes</label></button></td> -->
 </table>

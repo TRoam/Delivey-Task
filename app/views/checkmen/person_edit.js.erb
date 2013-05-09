@@ -3,4 +3,14 @@ $(document).ready(function() {
     var oTable = $("#checkmen_result").dataTable();
     var nTr= $("#<%= @checkman.id%>").parents('tr')[0];
     oTable.fnOpen( nTr, "<%= j render :partial=>'preson_edit'%>", 'details' );
+    $("form.editperson").submit(
+		  function(){
+		  var formdata = $(this).serialize();
+		  $.ajax({
+		    type:'POST',
+		    url:'/checkmen/update_person_edit',
+		    data:formdata
+		  });
+		  return false;
+		  });
 } );
